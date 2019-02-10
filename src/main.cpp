@@ -3,6 +3,7 @@
 #include <string>
 #include <cstring>
 #include "scenario.h"
+#include "pool.h"
 
 int main(int argc, char *argv[])
 {
@@ -86,6 +87,6 @@ int main(int argc, char *argv[])
     }
 
     // Create a new engine instance
-
     std::cout << "Security Identifier: " << identifier << std::endl;
+    Pool test = Pool::from_identifier(identifier);
 }

@@ -4,10 +4,10 @@
 
 #include "scenario.h"
 
-Scenario::Scenario(double VPR, double CDR, int scenarioLength,
+Scenario::Scenario(double vpr, double cdr, int ScenarioLength,
                    VPRType vprType)
-    : scenarioLength(scenarioLength), vprType(vprType)
+    : scenarioLength(ScenarioLength), vprType(vprType)
 {
-    std::fill_n(std::back_inserter(vprVector), scenarioLength, VPR);
-    std::fill_n(std::back_inserter(cdrVector), scenarioLength, CDR);
+    std::fill_n(std::back_inserter(vprVector), ScenarioLength, vpr);
+    std::fill_n(std::back_inserter(cdrVector), ScenarioLength, cdr);
 }
