@@ -1,19 +1,19 @@
-#include "scenario.h"
 #include "engine.h"
+#include <cmath>
+#include <iostream>
 
-
-std::map<int, std::map<std::string, std::any>> Engine::runCashflows(
+std::map<int, std::map<std::string, double>> Engine::runCashflows(
     Security &security,
-    Scenario &scenario, )
+    Scenario &scenario)
 {
-    std::map<int, std::map<std::string, std::any>> cashFlows;
-        for
-            int
-                cashFlows[0] = cash
+    std::map<int, std::map<std::string, double>> cashFlows;
+    std::cout << scenario.scenarioLength;
+    std::cout << security.id;
+    return cashFlows;
 }
 
 double Engine::changeCompoundingBasis(
     double rate, int origCompoundsPerYear, int newCompoundsPerYear)
 {
     return 1.0 - pow(1.0 - rate, origCompoundsPerYear / newCompoundsPerYear);
-};
+}

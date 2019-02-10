@@ -19,6 +19,7 @@ class Scenario
              double cdr = 0.0,
              int ScenarioLength = 720,
              VPRType vprType = CPR);
+    friend class Engine;
 
   private:
     std::vector<double> vprVector;
