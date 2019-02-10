@@ -9,7 +9,7 @@ BUILD_DIR=build
 BIN_DIR=bin
 SRC_FILES := $(wildcard $(SRC_DIR)/*.cpp)
 OBJ_FILES := $(patsubst $(SRC_DIR)/%.cpp,$(BUILD_DIR)/%.o,$(SRC_FILES))
-TARGET_NAME=run_analytics
+TARGET_NAME=run_analytics.exe
 
 all: $(BIN_DIR)/$(TARGET_NAME)
 
