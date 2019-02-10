@@ -17,7 +17,7 @@ class Scenario
   public:
     Scenario(double vpr = 0.0,
              double cdr = 0.0,
-             int ScenarioLength = 540,
+             int ScenarioLength = 720,
              VPRType vprType = CPR);
 
   private:
