@@ -19,6 +19,7 @@ int main(int argc, char *argv[])
             << "  --vpr         annualized voluntary prepayment rate (defaults to 0)\n"
             << "  --vpr_type    voluntary prepayment rate type (CPR|CPY|CPJ|CPB, defaults to CPR)\n"
             << "  --cdr         annualized involuntary prepayment rate (defaults to 0)\n";
+        return -1;
     }
 
     // Parse the arguments, skipping the first one (binary name)
