@@ -2,18 +2,27 @@ CXX=g++
 CXXFLAGS=-std=c++14 -pedantic -Wall -Wextra -Werror
 LDFLAGS=
 LDLIBS=
+RM=rm -f
 
-bin/run_analytics: build/main.o build/scenario.o
-	g++ $(LDFLAGS) $(LDLIBS) -o $@ $^
+SRC_DIR=src
+BUILD_DIR=build
+BIN_DIR=bin
+SRC_FILES := $(wildcard $(SRC_DIR)/*.cpp)
+OBJ_FILES := $(patsubst $(SRC_DIR)/%.cpp,$(BUILD_DIR)/%.o,$(SRC_FILES))
+TARGET_NAME=run_analytics
 
-build/main.o: src/main.cpp
-	g++ $(CXXFLAGS) -c -o build/main.o src/main.cpp
+all: $(BIN_DIR)/$(TARGET_NAME)
 
-build/scenario.o: src/scenario.cpp
-	g++ $(CXXFLAGS) -c -o build/scenario.o src/scenario.cpp
-
-# build/engine.o: engine.cpp engine.h
-# 	g++ $(CXXFLAGS) -c -o build/engine.o engine.cpp engine.h
+new: clean all
 
 clean:
-	rm build/*.o
+	$(RM) $(BIN_DIR)/*
+	$(RM) $(BUILD_DIR)/*
+
+
+$(BIN_DIR)/$(TARGET_NAME): $(OBJ_FILES)
+	g++ $(LDFLAGS) $(LDLIBS) -o $@ $^
+
+$(BUILD_DIR)/%.o: $(SRC_DIR)/%.cpp
+	g++ $(CXXFLAGS) -c -o $@ $<
+
