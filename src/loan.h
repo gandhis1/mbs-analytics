@@ -16,21 +16,26 @@ enum PaymentFrequency
 class Loan
 {
   private:
+    std::string id;
     double originalBalance;
     double currentBalance;
+    time_t factorDate;
     int originalLoanTerm;
     int originalAmortTerm;
     int originalIOTerm;
     int currentLoanAge;
     double grossCoupon;
+    double netCoupon();
     double feeStrip;
-    double periodicDebtService;
+    double periodicAmortizingDebtService;
     PaymentFrequency paymentFrequency;
     std::vector<PrepaymentProvision> original_prepayment_provisions;
 
   public:
-    Loan(double originalBalance,
+    Loan(std::string id,
+         double originalBalance,
          double currentBalance,
+         time_t factorDate,
          int originalLoanTerm,
          int originalAmortTerm,
          int originalIOTerm,
@@ -40,6 +45,8 @@ class Loan
          std::string originalPrepaymentString,
          std::experimental::optional<double> periodicDebtService = std::experimental::nullopt,
          PaymentFrequency paymentFrequency = MONTHLY);
+
+    friend class CashFlowEngine;
 };
 
 #endif

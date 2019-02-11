@@ -4,12 +4,13 @@
 #include <map>
 #include "scenario.h"
 #include "pool.h"
+#include "cashflows.h"
 
 class CashFlowEngine
 {
 public:
-  std::map<int, std::map<std::string, double>> runCashflows(
-      Pool &pool,
+  CashFlows runCashflows(
+      Deal &deal,
       Scenario &scenario);
 };
 

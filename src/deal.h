@@ -20,6 +20,8 @@ public:
   {
     collateral[groupId].addLoans(begin, end);
   }
+
+  friend class CashFlowEngine;
 };
 
 #endif

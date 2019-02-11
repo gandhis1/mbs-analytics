@@ -2,8 +2,10 @@
 #include "loan.h"
 #include "utilities.h"
 
-Loan::Loan(double originalBalance,
+Loan::Loan(std::string id,
+           double originalBalance,
            double currentBalance,
+           time_t factorDate,
            int originalLoanTerm,
            int originalAmortTerm,
            int originalIOTerm,
@@ -12,8 +14,10 @@ Loan::Loan(double originalBalance,
            double feeStrip,
            std::string originalPrepaymentString,
            std::experimental::optional<double> periodicDebtService,
-           PaymentFrequency paymentFrequency) : originalBalance(originalBalance),
+           PaymentFrequency paymentFrequency) : id(id),
+                                                originalBalance(originalBalance),
                                                 currentBalance(currentBalance),
+                                                factorDate(factorDate),
                                                 originalLoanTerm(originalLoanTerm),
                                                 originalAmortTerm(originalAmortTerm),
                                                 originalIOTerm(originalIOTerm),
@@ -22,7 +26,16 @@ Loan::Loan(double originalBalance,
                                                 feeStrip(feeStrip),
                                                 paymentFrequency(paymentFrequency)
 {
-    this->periodicDebtService = periodicDebtService ? Utilities::calculatePayment(originalBalance, originalAmortTerm, grossCoupon) : periodicDebtService.value();
+    if (periodicDebtService)
+    {
+        this->periodicAmortizingDebtService = periodicDebtService.value();;
+    }
+    else
+    {
+        double periodicGrossCoupon = grossCoupon * paymentFrequency / 12.0;
+        this->periodicAmortizingDebtService = Utilities::calculatePayment(originalBalance, originalAmortTerm, periodicGrossCoupon);
+    }
+     
 
     // TODO: Tokenize and parse the prepayment string, e.g. 'L(30) 5%(24) 4%(24) 3%(12) 2%(12) 1%(12) O(6)'
     if (originalPrepaymentString == "L(30) 5%(24) 4%(24) 3%(12) 2%(12) 1%(12) O(6)")
@@ -39,4 +52,9 @@ Loan::Loan(double originalBalance,
     {
         throw std::invalid_argument("Custom prepayment strings are not yet supported");
     }
+}
+
+double Loan::netCoupon()
+{
+    return grossCoupon - feeStrip;
 }

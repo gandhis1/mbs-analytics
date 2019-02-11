@@ -17,6 +17,8 @@ public:
   {
     std::for_each(begin, end, loans.push_back);
   }
+
+  friend class CashFlowEngine;
 };
 
 #endif

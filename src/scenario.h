@@ -14,18 +14,18 @@ enum VPRType
 
 class Scenario
 {
-  public:
-    Scenario(double vpr = 0.0,
-             double cdr = 0.0,
-             int scenarioLength = 720,
-             VPRType vprType = CPR);
-    friend class CashFlowEngine;
+public:
+  Scenario(double vpr = 0.0,
+           double cdr = 0.0,
+           int scenarioLength = 720,
+           VPRType vprType = CPR);
+  friend class CashFlowEngine;
 
-  private:
-    std::vector<double> vprVector;
-    std::vector<double> cdrVector;
-    int scenarioLength;
-    VPRType vprType;
+private:
+  std::vector<double> vprVector;
+  std::vector<double> cdrVector;
+  int scenarioLength;
+  VPRType vprType;
 };
 
 #endif
