@@ -5,7 +5,7 @@
 #include "scenario.h"
 #include "pool.h"
 
-class Engine
+class CashFlowEngine
 {
 public:
   std::map<int, std::map<std::string, double>> runCashflows(

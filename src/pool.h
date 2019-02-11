@@ -3,39 +3,27 @@
 
 #include <algorithm>
 #include <string>
+#include <type_traits>
 #include <vector>
 #include "loan.h"
+#include "group.h"
+#include "deal.h"
 
-class Pool
+class Pool : public Deal
 {
-  private:
-    std::string id;
-    std::vector<Loan> loans;
+public:
+  Pool(std::string name): Deal(name) {}
 
-  public:
-    Pool(std::string id);
+  void addLoan(Loan &loan)
+  {
+    Deal::addLoan("all", loan);
+  }
 
-    template <typename container>
-    Pool(std::string id, container& c)
-    {
-        for (auto &loan : c)
-        {
-            loans.push_back(loan);
-        }
-    }
-
-    template <typename iterator>
-    Pool(std::string id, iterator begin, iterator end)
-    {
-        std::for_each(begin, end, loans.push_back);
-    }
-
-    static Pool from_identifier(std::string identifier) {
-      Pool pool(identifier);
-      return pool;
-    }
-
-    friend class Engine;
+  template <class Iterator>
+  void addLoans(Iterator begin, Iterator end)
+  {
+    Deal::addLoans(begin, end);
+  }
 };
 
 #endif

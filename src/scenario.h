@@ -1,5 +1,5 @@
 
-#ifndef SECNARIO_H
+#ifndef SCENARIO_H
 #define SCENARIO_H
 
 #include <vector>
@@ -19,7 +19,7 @@ class Scenario
              double cdr = 0.0,
              int scenarioLength = 720,
              VPRType vprType = CPR);
-    friend class Engine;
+    friend class CashFlowEngine;
 
   private:
     std::vector<double> vprVector;

@@ -17,11 +17,11 @@ class Loan
 {
   private:
     double originalBalance;
-    double cutoffBalance;
+    double currentBalance;
     int originalLoanTerm;
     int originalAmortTerm;
     int originalIOTerm;
-    int seasoning;
+    int currentLoanAge;
     double grossCoupon;
     double feeStrip;
     double periodicDebtService;
@@ -30,13 +30,14 @@ class Loan
 
   public:
     Loan(double originalBalance,
-         double cutoffBalance,
+         double currentBalance,
          int originalLoanTerm,
          int originalAmortTerm,
          int originalIOTerm,
-         int seasoning,
+         int currentLoanAge,
          double grossCoupon,
          double feeStrip,
+         std::string originalPrepaymentString,
          std::experimental::optional<double> periodicDebtService = std::experimental::nullopt,
          PaymentFrequency paymentFrequency = MONTHLY);
 };

@@ -4,6 +4,7 @@
 #include <cstring>
 #include "scenario.h"
 #include "pool.h"
+#include "engine.h"
 
 int main(int argc, char *argv[])
 {
@@ -68,9 +69,10 @@ int main(int argc, char *argv[])
     }
 
     // Convert the arguments into a Scenario
+    Scenario userScenario;
     if (vpr < 0 and cdr < 0)
     {
-        Scenario userScenario;
+        // Will default to zero speeds
     }
     else if (vpr > -1 and cdr < 0)
     {
@@ -85,8 +87,24 @@ int main(int argc, char *argv[])
         std::cout << "Invalid arguments - CDR cannot be specified without VPR" << std::endl;
         return -2;
     }
-
-    // Create a new engine instance
     std::cout << "Security Identifier: " << identifier << std::endl;
-    Pool test = Pool::from_identifier(identifier);
+
+    // Initialize the test security
+    std::string poolName = "AN3073";
+    double originalBalance = 763000.00;
+    double cutoffBalance = 737981.42;
+    int originalLoanTerm = 60;
+    int originalAmortTerm = 360;
+    int originalIOTerm = 0;
+    int currentLoanAge = 27;
+    double grossCoupon = 0.0496;
+    double feeStrip = 0.0496 - 0.0248;
+    std::string originalPrepaymentString = "L(30) 5%(24) 4%(24) 3%(12) 2%(12) 1%(12) O(6)";
+    Loan loan(originalBalance, cutoffBalance, originalLoanTerm, originalAmortTerm, originalIOTerm, currentLoanAge, grossCoupon, feeStrip, originalPrepaymentString);
+    Pool testPool = Pool(poolName); // For now create a dummy pool
+    testPool.addLoan(loan);
+
+    // Create a cash flow engine
+    CashFlowEngine cashFlowEngine{};
+    auto&& cashFlows = cashFlowEngine.runCashflows(testPool, userScenario);
 }
