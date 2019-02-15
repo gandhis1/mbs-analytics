@@ -88,7 +88,6 @@ int main(int argc, char *argv[])
         std::cout << "Invalid arguments - CDR cannot be specified without VPR" << std::endl;
         return -2;
     }
-    std::cout << "Security Identifier: " << identifier << std::endl;
 
     // Override the input scenario for now
     userScenario = Scenario(0.05, 0.01);
@@ -98,7 +97,7 @@ int main(int argc, char *argv[])
     std::string loanID = "1717469130";
     double originalBalance = 763000.00;
     double cutoffBalance = 737981.42;
-    time_t factorDate = Utilities::createTime(2019, 1, 1);
+    struct tm factorDate = Utilities::createTime(2019, 1, 1);
     int originalLoanTerm = 60;
     int originalAmortTerm = 360;
     int originalIOTerm = 0;
@@ -113,4 +112,5 @@ int main(int argc, char *argv[])
     // Create a cash flow engine
     CashFlowEngine cashFlowEngine{};
     auto &&cashFlows = cashFlowEngine.runCashflows(testPool, userScenario);
+    cashFlows.prettyPrint();
 }

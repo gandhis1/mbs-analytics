@@ -2,11 +2,12 @@
 #define CASHFLOWS_H
 
 #include <ctime>
+#include <vector>
 
 class CashFlow
 {
 public:
-  time_t paymentDate;
+  struct tm paymentDate;
   double endingBalance;
   double grossInterest;
   double netInterest;
@@ -21,22 +22,22 @@ class CashFlows
 {
 private:
   std::vector<CashFlow> periodicCashflows;
-
 public:
-  template <typename Container>
-  static CashFlows aggregateCashFlows(Container container)
+  void prettyPrint();
+  double yieldToMaturity(struct tm settleDate, double price);
+  double weightedAverageLife(struct tm settleDate);
+  friend class CashFlowEngine;
+  template <typename PairContainer> // Assume std::map for now, use type_traits later
+  static CashFlows aggregateCashFlows(PairContainer container)
   {
     CashFlows retCashFlows;
-    for (auto element : container)
+    for (auto &element : container)
     {
       // TODO: Actually aggregate the flows
       retCashFlows = element.second;
     }
     return retCashFlows;
   }
-  double yieldToMaturity(std::time_t settleDate, double price);
-  double weightedAverageLife(std::time_t settleDate);
-  friend class CashFlowEngine;
 };
 
 #endif

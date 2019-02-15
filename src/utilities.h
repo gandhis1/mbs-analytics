@@ -27,7 +27,7 @@ inline double calculatePayment(double balance, int amortTerm, double periodicRat
     }
 }
 
-inline time_t createTime(int year, int month, int day)
+inline struct tm createTime(int year, int month, int day)
 {
     struct tm date;
     date.tm_hour = 0;
@@ -36,7 +36,7 @@ inline time_t createTime(int year, int month, int day)
     date.tm_year = year - 1900;
     date.tm_mon = month - 1;
     date.tm_mday = day;
-    return mktime(&date);
+    return date;
 }
 
 } // namespace Utilities

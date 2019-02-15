@@ -18,7 +18,7 @@ CashFlows CashFlowEngine::runCashflows(
         std::map<std::string, CashFlows> loanFlows;
         for (Loan &loan : group.loans)
         {
-            time_t paymentDate;
+            struct tm paymentDate;
             double beginningBalance;
             double endingBalance;
             double grossInterest;
@@ -28,12 +28,11 @@ CashFlows CashFlowEngine::runCashflows(
             double unscheduledPrincipal;
             double loss;
             double prepayPenalty;
-            double survivalFraction = 1.0;
 
             for (int period = 0; period < scenario.scenarioLength; ++period)
             {
                 double smm = Utilities::changeCompoundingBasis(scenario.vprVector[period], 1, 12);
-                double mdr = Utilities::changeCompoundingBasis(scenario.cdrVector[period], 1, 12);
+                //double mdr = Utilities::changeCompoundingBasis(scenario.cdrVector[period], 1, 12);
                 if (period == 0)
                 {
                     paymentDate = loan.factorDate;;
@@ -50,22 +49,29 @@ CashFlows CashFlowEngine::runCashflows(
                 {
                     // Calculate all cash flows based on the current fractions
                     beginningBalance = endingBalance;
-                    paymentDate += 60 * 60 * 24 * 30;
-                    grossInterest = loan.grossCoupon * beginningBalance * survivalFraction;
-                    netInterest = loan.netCoupon() * beginningBalance * survivalFraction;
+                    // ++paymentDate.tm_mon;
+                    // paymentDate = *localtime((const time_t *)mktime(&paymentDate));
+                    grossInterest = loan.grossCoupon * (loan.paymentFrequency / 12.0) * beginningBalance;
+                    netInterest = loan.netCoupon() * (loan.paymentFrequency / 12.0) * beginningBalance;
                     coupon = loan.grossCoupon;
-                    scheduledPrincipal = std::max(loan.periodicAmortizingDebtService * survivalFraction - grossInterest, 0.0);
+                    scheduledPrincipal = std::max(loan.periodicAmortizingDebtService - grossInterest, 0.0);
                     unscheduledPrincipal = smm * (beginningBalance - scheduledPrincipal);
                     loss = 0.0;
                     prepayPenalty = 0.0;
                     endingBalance = beginningBalance - scheduledPrincipal - unscheduledPrincipal;
-                    survivalFraction = survivalFraction * (1 - smm) * (1 - mdr);
                 }
 
-                // TODO: check maturity date and if guaranteed or take a loss
+                // Pay off the loan at the balloon date
+                if (period >= loan.originalLoanTerm)
+                {
+                    scheduledPrincipal += endingBalance;
+                    scheduledPrincipal += unscheduledPrincipal;
+                    unscheduledPrincipal = 0;
+                    endingBalance = 0;
+                }
 
                 CashFlow periodicCashflow;
-                periodicCashflow.paymentDate = endingBalance; // TODO: Use real dates
+                periodicCashflow.paymentDate = paymentDate; // TODO: Use real dates
                 periodicCashflow.endingBalance = endingBalance;
                 periodicCashflow.grossInterest = grossInterest;
                 periodicCashflow.netInterest = netInterest;
@@ -75,7 +81,6 @@ CashFlows CashFlowEngine::runCashflows(
                 periodicCashflow.loss = loss;
                 periodicCashflow.prepayPenalty = prepayPenalty;
                 loanFlows[loan.id].periodicCashflows.push_back(periodicCashflow);
-
                 if (endingBalance < Utilities::EPSILON)
                 {
                     break;

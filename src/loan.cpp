@@ -5,7 +5,7 @@
 Loan::Loan(std::string id,
            double originalBalance,
            double currentBalance,
-           time_t factorDate,
+           struct tm factorDate,
            int originalLoanTerm,
            int originalAmortTerm,
            int originalIOTerm,
