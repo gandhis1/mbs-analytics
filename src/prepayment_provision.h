@@ -37,7 +37,7 @@ class Defeasance : public PrepaymentProvision
 {
   public:
     Defeasance(int length);
-    virtual bool canInvoluntaryPrepay();
+    virtual bool canVoluntaryPrepay();
 };
 
 class FixedPenalty : public PrepaymentProvision

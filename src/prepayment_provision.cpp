@@ -15,7 +15,7 @@ Lockout::Lockout(int length) : PrepaymentProvision(LOCKOUT, length) { type = LOC
 bool Lockout::canVoluntaryPrepay() { return false; }
 
 Defeasance::Defeasance(int length) : PrepaymentProvision(DEFEASANCE, length) {}
-bool Defeasance::canInvoluntaryPrepay() { return false; }
+bool Defeasance::canVoluntaryPrepay() { return false; }
 
 FixedPenalty::FixedPenalty(int length, double rate) : PrepaymentProvision(FIXED_PENALTY, length), penalty_rate(rate) {}
 
