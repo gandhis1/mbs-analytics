@@ -2,10 +2,10 @@
 #include <exception>
 #include <string>
 #include <cstring>
-#include "utilities.h"
 #include "scenario.h"
 #include "pool.h"
 #include "engine.h"
+#include "utilities.h"
 
 int main(int argc, char *argv[])
 {
@@ -89,6 +89,9 @@ int main(int argc, char *argv[])
         return -2;
     }
     std::cout << "Security Identifier: " << identifier << std::endl;
+
+    // Override the input scenario for now
+    userScenario = Scenario(0.05, 0.01);
 
     // Initialize the test security
     std::string poolName = "AN3073";

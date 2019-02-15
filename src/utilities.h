@@ -9,13 +9,13 @@ namespace Utilities
 
 const double EPSILON = 0.000001;
 
-double changeCompoundingBasis(
+inline double changeCompoundingBasis(
     double rate, int origCompoundsPerYear, int newCompoundsPerYear)
 {
-    return 1.0 - pow(1.0 - rate, origCompoundsPerYear / newCompoundsPerYear);
+    return 1.0 - pow(1.0 - rate, float(origCompoundsPerYear) / float(newCompoundsPerYear));
 }
 
-double calculatePayment(double balance, int amortTerm, double periodicRate)
+inline double calculatePayment(double balance, int amortTerm, double periodicRate)
 {
     if (amortTerm == 0)
     {
@@ -27,7 +27,7 @@ double calculatePayment(double balance, int amortTerm, double periodicRate)
     }
 }
 
-time_t createTime(int year, int month, int day)
+inline time_t createTime(int year, int month, int day)
 {
     struct tm date;
     date.tm_hour = 0;
