@@ -64,6 +64,7 @@ CashFlows CashFlowEngine::runCashflows(
                 // Pay off the loan at the balloon date
                 if (period >= loan.originalLoanTerm)
                 {
+                    // TODO: Keep track of balloon principal amounts separately
                     scheduledPrincipal += endingBalance;
                     scheduledPrincipal += unscheduledPrincipal;
                     unscheduledPrincipal = 0;
