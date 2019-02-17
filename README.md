@@ -3,10 +3,10 @@ Cash flow/analytics engine specifically for CMBS Agency pools, with ability to g
 
 ### To-Do List:
 
-- Support day counts
-- Support output of payment dates
-- Support prepayment strings and basic fixed-penalty 
-- Support default, lag, and severities
+- Prepayment strings and basic fixed-penalty and yield maintenance
+- Default, lag, and severities
+- Use real first payment and maturity dates and derive loan age instead of an input
+- Properly payment date rolling logic
 - CSV output options
 - Acquire factor data and loan terms directly from FNMA web site
 - Other speeds (CPJ, CPB)
