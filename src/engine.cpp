@@ -10,6 +10,10 @@ CashFlows CashFlowEngine::runCashflows(
     Deal &deal,
     Scenario &scenario)
 {
+    // Cash flows will be generated in separate stages:
+    // First - run the loan-level using the scenario assumptions
+    // Second - aggregate to the group-level
+    // Third - if any bond structure is available, run through the waterfall (TODO)
     std::map<std::string, CashFlows> groupFlows;
     for (auto &groupIdtoGroup : deal.collateral)
     {
