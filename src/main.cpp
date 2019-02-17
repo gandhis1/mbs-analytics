@@ -90,7 +90,7 @@ int main(int argc, char *argv[])
     }
 
     // Override the input scenario for now
-    userScenario = Scenario(0.05, 0.01);
+    userScenario = Scenario(0.05, 0, 720, CPR);
 
     // Initialize the test security
     std::string poolName = "AN3073";
@@ -101,7 +101,7 @@ int main(int argc, char *argv[])
     int originalLoanTerm = 60;
     int originalAmortTerm = 360;
     int originalIOTerm = 0;
-    int currentLoanAge = 27;
+    int currentLoanAge = 28;
     double grossCoupon = 0.0496;
     double feeStrip = 0.0496 - 0.0248;
     std::string originalPrepaymentString = "L(30) 5%(24) 4%(24) 3%(12) 2%(12) 1%(12) O(6)";
@@ -112,5 +112,5 @@ int main(int argc, char *argv[])
     // Create a cash flow engine
     CashFlowEngine cashFlowEngine{};
     auto &&cashFlows = cashFlowEngine.runCashflows(testPool, userScenario);
-    cashFlows.prettyPrint(24);  // Only print the first 24 rows
+    cashFlows.prettyPrint();
 }

@@ -31,7 +31,7 @@ private:
   int originalIOTerm;
   int currentLoanAge;
   double grossCoupon;
-  double netCoupon();
+  double netCoupon;
   double feeStrip;
   AccrualBasis accrualBasis;
   std::vector<PrepaymentProvision> original_prepayment_provisions;

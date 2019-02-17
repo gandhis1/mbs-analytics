@@ -30,6 +30,7 @@ Loan::Loan(std::string id,
                                   paymentFrequency(paymentFrequency),
                                   accrualStartDay(accrualStartDay)
 {
+    netCoupon = grossCoupon - feeStrip;
     if (periodicDebtService)
     {
         this->periodicAmortizingDebtService = periodicDebtService.value();
@@ -55,9 +56,4 @@ Loan::Loan(std::string id,
     {
         throw std::invalid_argument("Custom prepayment strings are not yet supported");
     }
-}
-
-double Loan::netCoupon()
-{
-    return grossCoupon - feeStrip;
 }

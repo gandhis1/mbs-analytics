@@ -53,10 +53,10 @@ inline int toYYYYMMDD(struct tm date) {
     return std::stoi(date_YYYYMMDD);
 }
 
-inline int daysBetween(struct tm date1, struct tm date2)
+inline int daysBetween(struct tm date1, struct tm date2, bool inclusiveEnd = true)
 {
-    int secondsBetween = std::difftime(mktime(&date1), mktime(&date2));
-    return int(secondsBetween / 60.0 / 24.0);
+    int secondsBetween = std::difftime(mktime(&date2), mktime(&date1));
+    return int(secondsBetween / 60.0 / 60.0 / 24.0) + (inclusiveEnd ? 1: 0);
 }
 
 } // namespace Utilities

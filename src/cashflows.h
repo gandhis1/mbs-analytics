@@ -10,13 +10,17 @@ public:
   struct tm paymentDate;
   struct tm accrualStartDate;
   struct tm accrualEndDate;
+  unsigned short accrualDays;
   double endingBalance;
+  double grossCoupon;
+  double netCoupon;
   double grossInterest;
   double netInterest;
-  double coupon;
   double scheduledPrincipal;
   double unscheduledPrincipal;
   double balloonPrincipal;
+  double totalPrincipal;
+  double scheduledPayment;
   double loss;
   double prepayPenalty;
 };
@@ -26,7 +30,7 @@ class CashFlows
 private:
   std::vector<CashFlow> periodicCashflows;
 public:
-  void prettyPrint(int rowLimit = 0);
+  void prettyPrint();
   double yieldToMaturity(struct tm settleDate, double price);
   double weightedAverageLife(struct tm settleDate);
   friend class CashFlowEngine;
