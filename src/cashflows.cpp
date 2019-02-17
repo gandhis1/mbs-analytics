@@ -26,13 +26,10 @@ void CashFlows::prettyPrint()
               << std::left << std::setw(WIDTH) << std::setfill(' ') << "Net Interest"
               << std::left << std::setw(WIDTH) << std::setfill(' ') << "Prepay Penalty"
               << std::endl;
-    for (unsigned short i = 0; i < periodicCashflows.size(); ++i)
+    for (auto &cashflow: periodicCashflows)
     {
-        auto &cashflow = periodicCashflows[i];
-        // char paymentDateStr[8];
-        // strftime(paymentDateStr, sizeof(paymentDateStr), "%Y-%m-%d", (const struct tm*)&cashflow.paymentDate);
         std::cout
-            << std::left << std::setw(10) << std::setprecision(2) << std::fixed << std::setfill(' ') << i
+            << std::left << std::setw(10) << std::setprecision(2) << std::fixed << std::setfill(' ') << cashflow.period
             << std::left << std::setw(WIDTH) << std::setprecision(2) << std::fixed << std::setfill(' ') << Utilities::toYYYYMMDD(cashflow.paymentDate)
             << std::left << std::setw(WIDTH) << std::setprecision(2) << std::fixed << std::setfill(' ') << Utilities::toYYYYMMDD(cashflow.accrualStartDate)
             << std::left << std::setw(WIDTH) << std::setprecision(2) << std::fixed << std::setfill(' ') << Utilities::toYYYYMMDD(cashflow.accrualEndDate)
@@ -51,4 +48,22 @@ void CashFlows::prettyPrint()
             << std::left << std::setw(WIDTH) << std::setprecision(2) << std::fixed << std::setfill(' ') << cashflow.prepayPenalty
             << std::endl;
     }
+}
+
+double CashFlows::weightedAverageLife(struct tm settleDate)
+{
+    // TODO: For now do a naive implementation, later on look at settle date and day count
+    time_t settleDateTime = mktime(&settleDate);
+    long double timePrincipalSumProduct = 0.0;
+    long double cumulativePrincipal = 0.0;
+    for (auto &periodicCashflow : periodicCashflows)
+    {
+        // TODO: this is a temporary hack to use the parameter, in reality this is not how settle-date mechanics work
+        if (mktime(&periodicCashflow.paymentDate) >= settleDateTime)
+        {
+            timePrincipalSumProduct += periodicCashflow.totalPrincipal * periodicCashflow.period / 12.0;
+            cumulativePrincipal += periodicCashflow.totalPrincipal;
+        }
+    }
+    return timePrincipalSumProduct / cumulativePrincipal;
 }

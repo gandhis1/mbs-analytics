@@ -7,6 +7,7 @@
 class CashFlow
 {
 public:
+  unsigned short period;
   struct tm paymentDate;
   struct tm accrualStartDate;
   struct tm accrualEndDate;

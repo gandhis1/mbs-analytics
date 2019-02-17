@@ -94,6 +94,7 @@ CashFlows CashFlowEngine::runCashflows(
 
 
                 CashFlow periodicCashflow;
+                periodicCashflow.period = period;
                 periodicCashflow.paymentDate = paymentDate;
                 periodicCashflow.accrualStartDate = accrualStartDate;
                 periodicCashflow.accrualEndDate = accrualEndDate;

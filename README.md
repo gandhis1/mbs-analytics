@@ -13,4 +13,5 @@ Cash flow/analytics engine specifically for CMBS Agency pools, with ability to g
 - Support ARM loans
 - Support true user inputs and scenario specification
 - Add regression tests
+- Proper WAL calc which supports each accrual basis, settlement dates
 
