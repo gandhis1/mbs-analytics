@@ -13,6 +13,9 @@ TARGET_NAME=run_analytics.exe
 
 all: $(BIN_DIR)/$(TARGET_NAME)
 
+debug: CXXFLAGS += -DDEBUG -g
+debug: all
+
 new: clean all
 
 clean:
