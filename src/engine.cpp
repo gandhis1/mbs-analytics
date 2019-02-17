@@ -35,6 +35,7 @@ CashFlows CashFlowEngine::runCashflows(
             double scheduledPayment = 0.0;
             double loss = 0.0;
             double prepayPenalty = 0.0;
+            double penaltyRate = 0.0;
             double performingFraction = 1.0;
             double prepaidFraction = 0.0;
             double defaultedFraction = 0.0;
@@ -57,9 +58,9 @@ CashFlows CashFlowEngine::runCashflows(
                     double accrualFraction = accrualDays / 360.0;
 
                     // Handle the speeds calculations
-                    PrepaymentProvision currentPrepaymentProvision = PrepaymentProvision::getCurrentPrepaymentProvision(loan.originalPrepaymentProvisions, loan.currentLoanAge + period);
+                    PrepaymentProvision& currentPrepaymentProvision = *PrepaymentProvision::getCurrentPrepaymentProvision(loan.originalPrepaymentProvisions, loan.currentLoanAge + period);
                     double smm = currentPrepaymentProvision.canVoluntarilyPrepay() ? Utilities::changeCompoundingBasis(scenario.vprVector[period], 1, 12) : 0.0;
-                    double mdr = currentPrepaymentProvision.canInvoluntarilyPrepay() ? Utilities::changeCompoundingBasis(scenario.cdrVector[period], 1, 12) : 0.0;
+                    double mdr = Utilities::changeCompoundingBasis(scenario.cdrVector[period], 1, 12);
 
                     // Calculate all cash flows based on the current fractions
                     beginningBalance = endingBalance;
@@ -72,7 +73,15 @@ CashFlows CashFlowEngine::runCashflows(
                     unscheduledPrincipal = smm * (beginningBalance - scheduledPrincipal);
                     balloonPrincipal = 0.0;
                     loss = 0.0;
-                    prepayPenalty = (unscheduledPrincipal > 0.0) ? currentPrepaymentProvision.calculatePrepaymentPenalty(unscheduledPrincipal, 0.0) : 0.0;
+                    if (unscheduledPrincipal > 0.0)
+                    {
+                        prepayPenalty = currentPrepaymentProvision.calculatePrepaymentPenalty(unscheduledPrincipal);
+                        penaltyRate = prepayPenalty / unscheduledPrincipal;
+                    }
+                    else
+                    {
+                        prepayPenalty = penaltyRate = 0.0;
+                    }
                     endingBalance = beginningBalance - scheduledPrincipal - unscheduledPrincipal;
 
                     // Adjust the ending balance fractions
@@ -112,6 +121,7 @@ CashFlows CashFlowEngine::runCashflows(
                 periodicCashflow.scheduledPayment = scheduledPayment;
                 periodicCashflow.loss = loss;
                 periodicCashflow.prepayPenalty = prepayPenalty;
+                periodicCashflow.penaltyRate = penaltyRate;
                 loanFlows[loan.id].periodicCashflows.push_back(periodicCashflow);
                 if (endingBalance < Utilities::EPSILON)
                 {

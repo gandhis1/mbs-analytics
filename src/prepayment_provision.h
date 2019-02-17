@@ -1,84 +1,98 @@
 #ifndef PREPAYMENT_PROVISION_H
 #define PREPAYMENT_PROVISION_H
 
+#include <memory>
+
 enum PrepaymentProvisionType
 {
-    LOCKOUT,
-    DEFEASANCE,
-    FIXED_PENALTY,
-    YIELD_MAINTENANCE,
-    OPEN
+  LOCKOUT,
+  DEFEASANCE,
+  FIXED_PENALTY,
+  YIELD_MAINTENANCE,
+  OPEN
 };
 
 class PrepaymentProvision
 {
-  protected:
-    PrepaymentProvisionType type;
-    int length;
-    virtual double getVoluntaryPenaltyRate();
-    virtual double getInvoluntaryPenaltyRate();
+protected:
+  PrepaymentProvisionType type;
+  int length;
+  virtual double getVoluntaryPenaltyRate() = 0;
 
-  public:
-    PrepaymentProvision(PrepaymentProvisionType type, int length);
-    virtual bool canVoluntarilyPrepay();
-    virtual bool canInvoluntarilyPrepay();
-    virtual double calculatePrepaymentPenalty(double voluntaryPrepay, double involuntaryPrepay);
-    PrepaymentProvisionType getType();
-    template <typename Container>
-    static PrepaymentProvision getCurrentPrepaymentProvision(Container& c, int loanAge)
+public:
+  PrepaymentProvision(PrepaymentProvisionType type, int length);
+  virtual bool canVoluntarilyPrepay() = 0;
+  double calculatePrepaymentPenalty(double voluntaryPrepay);
+  PrepaymentProvisionType getType();
+  template <typename Container>
+  static std::shared_ptr<PrepaymentProvision> getCurrentPrepaymentProvision(Container &container, int loanAge)
+  {
+    // TODO: This function is inefficient as it is constantly re-indexing the vector - but works for now
+    int cumulativePayments = 0;
+    for (unsigned short i = 0; i < container.size(); ++i)
     {
-      // TODO: This function is inefficient as it is constantly re-indexing the vector - but works for now
-      int cumulativePayments = 0;
-      for (unsigned short i = 0; i < c.size(); ++i)
+      if (loanAge > cumulativePayments && loanAge <= cumulativePayments + container[i]->length)
       {
-        PrepaymentProvision &provision = c[i];
-        if (loanAge > cumulativePayments && loanAge <= cumulativePayments + provision.length)
-        {
-          return provision;
-        }
-        else
-        {
-          cumulativePayments += provision.length;
-        }        
+        return container[i];
       }
-      return c.back();
+      else
+      {
+        cumulativePayments += container[i]->length;
+      }
     }
+    return container.back();
+  }
 };
 
 class Lockout : public PrepaymentProvision
 {
-  public:
-    Lockout(int length);
-    virtual bool canVoluntarilyPrepay();
+protected:
+  double getVoluntaryPenaltyRate() override;
+
+public:
+  Lockout(int length);
+  bool canVoluntarilyPrepay() override;
 };
 
 class Defeasance : public PrepaymentProvision
 {
-  public:
-    Defeasance(int length);
-    virtual bool canVoluntarilyPrepay();
+protected:
+  double getVoluntaryPenaltyRate() override;
+
+public:
+  Defeasance(int length);
+  bool canVoluntarilyPrepay() override;
 };
 
 class FixedPenalty : public PrepaymentProvision
 {
-  protected:
-    double penaltyRate;
-    virtual double getVoluntaryPenaltyRate();
+protected:
+  double penaltyRate;
+  double getVoluntaryPenaltyRate() override;
 
-  public:
-    FixedPenalty(int length, double rate);
+public:
+  FixedPenalty(int length, double rate);
+  bool canVoluntarilyPrepay() override;
 };
 
 class YieldMaintenance : public PrepaymentProvision
 {
-  public:
-    YieldMaintenance(int length);
+protected:
+  double getVoluntaryPenaltyRate() override;
+
+public:
+  YieldMaintenance(int length);
+  bool canVoluntarilyPrepay() override;
 };
 
 class Open : public PrepaymentProvision
 {
-  public:
-    Open(int length);
+protected:
+  double getVoluntaryPenaltyRate() override;
+
+public:
+  Open(int length);
+  bool canVoluntarilyPrepay() override;
 };
 
 #endif

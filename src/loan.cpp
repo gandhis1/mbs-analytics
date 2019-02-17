@@ -1,3 +1,4 @@
+#include <memory>
 #include <stdexcept>
 #include "loan.h"
 #include "utilities.h"
@@ -41,16 +42,16 @@ Loan::Loan(std::string id,
         this->periodicAmortizingDebtService = Utilities::calculatePayment(originalBalance, originalAmortTerm, periodicGrossCoupon);
     }
 
-    // TODO: Tokenize and parse the prepayment string, e.g. 'L(30) 5%(24) 4%(24) 3%(12) 2%(12) 1%(12) O(6)'
-    if (originalPrepaymentString == "L(30) 5%(24) 4%(24) 3%(12) 2%(12) 1%(12) O(6)")
+    // TODO: Actually tokenize and parse the prepayment string
+    if (originalPrepaymentString == "L(24) 5%(24) 4%(24) 3%(12) 2%(12) 1%(12) O(12)")
     {
-        originalPrepaymentProvisions.push_back(Lockout(30));
-        originalPrepaymentProvisions.push_back(FixedPenalty(24, 0.05));
-        originalPrepaymentProvisions.push_back(FixedPenalty(24, 0.04));
-        originalPrepaymentProvisions.push_back(FixedPenalty(12, 0.03));
-        originalPrepaymentProvisions.push_back(FixedPenalty(12, 0.02));
-        originalPrepaymentProvisions.push_back(FixedPenalty(12, 0.01));
-        originalPrepaymentProvisions.push_back(Open(6));
+        originalPrepaymentProvisions.push_back(std::make_shared<Lockout>(24));
+        originalPrepaymentProvisions.push_back(std::make_shared<FixedPenalty>(24, 0.05));
+        originalPrepaymentProvisions.push_back(std::make_shared<FixedPenalty>(24, 0.04));
+        originalPrepaymentProvisions.push_back(std::make_shared<FixedPenalty>(12, 0.03));
+        originalPrepaymentProvisions.push_back(std::make_shared<FixedPenalty>(12, 0.02));
+        originalPrepaymentProvisions.push_back(std::make_shared<FixedPenalty>(12, 0.01));
+        originalPrepaymentProvisions.push_back(std::make_shared<Open>(12));
     }
     else
     {

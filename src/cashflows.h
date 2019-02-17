@@ -24,6 +24,7 @@ public:
   double scheduledPayment;
   double loss;
   double prepayPenalty;
+  double penaltyRate;
 };
 
 class CashFlows

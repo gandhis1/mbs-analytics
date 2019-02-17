@@ -25,6 +25,7 @@ void CashFlows::prettyPrint()
               << std::left << std::setw(WIDTH) << std::setfill(' ') << "Gross Interest"
               << std::left << std::setw(WIDTH) << std::setfill(' ') << "Net Interest"
               << std::left << std::setw(WIDTH) << std::setfill(' ') << "Prepay Penalty"
+              << std::left << std::setw(WIDTH) << std::setfill(' ') << "Penalty Rate"
               << std::endl;
     for (auto &cashflow: periodicCashflows)
     {
@@ -46,6 +47,7 @@ void CashFlows::prettyPrint()
             << std::left << std::setw(WIDTH) << std::setprecision(2) << std::fixed << std::setfill(' ') << cashflow.grossInterest
             << std::left << std::setw(WIDTH) << std::setprecision(2) << std::fixed << std::setfill(' ') << cashflow.netInterest
             << std::left << std::setw(WIDTH) << std::setprecision(2) << std::fixed << std::setfill(' ') << cashflow.prepayPenalty
+            << std::left << std::setw(WIDTH) << std::setprecision(2) << std::fixed << std::setfill(' ') << cashflow.penaltyRate
             << std::endl;
     }
 }

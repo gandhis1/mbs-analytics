@@ -2,6 +2,7 @@
 #define LOAN_H
 
 #include <experimental/optional>
+#include <memory>
 #include <vector>
 #include "prepayment_provision.h"
 
@@ -34,7 +35,7 @@ private:
   double netCoupon;
   double feeStrip;
   AccrualBasis accrualBasis;
-  std::vector<PrepaymentProvision> originalPrepaymentProvisions;
+  std::vector<std::shared_ptr<PrepaymentProvision>> originalPrepaymentProvisions;
   double periodicAmortizingDebtService;
   PaymentFrequency paymentFrequency;
   int accrualStartDay;
