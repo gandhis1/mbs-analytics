@@ -72,8 +72,17 @@ CashFlows CashFlowEngine::runCashflows(
                     netCoupon = loan.netCoupon;
                     grossInterest = loan.grossCoupon * accrualFraction * beginningBalance;
                     netInterest = loan.netCoupon * accrualFraction * beginningBalance;
-                    scheduledPayment = loan.periodicAmortizingDebtService * performingFraction;
-                    scheduledPrincipal = std::max(scheduledPayment - grossInterest, 0.0);
+                    bool isInInterestOnlyPeriod = (loan.currentLoanAge + period) <= loan.originalIOTerm;
+                    if (isInInterestOnlyPeriod)
+                    {
+                        scheduledPayment = grossInterest;
+                        scheduledPrincipal = 0.0;
+                    }
+                    else
+                    {
+                        scheduledPayment = loan.periodicAmortizingDebtService * performingFraction;
+                        scheduledPrincipal = std::max(scheduledPayment - grossInterest, 0.0);
+                    }
                     unscheduledPrincipal = smm * (beginningBalance - scheduledPrincipal);
                     balloonPrincipal = 0.0;
                     loss = 0.0;
