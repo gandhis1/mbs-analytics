@@ -28,4 +28,3 @@ $(BIN_DIR)/$(TARGET_NAME): $(OBJ_FILES)
 
 $(BUILD_DIR)/%.o: $(SRC_DIR)/%.cpp
 	g++ $(CXXFLAGS) -c -o $@ $<
-
