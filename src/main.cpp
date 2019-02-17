@@ -96,8 +96,8 @@ int main(int argc, char *argv[])
     std::string poolName = "AN3073";
     std::string loanID = "1717469130";
     double originalBalance = 763000.00;
-    double cutoffBalance = 737981.42;
-    struct tm factorDate = Utilities::createTime(2019, 1, 1);
+    double cutoffBalance = 737056.10;
+    struct tm factorDate = Utilities::createTime(2019, 2, 1);
     int originalLoanTerm = 60;
     int originalAmortTerm = 360;
     int originalIOTerm = 0;
@@ -105,12 +105,12 @@ int main(int argc, char *argv[])
     double grossCoupon = 0.0496;
     double feeStrip = 0.0496 - 0.0248;
     std::string originalPrepaymentString = "L(30) 5%(24) 4%(24) 3%(12) 2%(12) 1%(12) O(6)";
-    Loan loan(loanID, originalBalance, cutoffBalance, factorDate, originalLoanTerm, originalAmortTerm, originalIOTerm, currentLoanAge, grossCoupon, feeStrip, originalPrepaymentString);
+    Loan loan(loanID, originalBalance, cutoffBalance, factorDate, originalLoanTerm, originalAmortTerm, originalIOTerm, currentLoanAge, grossCoupon, feeStrip, ACTUAL_360, originalPrepaymentString);
     Pool testPool = Pool(poolName); // For now create a dummy pool
     testPool.addLoan(loan);
 
     // Create a cash flow engine
     CashFlowEngine cashFlowEngine{};
     auto &&cashFlows = cashFlowEngine.runCashflows(testPool, userScenario);
-    cashFlows.prettyPrint();
+    cashFlows.prettyPrint(24);  // Only print the first 24 rows
 }

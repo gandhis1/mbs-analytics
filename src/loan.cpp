@@ -12,30 +12,33 @@ Loan::Loan(std::string id,
            int currentLoanAge,
            double grossCoupon,
            double feeStrip,
+           AccrualBasis accrualBasis,
            std::string originalPrepaymentString,
            std::experimental::optional<double> periodicDebtService,
-           PaymentFrequency paymentFrequency) : id(id),
-                                                originalBalance(originalBalance),
-                                                currentBalance(currentBalance),
-                                                factorDate(factorDate),
-                                                originalLoanTerm(originalLoanTerm),
-                                                originalAmortTerm(originalAmortTerm),
-                                                originalIOTerm(originalIOTerm),
-                                                currentLoanAge(currentLoanAge),
-                                                grossCoupon(grossCoupon),
-                                                feeStrip(feeStrip),
-                                                paymentFrequency(paymentFrequency)
+           PaymentFrequency paymentFrequency,
+           int accrualStartDay) : id(id),
+                                  originalBalance(originalBalance),
+                                  currentBalance(currentBalance),
+                                  factorDate(factorDate),
+                                  originalLoanTerm(originalLoanTerm),
+                                  originalAmortTerm(originalAmortTerm),
+                                  originalIOTerm(originalIOTerm),
+                                  currentLoanAge(currentLoanAge),
+                                  grossCoupon(grossCoupon),
+                                  feeStrip(feeStrip),
+                                  accrualBasis(accrualBasis),
+                                  paymentFrequency(paymentFrequency),
+                                  accrualStartDay(accrualStartDay)
 {
     if (periodicDebtService)
     {
-        this->periodicAmortizingDebtService = periodicDebtService.value();;
+        this->periodicAmortizingDebtService = periodicDebtService.value();
     }
     else
     {
         double periodicGrossCoupon = grossCoupon * paymentFrequency / 12.0;
         this->periodicAmortizingDebtService = Utilities::calculatePayment(originalBalance, originalAmortTerm, periodicGrossCoupon);
     }
-     
 
     // TODO: Tokenize and parse the prepayment string, e.g. 'L(30) 5%(24) 4%(24) 3%(12) 2%(12) 1%(12) O(6)'
     if (originalPrepaymentString == "L(30) 5%(24) 4%(24) 3%(12) 2%(12) 1%(12) O(6)")

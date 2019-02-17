@@ -3,14 +3,19 @@
 #include <iomanip>
 
 #include "cashflows.h"
+#include "utilities.h"
 
-void CashFlows::prettyPrint()
+void CashFlows::prettyPrint(int rowLimit)
 {
-    const int WIDTH = 12;
+    const int WIDTH = 15;
     std::cout << std::left << std::setw(WIDTH) << std::setfill(' ') << "Period"
+              << std::left << std::setw(WIDTH) << std::setfill(' ') << "Payment Date"
+              << std::left << std::setw(WIDTH) << std::setfill(' ') << "Accrual Start"
+              << std::left << std::setw(WIDTH) << std::setfill(' ') << "Accrual End"
               << std::left << std::setw(WIDTH) << std::setfill(' ') << "Balance"
               << std::left << std::setw(WIDTH) << std::setfill(' ') << "Sched"
               << std::left << std::setw(WIDTH) << std::setfill(' ') << "Unsched"
+              << std::left << std::setw(WIDTH) << std::setfill(' ') << "Balloon"
               << std::left << std::setw(WIDTH) << std::setfill(' ') << "Principal"
               << std::left << std::setw(WIDTH) << std::setfill(' ') << "Loss"
               << std::left << std::setw(WIDTH) << std::setfill(' ') << "Coupon"
@@ -19,16 +24,20 @@ void CashFlows::prettyPrint()
               << std::left << std::setw(WIDTH) << std::setfill(' ') << "Net"
               << std::left << std::setw(WIDTH) << std::setfill(' ') << "Penalty"
               << std::endl;
-    for (unsigned int i = 0; i < periodicCashflows.size(); ++i)
+    for (unsigned short i = 0; i < periodicCashflows.size() && (rowLimit == 0 || i < rowLimit - 1); ++i)
     {
         auto &cashflow = periodicCashflows[i];
         // char paymentDateStr[8];
         // strftime(paymentDateStr, sizeof(paymentDateStr), "%Y-%m-%d", (const struct tm*)&cashflow.paymentDate);
         std::cout
             << std::left << std::setw(WIDTH) << std::setprecision(2) << std::fixed << std::setfill(' ') << i
+            << std::left << std::setw(WIDTH) << std::setprecision(2) << std::fixed << std::setfill(' ') << Utilities::toYYYYMMDD(cashflow.paymentDate)
+            << std::left << std::setw(WIDTH) << std::setprecision(2) << std::fixed << std::setfill(' ') << Utilities::toYYYYMMDD(cashflow.accrualStartDate)
+            << std::left << std::setw(WIDTH) << std::setprecision(2) << std::fixed << std::setfill(' ') << Utilities::toYYYYMMDD(cashflow.accrualEndDate)
             << std::left << std::setw(WIDTH) << std::setprecision(2) << std::fixed << std::setfill(' ') << cashflow.endingBalance
             << std::left << std::setw(WIDTH) << std::setprecision(2) << std::fixed << std::setfill(' ') << cashflow.scheduledPrincipal
             << std::left << std::setw(WIDTH) << std::setprecision(2) << std::fixed << std::setfill(' ') << cashflow.unscheduledPrincipal
+            << std::left << std::setw(WIDTH) << std::setprecision(2) << std::fixed << std::setfill(' ') << cashflow.balloonPrincipal
             << std::left << std::setw(WIDTH) << std::setprecision(2) << std::fixed << std::setfill(' ') << cashflow.scheduledPrincipal + cashflow.unscheduledPrincipal
             << std::left << std::setw(WIDTH) << std::setprecision(2) << std::fixed << std::setfill(' ') << cashflow.loss
             << std::left << std::setw(WIDTH) << std::setprecision(4) << std::fixed << std::setfill(' ') << cashflow.coupon
