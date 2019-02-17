@@ -3,8 +3,8 @@
 PrepaymentProvision::PrepaymentProvision(PrepaymentProvisionType type, int length) : type(type), length(length) {}
 double PrepaymentProvision::getVoluntaryPenaltyRate() { return 0.0; }
 double PrepaymentProvision::getInvoluntaryPenaltyRate() { return 0.0; }
-bool PrepaymentProvision::canVoluntaryPrepay() { return true; }
-bool PrepaymentProvision::canInvoluntaryPrepay() { return true; }
+bool PrepaymentProvision::canVoluntarilyPrepay() { return true; }
+bool PrepaymentProvision::canInvoluntarilyPrepay() { return true; }
 double PrepaymentProvision::calculatePrepaymentPenalty(double voluntaryPrepay, double involuntaryPrepay)
 {
     return getVoluntaryPenaltyRate() * voluntaryPrepay + getInvoluntaryPenaltyRate() * involuntaryPrepay;
@@ -12,12 +12,13 @@ double PrepaymentProvision::calculatePrepaymentPenalty(double voluntaryPrepay, d
 PrepaymentProvisionType PrepaymentProvision::getType() { return type; }
 
 Lockout::Lockout(int length) : PrepaymentProvision(LOCKOUT, length) { type = LOCKOUT; }
-bool Lockout::canVoluntaryPrepay() { return false; }
+bool Lockout::canVoluntarilyPrepay() { return false; }
 
 Defeasance::Defeasance(int length) : PrepaymentProvision(DEFEASANCE, length) {}
-bool Defeasance::canVoluntaryPrepay() { return false; }
+bool Defeasance::canVoluntarilyPrepay() { return false; }
 
-FixedPenalty::FixedPenalty(int length, double rate) : PrepaymentProvision(FIXED_PENALTY, length), penalty_rate(rate) {}
+FixedPenalty::FixedPenalty(int length, double rate) : PrepaymentProvision(FIXED_PENALTY, length), penaltyRate(rate) {}
+double FixedPenalty::getVoluntaryPenaltyRate() { return penaltyRate; }
 
 YieldMaintenance::YieldMaintenance(int length) : PrepaymentProvision(YIELD_MAINTENANCE, length) {}
 

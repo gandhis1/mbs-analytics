@@ -44,13 +44,13 @@ Loan::Loan(std::string id,
     // TODO: Tokenize and parse the prepayment string, e.g. 'L(30) 5%(24) 4%(24) 3%(12) 2%(12) 1%(12) O(6)'
     if (originalPrepaymentString == "L(30) 5%(24) 4%(24) 3%(12) 2%(12) 1%(12) O(6)")
     {
-        original_prepayment_provisions.push_back(Lockout(30));
-        original_prepayment_provisions.push_back(FixedPenalty(24, 0.05));
-        original_prepayment_provisions.push_back(FixedPenalty(24, 0.04));
-        original_prepayment_provisions.push_back(FixedPenalty(12, 0.03));
-        original_prepayment_provisions.push_back(FixedPenalty(12, 0.02));
-        original_prepayment_provisions.push_back(FixedPenalty(12, 0.01));
-        original_prepayment_provisions.push_back(Open(6));
+        originalPrepaymentProvisions.push_back(Lockout(30));
+        originalPrepaymentProvisions.push_back(FixedPenalty(24, 0.05));
+        originalPrepaymentProvisions.push_back(FixedPenalty(24, 0.04));
+        originalPrepaymentProvisions.push_back(FixedPenalty(12, 0.03));
+        originalPrepaymentProvisions.push_back(FixedPenalty(12, 0.02));
+        originalPrepaymentProvisions.push_back(FixedPenalty(12, 0.01));
+        originalPrepaymentProvisions.push_back(Open(6));
     }
     else
     {

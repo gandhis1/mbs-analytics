@@ -34,7 +34,7 @@ private:
   double netCoupon;
   double feeStrip;
   AccrualBasis accrualBasis;
-  std::vector<PrepaymentProvision> original_prepayment_provisions;
+  std::vector<PrepaymentProvision> originalPrepaymentProvisions;
   double periodicAmortizingDebtService;
   PaymentFrequency paymentFrequency;
   int accrualStartDay;
