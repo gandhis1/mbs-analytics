@@ -135,5 +135,5 @@ CashFlows CashFlowEngine::runCashflows(
         }
         groupFlows[groupId] = CashFlows::aggregateCashFlows(loanFlows);
     }
-    return std::move(groupFlows["all"]);
+    return std::move(groupFlows["all"]);  // Temporary until a more well-structured object is available for each level of cash flows
 }
