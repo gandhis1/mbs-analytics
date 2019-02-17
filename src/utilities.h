@@ -39,6 +39,26 @@ inline struct tm createTime(int year, int month, int day)
     return date;
 }
 
+inline struct tm addDateInterval(struct tm date, int years, int months, int days) {
+    date.tm_year += years;
+    date.tm_mon += months;
+    date.tm_mday += days;
+    mktime(&date);
+    return date;
+}
+
+inline int toYYYYMMDD(struct tm date) {
+    char date_YYYYMMDD[9];
+    strftime(date_YYYYMMDD, 9, "%Y%m%d", &date);
+    return std::stoi(date_YYYYMMDD);
+}
+
+inline int daysBetween(struct tm date1, struct tm date2)
+{
+    int secondsBetween = std::difftime(mktime(&date1), mktime(&date2));
+    return int(secondsBetween / 60.0 / 24.0);
+}
+
 } // namespace Utilities
 
 #endif
