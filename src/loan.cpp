@@ -15,7 +15,7 @@ Loan::Loan(std::string id,
            double feeStrip,
            AccrualBasis accrualBasis,
            std::string originalPrepaymentString,
-           std::experimental::optional<double> periodicDebtService,
+           std::experimental::optional<double> periodicAmortizingDebtService,
            PaymentFrequency paymentFrequency,
            int accrualStartDay) : id(id),
                                   originalBalance(originalBalance),
@@ -32,9 +32,9 @@ Loan::Loan(std::string id,
                                   accrualStartDay(accrualStartDay)
 {
     netCoupon = grossCoupon - feeStrip;
-    if (periodicDebtService)
+    if (periodicAmortizingDebtService)
     {
-        this->periodicAmortizingDebtService = periodicDebtService.value();
+        this->periodicAmortizingDebtService = periodicAmortizingDebtService.value();
     }
     else
     {

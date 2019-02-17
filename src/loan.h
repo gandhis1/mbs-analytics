@@ -53,7 +53,7 @@ public:
        double feeStrip,
        AccrualBasis accrualBasis,
        std::string originalPrepaymentString,
-       std::experimental::optional<double> periodicDebtService = std::experimental::nullopt,
+       std::experimental::optional<double> periodicAmortizingDebtService = std::experimental::nullopt,
        PaymentFrequency paymentFrequency = MONTHLY,
        int accrualStartDay = 1);
 
