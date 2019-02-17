@@ -1,5 +1,5 @@
-# pool-analytics
-Ability to generate scenario/assumption-dependent cash flows and (eventually) calculate price, yield, WAL, duration, and other risk measures
+# mbs-analytics
+Ability to generate scenario/assumption-dependent cash flows and (eventually) calculate price, yield, WAL, duration, and other risk measures on MBS (particularly agency CMBS pools).
 
 #### To-Do List:
 
