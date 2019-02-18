@@ -43,6 +43,7 @@ CashFlows CashFlowEngine::runCashflows(
             double performingFraction = 1.0;
             double prepaidFraction = 0.0;
             double defaultedFraction = 0.0;
+            loanFlows[loan.id].periodicCashflows.reserve(loan.originalLoanTerm - loan.currentLoanAge);  // Reserve memory to avoid copy
 
             for (unsigned short period = 0; period < scenario.MAX_PERIODS; period += loan.paymentFrequency)
             {
@@ -146,7 +147,7 @@ CashFlows CashFlowEngine::runCashflows(
                 }
                 periodicCashflow.realizedLoss = realizedLossByPeriod.count(period) ? realizedLossByPeriod[period] : ((period > 0) ? 0.0 : NAN);
                 periodicCashflow.recoveryPrincipal = recoveryPrincipalByPeriod.count(period) ? recoveryPrincipalByPeriod[period] : ((period > 0) ? 0.0 : NAN);
-                loanFlows[loan.id].periodicCashflows.push_back(periodicCashflow);
+                loanFlows[loan.id].periodicCashflows.emplace_back(periodicCashflow);
                 // Only break off the amort if the ending balance is zero or there are still recoveries due in future
                 int maxRecoveryPeriod = recoveryPrincipalByPeriod.size() > 0 ? (*--recoveryPrincipalByPeriod.end()).first : 0;
                 if (endingBalance < Utilities::EPSILON && (!scenario.extendLagsPastMaturity or period >= maxRecoveryPeriod))
