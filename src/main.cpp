@@ -90,7 +90,7 @@ int main(int argc, char *argv[])
     }
 
     // Override the input scenario for now
-    userScenario = Scenario(0.05, 0, 720, CPR);
+    userScenario = Scenario(0.05, 0);
 
     // Initialize the test security
     std::string poolName = "AN3073";
