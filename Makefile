@@ -19,8 +19,8 @@ debug: all
 new: clean all
 
 clean:
-	$(RM) $(BIN_DIR)/*
-	$(RM) $(BUILD_DIR)/*
+	$(RM) $(BIN_DIR)/*.exe
+	$(RM) $(BUILD_DIR)/*.o
 
 
 $(BIN_DIR)/$(TARGET_NAME): $(OBJ_FILES)
