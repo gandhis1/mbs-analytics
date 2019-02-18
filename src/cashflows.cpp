@@ -5,6 +5,34 @@
 #include "cashflows.h"
 #include "utilities.h"
 
+CashFlow::CashFlow()
+    : period(-1), accrualDays(0), endingBalance(0.0), grossCoupon(0.0),
+      netCoupon(0.0), grossInterest(0.0), netInterest(0.0), scheduledPrincipal(0.0),
+      unscheduledPrincipal(0.0), balloonPrincipal(0.0), recoveryPrincipal(0.0),
+      defaultAmount(0.0), realizedLoss(0.0), prepayPenalty(0.0)
+{
+}
+
+double CashFlow::scheduledPayment()
+{
+    return scheduledPrincipal + grossInterest;
+}
+
+double CashFlow::totalPrincipal()
+{
+    return scheduledPrincipal + unscheduledPrincipal + balloonPrincipal + recoveryPrincipal;
+}
+
+double CashFlow::totalCashflow()
+{
+    return totalPrincipal() + grossInterest + prepayPenalty;
+}
+
+double CashFlow::penaltyRate()
+{
+    return prepayPenalty / unscheduledPrincipal;
+}
+
 void CashFlows::prettyPrint()
 {
     const int WIDTH = 17;
@@ -28,6 +56,7 @@ void CashFlows::prettyPrint()
               << std::left << std::setw(WIDTH) << std::setfill(' ') << "Net Interest"
               << std::left << std::setw(WIDTH) << std::setfill(' ') << "Prepay Penalty"
               << std::left << std::setw(WIDTH) << std::setfill(' ') << "Penalty Rate"
+              << std::left << std::setw(WIDTH) << std::setfill(' ') << "Total Cash Flow"
               << std::endl;
     for (auto &cashflow : periodicCashflows)
     {
@@ -42,16 +71,17 @@ void CashFlows::prettyPrint()
             << std::left << std::setw(WIDTH) << std::setprecision(2) << std::fixed << std::setfill(' ') << cashflow.unscheduledPrincipal
             << std::left << std::setw(WIDTH) << std::setprecision(2) << std::fixed << std::setfill(' ') << cashflow.balloonPrincipal
             << std::left << std::setw(WIDTH) << std::setprecision(2) << std::fixed << std::setfill(' ') << cashflow.recoveryPrincipal
-            << std::left << std::setw(WIDTH) << std::setprecision(2) << std::fixed << std::setfill(' ') << cashflow.totalPrincipal
+            << std::left << std::setw(WIDTH) << std::setprecision(2) << std::fixed << std::setfill(' ') << cashflow.totalPrincipal()
             << std::left << std::setw(WIDTH) << std::setprecision(2) << std::fixed << std::setfill(' ') << cashflow.defaultAmount
             << std::left << std::setw(WIDTH) << std::setprecision(2) << std::fixed << std::setfill(' ') << cashflow.realizedLoss
             << std::left << std::setw(WIDTH) << std::setprecision(4) << std::fixed << std::setfill(' ') << cashflow.grossCoupon
             << std::left << std::setw(WIDTH) << std::setprecision(4) << std::fixed << std::setfill(' ') << cashflow.netCoupon
-            << std::left << std::setw(WIDTH) << std::setprecision(2) << std::fixed << std::setfill(' ') << cashflow.scheduledPayment
+            << std::left << std::setw(WIDTH) << std::setprecision(2) << std::fixed << std::setfill(' ') << cashflow.scheduledPayment()
             << std::left << std::setw(WIDTH) << std::setprecision(2) << std::fixed << std::setfill(' ') << cashflow.grossInterest
             << std::left << std::setw(WIDTH) << std::setprecision(2) << std::fixed << std::setfill(' ') << cashflow.netInterest
             << std::left << std::setw(WIDTH) << std::setprecision(2) << std::fixed << std::setfill(' ') << cashflow.prepayPenalty
-            << std::left << std::setw(WIDTH) << std::setprecision(2) << std::fixed << std::setfill(' ') << cashflow.penaltyRate
+            << std::left << std::setw(WIDTH) << std::setprecision(2) << std::fixed << std::setfill(' ') << cashflow.penaltyRate()
+            << std::left << std::setw(WIDTH) << std::setprecision(2) << std::fixed << std::setfill(' ') << cashflow.totalCashflow()
             << std::endl;
     }
 }
@@ -67,8 +97,8 @@ double CashFlows::weightedAverageLife(struct tm settleDate)
         // TODO: this is a temporary hack to use the parameter, in reality this is not how settle-date mechanics work
         if (mktime(&periodicCashflow.paymentDate) >= settleDateTime)
         {
-            timePrincipalSumProduct += periodicCashflow.totalPrincipal * periodicCashflow.period / 12.0;
-            cumulativePrincipal += periodicCashflow.totalPrincipal;
+            timePrincipalSumProduct += periodicCashflow.totalPrincipal() * periodicCashflow.period / 12.0;
+            cumulativePrincipal += periodicCashflow.totalPrincipal();
         }
     }
     return timePrincipalSumProduct / cumulativePrincipal;

@@ -7,6 +7,7 @@
 class CashFlow
 {
 public:
+  CashFlow();
   unsigned short period;
   struct tm paymentDate;
   struct tm accrualStartDate;
@@ -21,12 +22,15 @@ public:
   double unscheduledPrincipal;
   double balloonPrincipal;
   double recoveryPrincipal;
-  double totalPrincipal;
-  double scheduledPayment;
   double defaultAmount;
   double realizedLoss;
   double prepayPenalty;
-  double penaltyRate;
+
+  // Derived fields based on values above
+  double scheduledPayment();
+  double totalPrincipal();
+  double totalCashflow();
+  double penaltyRate();
 };
 
 class CashFlows
