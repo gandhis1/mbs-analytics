@@ -112,5 +112,6 @@ int main(int argc, char *argv[])
     // Create a cash flow engine
     CashFlowEngine cashFlowEngine{};
     auto &&cashFlows = cashFlowEngine.runCashflows(testPool, userScenario);
+    userScenario.prettyPrint();
     cashFlows.prettyPrint();
 }

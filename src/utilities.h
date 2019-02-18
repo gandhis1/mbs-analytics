@@ -3,11 +3,12 @@
 
 #include <cmath>
 #include <ctime>
+#include <limits>
 
 namespace Utilities
 {
 
-const double EPSILON = 0.000001;
+const double EPSILON = std::numeric_limits<double>::epsilon();
 
 inline double changeCompoundingBasis(
     double rate, int origCompoundsPerYear, int newCompoundsPerYear)

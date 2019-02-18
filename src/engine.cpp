@@ -44,7 +44,7 @@ CashFlows CashFlowEngine::runCashflows(
             double prepaidFraction = 0.0;
             double defaultedFraction = 0.0;
 
-            for (int period = 0; period < scenario.scenarioLength; period += loan.paymentFrequency)
+            for (unsigned short period = 0; period < scenario.MAX_PERIODS; period += loan.paymentFrequency)
             {
                 if (period >= 1)
                 {
