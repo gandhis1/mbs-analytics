@@ -37,8 +37,8 @@ CashFlows CashFlowEngine::runCashflows(
             double unscheduledPrincipal = 0.0;
             double balloonPrincipal = 0.0;
             double defaultAmount = 0.0;
-            double realizedLoss = 0.0;
-            double recoveryPrincipal = 0.0;
+            std::map<int, double> realizedLossByPeriod;  // To handle lags
+            std::map<int, double> recoveryPrincipalByPeriod;  // To handle lags
             double scheduledPayment = 0.0;
             double prepayPenalty = 0.0;
             double penaltyRate = 0.0;
@@ -68,6 +68,7 @@ CashFlows CashFlowEngine::runCashflows(
                     double smm = currentPrepaymentProvision.canVoluntarilyPrepay() ? Utilities::changeCompoundingBasis(scenario.vprVector[period], 1, 12) : 0.0;
                     double mdr = Utilities::changeCompoundingBasis(scenario.cdrVector[period], 1, 12);
                     double sev = scenario.sevVector[period];
+                    int lag = scenario.lagVector[period];
 
                     // Calculate all cash flows based on the current fractions
                     beginningBalance = endingBalance;
@@ -89,8 +90,8 @@ CashFlows CashFlowEngine::runCashflows(
                     unscheduledPrincipal = smm * (beginningBalance - scheduledPrincipal);
                     balloonPrincipal = 0.0;
                     defaultAmount = mdr * (beginningBalance - scheduledPrincipal);
-                    realizedLoss = defaultAmount * sev;
-                    recoveryPrincipal = defaultAmount - realizedLoss;
+                    realizedLossByPeriod[period + lag] = defaultAmount * sev;
+                    recoveryPrincipalByPeriod[period + lag] = defaultAmount * (1 - sev);
                     if (unscheduledPrincipal > 0.0)
                     {
                         prepayPenalty = currentPrepaymentProvision.calculatePrepaymentPenalty(unscheduledPrincipal);
@@ -112,9 +113,9 @@ CashFlows CashFlowEngine::runCashflows(
                     // Pay off the loan at the balloon date
                     if (loan.currentLoanAge + period >= loan.originalLoanTerm)
                     {
-                        // TODO: Keep track of balloon principal amounts separately
                         balloonPrincipal = endingBalance;
                         scheduledPrincipal += unscheduledPrincipal;
+                        // TODO: Distribute all recoveryPrincipal and realize all losses
                         unscheduledPrincipal = 0;
                         endingBalance = 0;
                     }
@@ -136,9 +137,9 @@ CashFlows CashFlowEngine::runCashflows(
                 periodicCashflow.unscheduledPrincipal = unscheduledPrincipal;
                 periodicCashflow.balloonPrincipal = balloonPrincipal;
                 periodicCashflow.defaultAmount = defaultAmount;
-                periodicCashflow.realizedLoss = realizedLoss;
-                periodicCashflow.recoveryPrincipal = recoveryPrincipal;
-                periodicCashflow.totalPrincipal = scheduledPrincipal + unscheduledPrincipal + balloonPrincipal + recoveryPrincipal;
+                periodicCashflow.realizedLoss = realizedLossByPeriod[period];
+                periodicCashflow.recoveryPrincipal = recoveryPrincipalByPeriod[period];
+                periodicCashflow.totalPrincipal = scheduledPrincipal + unscheduledPrincipal + balloonPrincipal + recoveryPrincipalByPeriod[period];
                 periodicCashflow.scheduledPayment = scheduledPayment;
                 periodicCashflow.prepayPenalty = prepayPenalty;
                 periodicCashflow.penaltyRate = penaltyRate;

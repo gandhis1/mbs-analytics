@@ -7,6 +7,7 @@ This is a work-in-progress, and many things have yet to be implemented. As of 2/
 
 - Acquire factor data and loan terms directly from GSE web sites
 - Default, lag, severities, delinquency, and advancing
+- Distribute all recoveryPrincipal and realize all losses at maturity depending on extendLagsPastMaturity
 - Basic yield maintenance calculations for FNMA YM type
 - Use real first payment and maturity dates and derive loan age instead of an input
 - Proper payment date calculation logic

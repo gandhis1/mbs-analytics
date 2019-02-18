@@ -7,8 +7,10 @@
 
 // Single-value scalar constructor
 Scenario::Scenario(double vpr, double cdr, double sev, int lag,
-                   double dq, double adv, int ScenarioLength, VPRType vprType)
-    : scenarioLength(ScenarioLength), vprType(vprType)
+                   double dq, double adv, int ScenarioLength, VPRType vprType,
+                   bool extendLagsPastMaturity)
+    : scenarioLength(ScenarioLength), vprType(vprType),
+      extendLagsPastMaturity(extendLagsPastMaturity)
 {
     std::fill_n(std::back_inserter(vprVector), ScenarioLength, vpr);
     std::fill_n(std::back_inserter(cdrVector), ScenarioLength, cdr);
@@ -26,9 +28,11 @@ Scenario::Scenario(std::vector<double> vprVector,
                    std::vector<double> dqVector,
                    std::vector<double> advVector,
                    int ScenarioLength,
-                   VPRType vprType)
+                   VPRType vprType,
+                   bool extendLagsPastMaturity)
     : vprVector(vprVector), cdrVector(cdrVector), sevVector(sevVector),
       lagVector(lagVector), dqVector(dqVector), advVector(advVector),
-      scenarioLength(ScenarioLength), vprType(vprType)
+      scenarioLength(ScenarioLength), vprType(vprType),
+      extendLagsPastMaturity(extendLagsPastMaturity)
 {
 }

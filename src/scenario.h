@@ -22,15 +22,17 @@ public:
            double dq = 0.0,
            double adv = 0.0,
            int scenarioLength = 720,
-           VPRType vprType = CPR);
+           VPRType vprType = CPR,
+           bool extendLagsPastMaturity = false);
   Scenario(std::vector<double> vprVector,
            std::vector<double> cdrVector,
            std::vector<double> sevVector,
            std::vector<int> lagVector,
            std::vector<double> dqVector,
            std::vector<double> advVector,
-           int ScenarioLength,
-           VPRType vprType);
+           int ScenarioLength = 720,
+           VPRType vprType = CPR,
+           bool extendLagsPastMaturity = false);
   friend class CashFlowEngine;
 
 private:
@@ -42,6 +44,7 @@ private:
   std::vector<double> advVector;
   int scenarioLength;
   VPRType vprType;
+  bool extendLagsPastMaturity;
 };
 
 #endif
