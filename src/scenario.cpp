@@ -53,16 +53,17 @@ void Scenario::prettyPrint()
         vprVectorSummary.size(), cdrVectorSummary.size(), sevVectorSummary.size(),
         lagVectorSummary.size(), dqVectorSummary.size(), advVectorSummary.size()};
     size_t longestDescriptionSize = *std::max_element(summaryLengths.begin(), summaryLengths.end());
-    std::string border = std::string(longestDescriptionSize + 10, '*');
+    std::string border = std::string(longestDescriptionSize + 15, '*');
     std::cout
         << std::endl
         << border << std::endl
-        << std::left << std::setw(7) << "VPR: " << std::setw(longestDescriptionSize) << vprVectorSummary << std::endl
-        << std::left << std::setw(7) << "CDR: " << std::setw(longestDescriptionSize) << cdrVectorSummary << std::endl
-        << std::left << std::setw(7) << "SEV: " << std::setw(longestDescriptionSize) << sevVectorSummary << std::endl
-        << std::left << std::setw(7) << "LAG: " << std::setw(longestDescriptionSize) << lagVectorSummary << std::endl
-        << std::left << std::setw(7) << "DQ: " << std::setw(longestDescriptionSize) << dqVectorSummary << std::endl
-        << std::left << std::setw(7) << "ADV: " << std::setw(longestDescriptionSize) << advVectorSummary << std::endl
+        << std::left << std::setw(10) << "VPR: " << std::setw(longestDescriptionSize) << vprVectorSummary << std::endl
+        << std::left << std::setw(10) << "CDR: " << std::setw(longestDescriptionSize) << cdrVectorSummary << std::endl
+        << std::left << std::setw(10) << "SEV: " << std::setw(longestDescriptionSize) << sevVectorSummary << std::endl
+        << std::left << std::setw(10) << "LAG: " << std::setw(longestDescriptionSize) << lagVectorSummary << std::endl
+        << std::left << std::setw(10) << "DQ: " << std::setw(longestDescriptionSize) << dqVectorSummary << std::endl
+        << std::left << std::setw(10) << "ADV: " << std::setw(longestDescriptionSize) << advVectorSummary << std::endl
+        << std::left << std::setw(10) << "EXTEND: " << std::setw(longestDescriptionSize) << (extendLagsPastMaturity ? "TRUE": "FALSE") << std::endl
         << border << std::endl
         << std::endl;
 }
