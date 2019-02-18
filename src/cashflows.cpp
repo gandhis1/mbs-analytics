@@ -17,7 +17,9 @@ void CashFlows::prettyPrint()
               << std::left << std::setw(WIDTH) << std::setfill(' ') << "Sched Prin"
               << std::left << std::setw(WIDTH) << std::setfill(' ') << "Unsched Prin"
               << std::left << std::setw(WIDTH) << std::setfill(' ') << "Balloon Prin"
+              << std::left << std::setw(WIDTH) << std::setfill(' ') << "Recovery Prin"
               << std::left << std::setw(WIDTH) << std::setfill(' ') << "Total Prin"
+              << std::left << std::setw(WIDTH) << std::setfill(' ') << "Default Amount"
               << std::left << std::setw(WIDTH) << std::setfill(' ') << "Realized Loss"
               << std::left << std::setw(WIDTH) << std::setfill(' ') << "Gross Coupon"
               << std::left << std::setw(WIDTH) << std::setfill(' ') << "Net Coupon"
@@ -27,7 +29,7 @@ void CashFlows::prettyPrint()
               << std::left << std::setw(WIDTH) << std::setfill(' ') << "Prepay Penalty"
               << std::left << std::setw(WIDTH) << std::setfill(' ') << "Penalty Rate"
               << std::endl;
-    for (auto &cashflow: periodicCashflows)
+    for (auto &cashflow : periodicCashflows)
     {
         std::cout
             << std::left << std::setw(10) << std::setprecision(2) << std::fixed << std::setfill(' ') << cashflow.period
@@ -39,8 +41,10 @@ void CashFlows::prettyPrint()
             << std::left << std::setw(WIDTH) << std::setprecision(2) << std::fixed << std::setfill(' ') << cashflow.scheduledPrincipal
             << std::left << std::setw(WIDTH) << std::setprecision(2) << std::fixed << std::setfill(' ') << cashflow.unscheduledPrincipal
             << std::left << std::setw(WIDTH) << std::setprecision(2) << std::fixed << std::setfill(' ') << cashflow.balloonPrincipal
+            << std::left << std::setw(WIDTH) << std::setprecision(2) << std::fixed << std::setfill(' ') << cashflow.recoveryPrincipal
             << std::left << std::setw(WIDTH) << std::setprecision(2) << std::fixed << std::setfill(' ') << cashflow.totalPrincipal
-            << std::left << std::setw(WIDTH) << std::setprecision(2) << std::fixed << std::setfill(' ') << cashflow.loss
+            << std::left << std::setw(WIDTH) << std::setprecision(2) << std::fixed << std::setfill(' ') << cashflow.defaultAmount
+            << std::left << std::setw(WIDTH) << std::setprecision(2) << std::fixed << std::setfill(' ') << cashflow.realizedLoss
             << std::left << std::setw(WIDTH) << std::setprecision(4) << std::fixed << std::setfill(' ') << cashflow.grossCoupon
             << std::left << std::setw(WIDTH) << std::setprecision(4) << std::fixed << std::setfill(' ') << cashflow.netCoupon
             << std::left << std::setw(WIDTH) << std::setprecision(2) << std::fixed << std::setfill(' ') << cashflow.scheduledPayment

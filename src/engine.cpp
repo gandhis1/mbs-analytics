@@ -36,8 +36,10 @@ CashFlows CashFlowEngine::runCashflows(
             double scheduledPrincipal = 0.0;
             double unscheduledPrincipal = 0.0;
             double balloonPrincipal = 0.0;
+            double defaultAmount = 0.0;
+            double realizedLoss = 0.0;
+            double recoveryPrincipal = 0.0;
             double scheduledPayment = 0.0;
-            double loss = 0.0;
             double prepayPenalty = 0.0;
             double penaltyRate = 0.0;
             double performingFraction = 1.0;
@@ -65,6 +67,7 @@ CashFlows CashFlowEngine::runCashflows(
                     PrepaymentProvision& currentPrepaymentProvision = *PrepaymentProvision::getCurrentPrepaymentProvision(loan.originalPrepaymentProvisions, loan.currentLoanAge + period);
                     double smm = currentPrepaymentProvision.canVoluntarilyPrepay() ? Utilities::changeCompoundingBasis(scenario.vprVector[period], 1, 12) : 0.0;
                     double mdr = Utilities::changeCompoundingBasis(scenario.cdrVector[period], 1, 12);
+                    double sev = scenario.sevVector[period];
 
                     // Calculate all cash flows based on the current fractions
                     beginningBalance = endingBalance;
@@ -85,7 +88,9 @@ CashFlows CashFlowEngine::runCashflows(
                     }
                     unscheduledPrincipal = smm * (beginningBalance - scheduledPrincipal);
                     balloonPrincipal = 0.0;
-                    loss = 0.0;
+                    defaultAmount = mdr * (beginningBalance - scheduledPrincipal);
+                    realizedLoss = defaultAmount * sev;
+                    recoveryPrincipal = defaultAmount - realizedLoss;
                     if (unscheduledPrincipal > 0.0)
                     {
                         prepayPenalty = currentPrepaymentProvision.calculatePrepaymentPenalty(unscheduledPrincipal);
@@ -130,9 +135,11 @@ CashFlows CashFlowEngine::runCashflows(
                 periodicCashflow.scheduledPrincipal = scheduledPrincipal;
                 periodicCashflow.unscheduledPrincipal = unscheduledPrincipal;
                 periodicCashflow.balloonPrincipal = balloonPrincipal;
-                periodicCashflow.totalPrincipal = scheduledPrincipal + unscheduledPrincipal + balloonPrincipal;
+                periodicCashflow.defaultAmount = defaultAmount;
+                periodicCashflow.realizedLoss = realizedLoss;
+                periodicCashflow.recoveryPrincipal = recoveryPrincipal;
+                periodicCashflow.totalPrincipal = scheduledPrincipal + unscheduledPrincipal + balloonPrincipal + recoveryPrincipal;
                 periodicCashflow.scheduledPayment = scheduledPayment;
-                periodicCashflow.loss = loss;
                 periodicCashflow.prepayPenalty = prepayPenalty;
                 periodicCashflow.penaltyRate = penaltyRate;
                 loanFlows[loan.id].periodicCashflows.push_back(periodicCashflow);

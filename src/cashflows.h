@@ -20,9 +20,11 @@ public:
   double scheduledPrincipal;
   double unscheduledPrincipal;
   double balloonPrincipal;
+  double recoveryPrincipal;
   double totalPrincipal;
   double scheduledPayment;
-  double loss;
+  double defaultAmount;
+  double realizedLoss;
   double prepayPenalty;
   double penaltyRate;
 };
