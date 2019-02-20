@@ -148,7 +148,7 @@ CashFlows CashFlowEngine::runCashflows(
                 periodicCashflow.realizedLoss = realizedLossByPeriod.count(period) ? realizedLossByPeriod[period] : ((period > 0) ? 0.0 : NAN);
                 periodicCashflow.recoveryPrincipal = recoveryPrincipalByPeriod.count(period) ? recoveryPrincipalByPeriod[period] : ((period > 0) ? 0.0 : NAN);
                 loanFlows[loan.id].periodicCashflows.emplace_back(periodicCashflow);
-                // Only break off the amort if the ending balance is zero or there are still recoveries due in future
+                // Only break off the projection if the ending balance is zero or there are not any more recoveries due in the future
                 int maxRecoveryPeriod = recoveryPrincipalByPeriod.size() > 0 ? (*--recoveryPrincipalByPeriod.end()).first : 0;
                 if (endingBalance < Utilities::EPSILON && (!scenario.extendLagsPastMaturity or period >= maxRecoveryPeriod))
                 {
