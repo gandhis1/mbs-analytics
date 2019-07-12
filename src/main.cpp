@@ -104,7 +104,7 @@ int main(int argc, char *argv[])
     int currentLoanAge = 28;
     double grossCoupon = 0.0496;
     double feeStrip = 0.0496 - 0.0248;
-    std::string originalPrepaymentString = "L(24) 5%(24) 4%(24) 3%(12) 2%(12) 1%(12) O(12)";
+    std::string originalPrepaymentString = "YM(54) O(6)";
     Loan loan(loanID, originalBalance, cutoffBalance, factorDate, originalLoanTerm, originalAmortTerm, originalIOTerm, currentLoanAge, grossCoupon, feeStrip, ACTUAL_360, originalPrepaymentString);
     Pool testPool = Pool(poolName); // For now create a dummy pool
     testPool.addLoan(loan);
