@@ -5,10 +5,17 @@ Ability to generate scenario/assumption-dependent cash flows and (eventually) ca
 
 This is a work-in-progress, and many things have yet to be implemented. Basic amortization and CPR/CDR assumptions have been implemented, as well as basic prepay penalty calculations.
 
+
+- Create C# wrapper for DLL library
+- Calculate periodic + cumulative VPRs/CDRs during projection
+- Delinquency and advancing
+    - Calculate non-performing fraction (perhaps overlap with defaulted fraction)
+    - Do not advance on non-performing balance
+    - Calculate optimal (100% advancing) interest
+- Distribute all recoveryPrincipal and realize all losses at maturity depending on extendLagsPastMaturity
 - Yield curve (CMT tenors + spot/par rates) for YM calculations
   - Basic yield maintenance calculations for FNMA YM type
   - Basic yield maintenance calculations for standard CMBS present value method
-- Delinquency and advancing
 - Acquire factor data and loan terms directly from GSE web sites
 - Use real first payment and maturity dates and derive loan age instead of an input
 - Proper payment date calculation logic
