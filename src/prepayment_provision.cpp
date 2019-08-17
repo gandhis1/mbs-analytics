@@ -1,3 +1,4 @@
+#include "loan.h"
 #include "prepayment_provision.h"
 
 #include <algorithm>
@@ -6,9 +7,16 @@
 #include <sstream>
 
 PrepaymentProvision::PrepaymentProvision(PrepaymentProvisionType type, int length) : type(type), length(length) {}
-double PrepaymentProvision::calculatePrepaymentPenalty(double voluntaryPrepay)
+double PrepaymentProvision::calculatePrepaymentPenalty(const Loan& loan, int period, double voluntaryPrepay)
 {
-    return getVoluntaryPenaltyRate() * voluntaryPrepay;
+    return getVoluntaryPenaltyRate(loan, period) * voluntaryPrepay;
+}
+double PrepaymentProvision::getVoluntaryPenaltyRate(const Loan& loan, int period) {
+    // By default paramters unused, so silence compiler warning
+    // However sub-classes for yield and spread maintenance will override this
+    (void)loan;
+    (void)period; 
+    return getVoluntaryPenaltyRate();
 }
 PrepaymentProvisionType PrepaymentProvision::getType() { return type; }
 
@@ -37,7 +45,9 @@ double FixedPenalty::getVoluntaryPenaltyRate() { return penaltyRate; }
 YieldMaintenance::YieldMaintenance(int length) : PrepaymentProvision(YIELD_MAINTENANCE, length) {}
 std::string YieldMaintenance::summarize() { return "YM(" + std::to_string(length) + ")"; }
 bool YieldMaintenance::canVoluntarilyPrepay() { return true; }
-double YieldMaintenance::getVoluntaryPenaltyRate() { return 0.0; } // TODO
+double YieldMaintenance::getVoluntaryPenaltyRate() {
+    return 0.0;
+}
 
 Open::Open(int length) : PrepaymentProvision(OPEN, length) {}
 std::string Open::summarize() { return "O(" + std::to_string(length) + ")"; }

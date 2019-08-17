@@ -6,6 +6,8 @@
 #include <memory>
 #include <vector>
 
+class Loan;  // Forward declaration to avoid circular header imports
+
 enum PrepaymentProvisionType
 {
     LOCKOUT,
@@ -20,34 +22,19 @@ class PrepaymentProvision
 protected:
     PrepaymentProvisionType type;
     int length;
+    virtual double getVoluntaryPenaltyRate(const Loan& loan, int period);
     virtual double getVoluntaryPenaltyRate() = 0;
 
 public:
     PrepaymentProvision(PrepaymentProvisionType type, int length);
-    
+
+    friend class Loan;
+
     virtual bool canVoluntarilyPrepay() = 0;
     virtual std::string summarize() = 0;
-    double calculatePrepaymentPenalty(double voluntaryPrepay);
+    double calculatePrepaymentPenalty(const Loan &loan, int period, double voluntaryPrepay);
     PrepaymentProvisionType getType();
     int getLength();
-    template <typename Container>
-    static std::shared_ptr<PrepaymentProvision> getCurrentPrepaymentProvision(Container &container, int loanAge)
-    {
-        // TODO: This function is inefficient as it is constantly re-indexing the vector - but works for now
-        int cumulativePayments = 0;
-        for (unsigned short i = 0; i < container.size(); ++i)
-        {
-            if (loanAge > cumulativePayments && loanAge <= cumulativePayments + container[i]->length)
-            {
-                return container[i];
-            }
-            else
-            {
-                cumulativePayments += container[i]->length;
-            }
-        }
-        return container.back();
-    }
 };
 
 class Lockout : public PrepaymentProvision
