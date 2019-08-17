@@ -63,7 +63,7 @@ CashFlows CashFlowEngine::runCashflows(
                     double accrualFraction = accrualDays / 360.0;
 
                     // Handle the speeds calculations
-                    PrepaymentProvision &currentPrepaymentProvision = *PrepaymentProvision::getCurrentPrepaymentProvision(loan.originalPrepaymentProvisions, loan.currentLoanAge + period);
+                    PrepaymentProvision &currentPrepaymentProvision = *loan.getCurrentPrepaymentProvision(period);
                     double smm = currentPrepaymentProvision.canVoluntarilyPrepay() ? Utilities::changeCompoundingBasis(scenario.vprVector[period], 1, 12) : 0.0;
                     double mdr = Utilities::changeCompoundingBasis(scenario.cdrVector[period], 1, 12);
                     double sev = scenario.sevVector[period];
@@ -84,7 +84,12 @@ CashFlows CashFlowEngine::runCashflows(
                         defaultAmount = mdr * (beginningBalance - scheduledPrincipal);
                         realizedLossByPeriod[period + lag] = defaultAmount * sev;
                         recoveryPrincipalByPeriod[period + lag] = defaultAmount * (1 - sev);
-                        prepayPenalty = (unscheduledPrincipal > 0.0) ? currentPrepaymentProvision.calculatePrepaymentPenalty(unscheduledPrincipal) : 0.0;
+                        if (unscheduledPrincipal > 0.0) {
+                            prepayPenalty = currentPrepaymentProvision.calculatePrepaymentPenalty(loan, period, unscheduledPrincipal);
+                        }
+                        else {
+                            prepayPenalty = 0.0;
+                        }
                         endingBalance = beginningBalance - scheduledPrincipal - unscheduledPrincipal;
 
                         // Adjust the ending balance fractions
