@@ -1,7 +1,7 @@
 #include <memory>
-#include <sstream>
 #include <stdexcept>
 #include "loan.h"
+#include "prepayment_provision.h"
 #include "utilities.h"
 
 Loan::Loan(std::string id,
@@ -43,4 +43,22 @@ Loan::Loan(std::string id,
         this->periodicAmortizingDebtService = Utilities::calculatePayment(originalBalance, originalAmortTerm, periodicGrossCoupon);
     }
     originalPrepaymentProvisions = parsePrepaymentString(originalPrepaymentString);
+}
+
+std::shared_ptr<PrepaymentProvision> Loan::getCurrentPrepaymentProvision(int period) {
+    // TODO: This function is inefficient as it is constantly re-indexing the vector - but works for now
+    int loanAge = currentLoanAge + period;
+    int cumulativePayments = 0;
+    for (unsigned short i = 0; i < originalPrepaymentProvisions.size(); ++i)
+    {
+        if (loanAge > cumulativePayments && loanAge <= cumulativePayments + originalPrepaymentProvisions[i]->length)
+        {
+            return originalPrepaymentProvisions[i];
+        }
+        else
+        {
+            cumulativePayments += originalPrepaymentProvisions[i]->length;
+        }
+    }
+    return originalPrepaymentProvisions.back();
 }
