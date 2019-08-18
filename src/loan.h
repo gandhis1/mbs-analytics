@@ -40,7 +40,7 @@ private:
   PaymentFrequency paymentFrequency;
   int accrualStartDay;
 
-  std::shared_ptr<PrepaymentProvision> getCurrentPrepaymentProvision(int period);
+  std::shared_ptr<PrepaymentProvision> getCurrentPrepaymentProvision(int period) const;
 
 public:
   Loan() = default;

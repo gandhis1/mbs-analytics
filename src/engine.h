@@ -9,9 +9,8 @@
 class CashFlowEngine
 {
 public:
-  CashFlows runCashflows(
-      Deal &deal,
-      Scenario &scenario);
+  CashFlows runCashflows(const Deal &deal, const Scenario &scenario);
+  CashFlows amortizeLoan(const Loan &loan, const Scenario &scenario);
 };
 
 #endif

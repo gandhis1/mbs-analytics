@@ -45,7 +45,8 @@ Loan::Loan(std::string id,
     originalPrepaymentProvisions = parsePrepaymentString(originalPrepaymentString);
 }
 
-std::shared_ptr<PrepaymentProvision> Loan::getCurrentPrepaymentProvision(int period) {
+std::shared_ptr<PrepaymentProvision> Loan::getCurrentPrepaymentProvision(int period) const
+{
     // TODO: This function is inefficient as it is constantly re-indexing the vector - but works for now
     int loanAge = currentLoanAge + period;
     int cumulativePayments = 0;
