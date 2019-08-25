@@ -33,3 +33,7 @@
 
 # IDE files
 .vscode
+
+# .NET Core build
+bin/
+obj/
