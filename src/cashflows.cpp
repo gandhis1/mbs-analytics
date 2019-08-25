@@ -1,6 +1,7 @@
 #include <ctime>
 #include <iostream>
 #include <iomanip>
+#include <sstream>
 
 #include "cashflows.h"
 #include "utilities.h"
@@ -33,34 +34,36 @@ double CashFlow::penaltyRate()
     return prepayPenalty / unscheduledPrincipal;
 }
 
-void CashFlows::prettyPrint()
+std::string CashFlows::prettyDescription()
 {
+    std::ostringstream textstream;
     const int WIDTH = 17;
-    std::cout << std::left << std::setw(10) << std::setfill(' ') << "Period"
-              << std::left << std::setw(WIDTH) << std::setfill(' ') << "Payment Date"
-              << std::left << std::setw(WIDTH) << std::setfill(' ') << "Accrual Start"
-              << std::left << std::setw(WIDTH) << std::setfill(' ') << "Accrual End"
-              << std::left << std::setw(WIDTH) << std::setfill(' ') << "Accrual Days"
-              << std::left << std::setw(WIDTH) << std::setfill(' ') << "Ending Balance"
-              << std::left << std::setw(WIDTH) << std::setfill(' ') << "Sched Prin"
-              << std::left << std::setw(WIDTH) << std::setfill(' ') << "Unsched Prin"
-              << std::left << std::setw(WIDTH) << std::setfill(' ') << "Balloon Prin"
-              << std::left << std::setw(WIDTH) << std::setfill(' ') << "Recovery Prin"
-              << std::left << std::setw(WIDTH) << std::setfill(' ') << "Total Prin"
-              << std::left << std::setw(WIDTH) << std::setfill(' ') << "Default Amount"
-              << std::left << std::setw(WIDTH) << std::setfill(' ') << "Realized Loss"
-              << std::left << std::setw(WIDTH) << std::setfill(' ') << "Gross Coupon"
-              << std::left << std::setw(WIDTH) << std::setfill(' ') << "Net Coupon"
-              << std::left << std::setw(WIDTH) << std::setfill(' ') << "Sched Payment"
-              << std::left << std::setw(WIDTH) << std::setfill(' ') << "Gross Interest"
-              << std::left << std::setw(WIDTH) << std::setfill(' ') << "Net Interest"
-              << std::left << std::setw(WIDTH) << std::setfill(' ') << "Prepay Penalty"
-              << std::left << std::setw(WIDTH) << std::setfill(' ') << "Penalty Rate"
-              << std::left << std::setw(WIDTH) << std::setfill(' ') << "Total Cash Flow"
-              << std::endl;
+    textstream
+        << std::left << std::setw(10) << std::setfill(' ') << "Period"
+        << std::left << std::setw(WIDTH) << std::setfill(' ') << "Payment Date"
+        << std::left << std::setw(WIDTH) << std::setfill(' ') << "Accrual Start"
+        << std::left << std::setw(WIDTH) << std::setfill(' ') << "Accrual End"
+        << std::left << std::setw(WIDTH) << std::setfill(' ') << "Accrual Days"
+        << std::left << std::setw(WIDTH) << std::setfill(' ') << "Ending Balance"
+        << std::left << std::setw(WIDTH) << std::setfill(' ') << "Sched Prin"
+        << std::left << std::setw(WIDTH) << std::setfill(' ') << "Unsched Prin"
+        << std::left << std::setw(WIDTH) << std::setfill(' ') << "Balloon Prin"
+        << std::left << std::setw(WIDTH) << std::setfill(' ') << "Recovery Prin"
+        << std::left << std::setw(WIDTH) << std::setfill(' ') << "Total Prin"
+        << std::left << std::setw(WIDTH) << std::setfill(' ') << "Default Amount"
+        << std::left << std::setw(WIDTH) << std::setfill(' ') << "Realized Loss"
+        << std::left << std::setw(WIDTH) << std::setfill(' ') << "Gross Coupon"
+        << std::left << std::setw(WIDTH) << std::setfill(' ') << "Net Coupon"
+        << std::left << std::setw(WIDTH) << std::setfill(' ') << "Sched Payment"
+        << std::left << std::setw(WIDTH) << std::setfill(' ') << "Gross Interest"
+        << std::left << std::setw(WIDTH) << std::setfill(' ') << "Net Interest"
+        << std::left << std::setw(WIDTH) << std::setfill(' ') << "Prepay Penalty"
+        << std::left << std::setw(WIDTH) << std::setfill(' ') << "Penalty Rate"
+        << std::left << std::setw(WIDTH) << std::setfill(' ') << "Total Cash Flow"
+        << std::endl;
     for (auto &cashflow : periodicCashflows)
     {
-        std::cout
+        textstream
             << std::left << std::setw(10) << std::setprecision(2) << std::fixed << std::setfill(' ') << cashflow.period
             << std::left << std::setw(WIDTH) << std::setprecision(2) << std::fixed << std::setfill(' ') << Utilities::toYYYYMMDD(cashflow.paymentDate)
             << std::left << std::setw(WIDTH) << std::setprecision(2) << std::fixed << std::setfill(' ') << Utilities::toYYYYMMDD(cashflow.accrualStartDate)
@@ -84,6 +87,12 @@ void CashFlows::prettyPrint()
             << std::left << std::setw(WIDTH) << std::setprecision(2) << std::fixed << std::setfill(' ') << cashflow.totalCashflow()
             << std::endl;
     }
+    return textstream.str();
+}
+
+void CashFlows::prettyPrint()
+{
+    std::cout << prettyDescription();
 }
 
 double CashFlows::weightedAverageLife(struct tm settleDate)

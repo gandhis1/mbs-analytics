@@ -21,7 +21,8 @@ public:
            double sev = 0.0,
            int lag = 0,
            double dq = 0.0,
-           double adv = 0.0,
+           double prinAdv = 100.0,
+           double intAdv = 100.0,
            VPRType vprType = CPR,
            bool extendLagsPastMaturity = true);
   Scenario(std::vector<double> vprVector,
@@ -29,9 +30,11 @@ public:
            std::vector<double> sevVector,
            std::vector<int> lagVector,
            std::vector<double> dqVector,
-           std::vector<double> advVector,
+           std::vector<double> prinAdvVector,
+           std::vector<double> intAdvVector,
            VPRType vprType = CPR,
            bool extendLagsPastMaturity = true);
+  std::string prettyDescription();
   void prettyPrint();
   friend class CashFlowEngine;
 
@@ -42,7 +45,8 @@ private:
   std::vector<double> sevVector;
   std::vector<int> lagVector;
   std::vector<double> dqVector;
-  std::vector<double> advVector;
+  std::vector<double> prinAdvVector;
+  std::vector<double> intAdvVector;
   VPRType vprType;
   bool extendLagsPastMaturity;
   template <typename T>

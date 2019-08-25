@@ -6,7 +6,7 @@
 #include "cashflows.h"
 #include "utilities.h"
 
-CashFlows CashFlowEngine::runCashflows(const Deal &deal, const Scenario &scenario)
+CashFlows CashFlowEngine::runCashFlows(const Deal &deal, const Scenario &scenario)
 {
     // Cash flows will be generated in separate stages:
     // First - run the loan-level using the scenario assumptions
@@ -20,14 +20,14 @@ CashFlows CashFlowEngine::runCashflows(const Deal &deal, const Scenario &scenari
         std::map<std::string, CashFlows> loanFlows;
         for (const Loan &loan : group.loans)
         {
-            loanFlows.emplace(loan.id, amortizeLoan(loan, scenario));
+            loanFlows.emplace(loan.id, runCashFlows(loan, scenario));
         }
         groupFlows[groupId] = CashFlows::aggregateCashFlows(loanFlows);
     }
     return groupFlows["all"]; // Temporary until a more well-structured object is available for each level of cash flows
 }
 
-CashFlows CashFlowEngine::amortizeLoan(const Loan &loan, const Scenario &scenario)
+CashFlows CashFlowEngine::runCashFlows(const Loan &loan, const Scenario &scenario)
 {
     struct tm paymentDate = loan.factorDate;
     struct tm accrualStartDate = Utilities::addDateInterval(paymentDate, 0, -loan.paymentFrequency, 0);
@@ -50,6 +50,8 @@ CashFlows CashFlowEngine::amortizeLoan(const Loan &loan, const Scenario &scenari
     double performingFraction = 1.0;
     double prepaidFraction = 0.0;
     double defaultedFraction = 0.0;
+    double paysPrincipalFraction = 0.0;
+    double paysInterestFraction = 0.0;
 
     CashFlows singleLoanFlows;
     singleLoanFlows.periodicCashflows.reserve(loan.originalLoanTerm - loan.currentLoanAge); // Reserve memory to avoid copy
@@ -76,18 +78,30 @@ CashFlows CashFlowEngine::amortizeLoan(const Loan &loan, const Scenario &scenari
             double smm = currentPrepaymentProvision.canVoluntarilyPrepay() ? Utilities::changeCompoundingBasis(scenario.vprVector[period], 1, 12) : 0.0;
             double mdr = Utilities::changeCompoundingBasis(scenario.cdrVector[period], 1, 12);
             double sev = scenario.sevVector[period];
+            //double dq = scenario.dqVector[period];
+            double prinAdv = scenario.prinAdvVector[period];
+            double intAdv = scenario.intAdvVector[period];
             int lag = scenario.lagVector[period];
 
             // Calculate all cash flows based on the current fractions
             beginningBalance = endingBalance;
             if (beginningBalance > Utilities::EPSILON)
             {
+                // Adjust the ending balance fractions
+                double newPrepays = performingFraction * smm;
+                double newDefaults = performingFraction * mdr;
+                prepaidFraction += newPrepays;
+                defaultedFraction += newDefaults;
+                performingFraction -= (newPrepays + newDefaults);
+                paysPrincipalFraction = performingFraction + newDefaults * prinAdv;
+                paysInterestFraction = performingFraction + newDefaults * intAdv;  // TODO: Test this and handle DQ properly
+
                 grossCoupon = loan.grossCoupon;
                 netCoupon = loan.netCoupon;
-                grossInterest = loan.grossCoupon * accrualFraction * beginningBalance;
-                netInterest = loan.netCoupon * accrualFraction * beginningBalance;
+                grossInterest = loan.grossCoupon * accrualFraction * beginningBalance * paysInterestFraction;
+                netInterest = loan.netCoupon * accrualFraction * beginningBalance * paysInterestFraction;
                 bool isInInterestOnlyPeriod = (loan.currentLoanAge + period) <= loan.originalIOTerm;
-                scheduledPrincipal = isInInterestOnlyPeriod ? 0.0 : std::max(loan.periodicAmortizingDebtService * performingFraction - grossInterest, 0.0);
+                scheduledPrincipal = isInInterestOnlyPeriod ? 0.0 : std::max(loan.periodicAmortizingDebtService * paysPrincipalFraction - grossInterest, 0.0);
                 unscheduledPrincipal = smm * (beginningBalance - scheduledPrincipal);
                 balloonPrincipal = 0.0;
                 defaultAmount = mdr * (beginningBalance - scheduledPrincipal);
@@ -102,13 +116,6 @@ CashFlows CashFlowEngine::amortizeLoan(const Loan &loan, const Scenario &scenari
                     prepayPenalty = 0.0;
                 }
                 endingBalance = beginningBalance - scheduledPrincipal - unscheduledPrincipal;
-
-                // Adjust the ending balance fractions
-                double newPrepays = performingFraction * smm;
-                double newDefaults = performingFraction * mdr;
-                prepaidFraction += newPrepays;
-                defaultedFraction += newDefaults;
-                performingFraction -= (newPrepays + newDefaults);
 
                 // Pay off the loan at the balloon date
                 if (loan.currentLoanAge + period >= loan.originalLoanTerm)

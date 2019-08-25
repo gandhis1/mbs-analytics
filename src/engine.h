@@ -3,14 +3,14 @@
 
 #include <map>
 #include "scenario.h"
-#include "pool.h"
+#include "deal.h"
 #include "cashflows.h"
 
 class CashFlowEngine
 {
 public:
-  CashFlows runCashflows(const Deal &deal, const Scenario &scenario);
-  CashFlows amortizeLoan(const Loan &loan, const Scenario &scenario);
+  CashFlows runCashFlows(const Deal &deal, const Scenario &scenario);
+  CashFlows runCashFlows(const Loan &loan, const Scenario &scenario);
 };
 
 #endif

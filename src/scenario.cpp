@@ -1,5 +1,6 @@
 #include <algorithm>
 #include <cmath>
+#include <sstream>
 #include <iostream>
 #include <iomanip>
 #include <iterator>
@@ -13,7 +14,8 @@ Scenario::Scenario(double vpr,
                    double sev,
                    int lag,
                    double dq,
-                   double adv,
+                   double prinAdv,
+                   double intAdv,
                    VPRType vprType,
                    bool extendLagsPastMaturity)
     : vprType(vprType), extendLagsPastMaturity(extendLagsPastMaturity)
@@ -23,7 +25,8 @@ Scenario::Scenario(double vpr,
     std::fill_n(std::back_inserter(sevVector), MAX_PERIODS, sev);
     std::fill_n(std::back_inserter(lagVector), MAX_PERIODS, lag);
     std::fill_n(std::back_inserter(dqVector), MAX_PERIODS, dq);
-    std::fill_n(std::back_inserter(advVector), MAX_PERIODS, adv);
+    std::fill_n(std::back_inserter(prinAdvVector), MAX_PERIODS, prinAdv);
+    std::fill_n(std::back_inserter(intAdvVector), MAX_PERIODS, intAdv);
 }
 
 // Full vector inputs
@@ -32,29 +35,35 @@ Scenario::Scenario(std::vector<double> vprVector,
                    std::vector<double> sevVector,
                    std::vector<int> lagVector,
                    std::vector<double> dqVector,
-                   std::vector<double> advVector,
+                   std::vector<double> prinAdvVector,
+                   std::vector<double> intAdvVector,
                    VPRType vprType,
                    bool extendLagsPastMaturity)
     : vprVector(vprVector), cdrVector(cdrVector), sevVector(sevVector),
-      lagVector(lagVector), dqVector(dqVector), advVector(advVector),
-      vprType(vprType), extendLagsPastMaturity(extendLagsPastMaturity)
+      lagVector(lagVector), dqVector(dqVector), prinAdvVector(prinAdvVector),
+      intAdvVector(intAdvVector), vprType(vprType),
+      extendLagsPastMaturity(extendLagsPastMaturity)
 {
 }
 
-void Scenario::prettyPrint()
+std::string Scenario::prettyDescription()
 {
     std::string vprVectorSummary = summarizeAssumptionVector(vprVector);
     std::string cdrVectorSummary = summarizeAssumptionVector(cdrVector);
     std::string sevVectorSummary = summarizeAssumptionVector(sevVector);
     std::string lagVectorSummary = summarizeAssumptionVector(lagVector);
     std::string dqVectorSummary = summarizeAssumptionVector(dqVector);
-    std::string advVectorSummary = summarizeAssumptionVector(advVector);
+    std::string prinAdvVectorSummary = summarizeAssumptionVector(prinAdvVector);
+    std::string intAdvVectorSummary = summarizeAssumptionVector(intAdvVector);
     std::vector<unsigned long long> summaryLengths = {
         vprVectorSummary.size(), cdrVectorSummary.size(), sevVectorSummary.size(),
-        lagVectorSummary.size(), dqVectorSummary.size(), advVectorSummary.size()};
+        lagVectorSummary.size(), dqVectorSummary.size(), prinAdvVectorSummary.size(),
+        intAdvVectorSummary.size()
+    };
     size_t longestDescriptionSize = *std::max_element(summaryLengths.begin(), summaryLengths.end());
-    std::string border = std::string(longestDescriptionSize + 15, '*');
-    std::cout
+    std::string border = std::string(longestDescriptionSize + 12, '*');
+    std::ostringstream textstream; 
+    textstream
         << std::endl
         << border << std::endl
         << std::left << std::setw(10) << "VPR: " << std::setw(longestDescriptionSize) << vprVectorSummary << std::endl
@@ -62,8 +71,15 @@ void Scenario::prettyPrint()
         << std::left << std::setw(10) << "SEV: " << std::setw(longestDescriptionSize) << sevVectorSummary << std::endl
         << std::left << std::setw(10) << "LAG: " << std::setw(longestDescriptionSize) << lagVectorSummary << std::endl
         << std::left << std::setw(10) << "DQ: " << std::setw(longestDescriptionSize) << dqVectorSummary << std::endl
-        << std::left << std::setw(10) << "ADV: " << std::setw(longestDescriptionSize) << advVectorSummary << std::endl
-        << std::left << std::setw(10) << "EXTEND: " << std::setw(longestDescriptionSize) << (extendLagsPastMaturity ? "TRUE": "FALSE") << std::endl
+        << std::left << std::setw(10) << "ADV PRIN: " << std::setw(longestDescriptionSize) << intAdvVectorSummary << std::endl
+        << std::left << std::setw(10) << "ADV INT: " << std::setw(longestDescriptionSize) << prinAdvVectorSummary << std::endl
+        << std::left << std::setw(10) << "EXTEND: " << std::setw(longestDescriptionSize) << (extendLagsPastMaturity ? "TRUE" : "FALSE") << std::endl
         << border << std::endl
         << std::endl;
+    return textstream.str();
+}
+
+void Scenario::prettyPrint()
+{
+    std::cout << prettyDescription();
 }
