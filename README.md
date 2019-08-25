@@ -1,4 +1,6 @@
 # mbs-analytics
+[![Build Status](https://travis-ci.com/gandhis1/mbs-analytics.svg?branch=master)](https://travis-ci.com/gandhis1/mbs-analytics)
+
 Generate scenario/assumption-dependent cash flows and calculate price, yield, WAL, and other risk measures on MBS.
 
 #### Technology:
@@ -18,6 +20,7 @@ This is a work-in-progress, and many things have yet to be implemented. Basic am
 
 
 - Create C# wrapper for DLL library + marshal a struct type storing cashflows returned from C++ layer
+- Add unit/regression tests triggered from TravisCI
 - Calculate periodic + cumulative VPRs/CDRs during projection
 - Delinquency and advancing
     - Calculate non-performing fraction (perhaps overlap with defaulted fraction)
@@ -34,6 +37,5 @@ This is a work-in-progress, and many things have yet to be implemented. Basic am
 - Other speeds (CPJ, CPB, CPY, CPP)
 - Support forward rates, resets and recasts, and other features of ARM loans
 - Support true user inputs and scenario specification
-- Add regression tests
 - Proper WAL calc which supports each accrual basis, settlement dates
 - Calculation of all risk measures, including price-to-yield and back and duration

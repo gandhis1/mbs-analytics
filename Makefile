@@ -1,7 +1,9 @@
-CXX=g++
-CXXFLAGS=-std=c++14 -pedantic -Wall -Wextra -Werror
-LDFLAGS=
-LDLIBS=
+ifndef CXX
+	CXX=g++
+endif
+CXXFLAGS+=-std=c++14 -pedantic -Wall -Wextra -Werror -fPIC
+LDFLAGS+=
+LDLIBS+=
 MKDIR_P=mkdir -p
 RM_RF=rm -rf
 
@@ -12,7 +14,11 @@ BIN_DIR=bin
 SRC_FILES := $(wildcard $(SRC_DIR)/*.cpp)
 OBJ_FILES := $(patsubst $(SRC_DIR)/%.cpp,$(OBJ_DIR)/%.o,$(SRC_FILES))
 
-LIBRARY_NAME=mbs_analytics.dll
+ifeq ($(OS),Windows_NT)
+	LIBRARY_NAME=mbs_analytics.dll
+else
+	LIBRARY_NAME=mbs_analytics.so
+endif
 
 all: directories program
 directories: $(OBJ_DIR) $(BIN_DIR)
@@ -30,7 +36,7 @@ $(BIN_DIR):
 	$(MKDIR_P) $(BIN_DIR)
 
 $(BIN_DIR)/$(LIBRARY_NAME): $(OBJ_FILES)
-	g++ -shared $(LDFLAGS) $(LDLIBS) -o $@ $^
+	$(CXX) -shared $(LDFLAGS) $(LDLIBS) -o $@ $^
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.cpp
-	g++ $(CXXFLAGS) -c -o $@ $<
+	$(CXX) $(CXXFLAGS) -c -o $@ $<
