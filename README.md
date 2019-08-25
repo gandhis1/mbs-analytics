@@ -1,9 +1,20 @@
 # mbs-analytics
-Ability to generate scenario/assumption-dependent cash flows and (eventually) calculate price, yield, WAL, duration, and other risk measures on MBS.
+Generate scenario/assumption-dependent cash flows and calculate price, yield, WAL, and other risk measures on MBS.
+
+#### Technology:
+
+Code is developed using standard C++ and STL libraries, with a Windows-focused Makefile. The front-end CLI is developed in C# on .NET Core 2.2. All code should be largely cross-platform; however, explicit references to Windows-specific attributes (e.g. use of DLL extension) still need to be factored out and eliminated.
+
+#### Quick Start:
+
+- Clone and/or fork the repository, `cd` to the project root
+- `make` to build the C++ library
+- `cd ./src/frontend`
+- `dotnet run`
 
 #### To-Do List:
 
-This is a work-in-progress, and many things have yet to be implemented. Basic amortization and CPR/CDR assumptions have been implemented, as well as basic prepay penalty calculations.
+This is a work-in-progress, and many things have yet to be implemented. Basic amortization functionality has been implemented, but major work remaining includes a proper interface for parameterizing scenarios and loans, and full support of all market-standard cash flow functionality. Additionally, interfacing with freely available data portals (such as GSE web sites) is planned for the future.
 
 
 - Create C# wrapper for DLL library + marshal a struct type storing cashflows returned from C++ layer
