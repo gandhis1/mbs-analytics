@@ -6,7 +6,7 @@ Ability to generate scenario/assumption-dependent cash flows and (eventually) ca
 This is a work-in-progress, and many things have yet to be implemented. Basic amortization and CPR/CDR assumptions have been implemented, as well as basic prepay penalty calculations.
 
 
-- Create C# wrapper for DLL library
+- Create C# wrapper for DLL library + marshal a struct type storing cashflows returned from C++ layer
 - Calculate periodic + cumulative VPRs/CDRs during projection
 - Delinquency and advancing
     - Calculate non-performing fraction (perhaps overlap with defaulted fraction)
@@ -26,4 +26,3 @@ This is a work-in-progress, and many things have yet to be implemented. Basic am
 - Add regression tests
 - Proper WAL calc which supports each accrual basis, settlement dates
 - Calculation of all risk measures, including price-to-yield and back and duration
-- Delinquency and advancing assumptions
