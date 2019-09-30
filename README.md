@@ -22,10 +22,7 @@ This is a work-in-progress, and many things have yet to be implemented. Basic am
 - Create C# wrapper for DLL library + marshal a struct type storing cashflows returned from C++ layer
 - Add unit/regression tests triggered from TravisCI
 - Calculate periodic + cumulative VPRs/CDRs during projection
-- Delinquency and advancing
-    - Calculate non-performing fraction (perhaps overlap with defaulted fraction)
-    - Do not advance on non-performing balance
-    - Calculate optimal (100% advancing) interest
+- Delinquency and advancing - confirm correct calculations and check behavior w/r/t lags
 - Distribute all recoveryPrincipal and realize all losses at maturity depending on extendLagsPastMaturity
 - Yield curve (CMT tenors + spot/par rates) for YM calculations
   - Basic yield maintenance calculations for FNMA YM type
