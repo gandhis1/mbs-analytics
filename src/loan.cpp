@@ -63,3 +63,14 @@ std::shared_ptr<PrepaymentProvision> Loan::getCurrentPrepaymentProvision(int per
     }
     return originalPrepaymentProvisions.back();
 }
+
+
+std::string Loan::prettyDescription()
+{
+    return id;  // TODO: Add remaining loan attributes
+}
+
+void Loan::prettyPrint()
+{
+    std::cout << prettyDescription();
+}

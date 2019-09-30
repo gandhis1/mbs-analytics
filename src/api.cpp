@@ -33,12 +33,11 @@ const char* PrettyDescriptionScenario(Scenario* scenario)
     return scenario->prettyDescription().c_str();
 }
 
-Loan* CreateLoan()
+Loan* CreateLoan(const char* loanId, double originalBalance, double currentBalance) //, struct tm factorDate, int originalLoanTerm, int originalAmortTerm, int originalIOTerm, int currentLoanAge, double grossCoupon, double feeStrip, AccrualBasis accrualBasis, const char* originalPrepaymentString)
 {
-    // Initialize the test security
-    std::string loanID = "1717469130";
-    double originalBalance = 763000.00;
-    double cutoffBalance = 737056.10;
+    // std::string loanID = "1717469130";
+    // double originalBalance = 763000.00;
+    // double currentBalance = 737056.10;
     struct tm factorDate = Utilities::createTime(2019, 2, 1);
     int originalLoanTerm = 60;
     int originalAmortTerm = 360;
@@ -46,13 +45,19 @@ Loan* CreateLoan()
     int currentLoanAge = 28;
     double grossCoupon = 0.0496;
     double feeStrip = 0.0496 - 0.0248;
+    AccrualBasis accrualBasis = ACTUAL_360;
     std::string originalPrepaymentString = "YM(54) O(6)";
-    return new Loan(loanID, originalBalance, cutoffBalance, factorDate, originalLoanTerm, originalAmortTerm, originalIOTerm, currentLoanAge, grossCoupon, feeStrip, ACTUAL_360, originalPrepaymentString);
+    return new Loan(loanId, originalBalance, currentBalance, factorDate, originalLoanTerm, originalAmortTerm, originalIOTerm, currentLoanAge, grossCoupon, feeStrip, accrualBasis, originalPrepaymentString);
 }
 
 void DeleteLoan(Loan *loan)
 {
     delete loan;
+}
+
+const char* PrettyDescriptionLoan(Loan* loan)
+{
+    return loan->prettyDescription().c_str();
 }
 
 CashFlows *RunCashFlows(CashFlowEngine* engine, Loan* loan, Scenario *scenario)

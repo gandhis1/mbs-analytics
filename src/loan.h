@@ -59,6 +59,8 @@ public:
        std::experimental::optional<double> periodicAmortizingDebtService = std::experimental::nullopt,
        PaymentFrequency paymentFrequency = MONTHLY,
        int accrualStartDay = 1);
+  std::string prettyDescription();
+  void prettyPrint();
 
   friend class CashFlowEngine;
 };

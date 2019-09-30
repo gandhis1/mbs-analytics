@@ -18,8 +18,9 @@ extern "C"
     EXPORT void DeleteScenario (Scenario* scenario);
     EXPORT const char* PrettyDescriptionScenario(Scenario *scenario);
 
-    EXPORT Loan *CreateLoan();
+    EXPORT Loan *CreateLoan(const char *loanId, double originalBalance, double currentBalance); //, struct tm factorDate, int originalLoanTerm, int originalAmortTerm, int originalIOTerm, int currentLoanAge, double grossCoupon, double feeStrip, AccrualBasis accrualBasis, const char* originalPrepaymentString);
     EXPORT void DeleteLoan (Loan* loan);
+    EXPORT const char *PrettyDescriptionLoan(Loan *loan);
 
     EXPORT CashFlows *RunCashFlows(CashFlowEngine* engine, Loan* loan, Scenario *scenario);
     EXPORT void DeleteCashFlows (CashFlows* cashflows);
