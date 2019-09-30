@@ -30,9 +30,9 @@ CashFlows CashFlowEngine::runCashFlows(const Deal &deal, const Scenario &scenari
 CashFlows CashFlowEngine::runCashFlows(const Loan &loan, const Scenario &scenario)
 {
     struct tm paymentDate = loan.factorDate;
-    struct tm accrualStartDate = Utilities::addDateInterval(paymentDate, 0, -loan.paymentFrequency, 0);
+    struct tm accrualStartDate = Utilities::DateTime::addDateInterval(paymentDate, 0, -loan.paymentFrequency, 0);
     accrualStartDate.tm_mday = loan.accrualStartDay;
-    struct tm accrualEndDate = Utilities::addDateInterval(paymentDate, 0, 0, -paymentDate.tm_mday);
+    struct tm accrualEndDate = Utilities::DateTime::addDateInterval(paymentDate, 0, 0, -paymentDate.tm_mday);
     unsigned short accrualDays = 0;
     double beginningBalance = loan.currentBalance;
     double endingBalance = loan.currentBalance;
@@ -64,15 +64,15 @@ CashFlows CashFlowEngine::runCashFlows(const Loan &loan, const Scenario &scenari
         if (period >= 1)
         {
             // Handle the dates first
-            paymentDate = Utilities::addDateInterval(paymentDate, 0, loan.paymentFrequency, 0);
-            accrualStartDate = Utilities::addDateInterval(accrualEndDate, 0, 0, 1);
+            paymentDate = Utilities::DateTime::addDateInterval(paymentDate, 0, loan.paymentFrequency, 0);
+            accrualStartDate = Utilities::DateTime::addDateInterval(accrualEndDate, 0, 0, 1);
             accrualEndDate = paymentDate;
             accrualEndDate.tm_mday = 1;
-            accrualEndDate = Utilities::addDateInterval(accrualEndDate, 0, 0, -1);
+            accrualEndDate = Utilities::DateTime::addDateInterval(accrualEndDate, 0, 0, -1);
             accrualDays = 30; // Assume THIRTY_360 by default
             if (loan.accrualBasis == ACTUAL_360)
             {
-                accrualDays = Utilities::daysBetween(accrualStartDate, accrualEndDate, true);
+                accrualDays = Utilities::DateTime::daysBetween(accrualStartDate, accrualEndDate, true);
             }
             double accrualFraction = accrualDays / 360.0;
 

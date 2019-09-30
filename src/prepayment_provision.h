@@ -93,6 +93,7 @@ public:
     bool canVoluntarilyPrepay() override;
 };
 
+std::string summarizePrepaymentProvisions(std::vector<std::shared_ptr<PrepaymentProvision>>);
 std::vector<std::shared_ptr<PrepaymentProvision>> parsePrepaymentString(std::string);
 
 #endif

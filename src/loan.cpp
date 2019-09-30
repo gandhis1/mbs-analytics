@@ -1,5 +1,6 @@
+#include <iomanip>
+#include <iostream>
 #include <memory>
-#include <stdexcept>
 #include "loan.h"
 #include "prepayment_provision.h"
 #include "utilities.h"
@@ -64,10 +65,33 @@ std::shared_ptr<PrepaymentProvision> Loan::getCurrentPrepaymentProvision(int per
     return originalPrepaymentProvisions.back();
 }
 
-
 std::string Loan::prettyDescription()
 {
-    return id;  // TODO: Add remaining loan attributes
+    const int LABEL_WIDTH = 15; 
+    const int VALUE_WIDTH = 12;
+    std::string border = std::string(LABEL_WIDTH + VALUE_WIDTH, '*');
+    std::ostringstream textstream; 
+    textstream
+        << std::endl
+        << border << std::endl
+        << std::left << std::setw(LABEL_WIDTH) << "LOAN ID: " << std::setw(VALUE_WIDTH) << id << std::endl
+        << std::left << std::setw(LABEL_WIDTH) << "ORIG BAL: " << std::setw(VALUE_WIDTH) << originalBalance << std::endl
+        << std::left << std::setw(LABEL_WIDTH) << "CURR BAL: " << std::setw(VALUE_WIDTH) << currentBalance << std::endl
+        << std::left << std::setw(LABEL_WIDTH) << "FACTOR DATE: " << std::setw(VALUE_WIDTH) << Utilities::DateTime::toYYYYMMDD(factorDate) << std::endl
+        << std::left << std::setw(LABEL_WIDTH) << "ORIG TERM: " << std::setw(VALUE_WIDTH) << originalLoanTerm << std::endl
+        << std::left << std::setw(LABEL_WIDTH) << "ORIG AMORT: " << std::setw(VALUE_WIDTH) << originalAmortTerm << std::endl
+        << std::left << std::setw(LABEL_WIDTH) << "ORIG IO: " << std::setw(VALUE_WIDTH) << originalIOTerm << std::endl
+        << std::left << std::setw(LABEL_WIDTH) << "CURR AGE: " << std::setw(VALUE_WIDTH) << currentLoanAge << std::endl
+        << std::left << std::setw(LABEL_WIDTH) << "GROSS CPN: " << std::setw(VALUE_WIDTH) << grossCoupon << std::endl
+        << std::left << std::setw(LABEL_WIDTH) << "FEE STRIP: " << std::setw(VALUE_WIDTH) << feeStrip << std::endl
+        << std::left << std::setw(LABEL_WIDTH) << "NET CPN: " << std::setw(VALUE_WIDTH) << netCoupon << std::endl
+        << std::left << std::setw(LABEL_WIDTH) << "DAY COUNT: " << std::setw(VALUE_WIDTH) << accrualBasis << std::endl
+        << std::left << std::setw(LABEL_WIDTH) << "PAY FREQ: " << std::setw(VALUE_WIDTH) << paymentFrequency << std::endl
+        << std::left << std::setw(LABEL_WIDTH) << "ACCR START: " << std::setw(VALUE_WIDTH) << accrualStartDay << std::endl
+        << std::left << std::setw(LABEL_WIDTH) << "PENALTY STR: " << std::setw(VALUE_WIDTH) << summarizePrepaymentProvisions(originalPrepaymentProvisions) << std::endl
+        << border << std::endl
+        << std::endl;
+    return textstream.str();
 }
 
 void Loan::prettyPrint()

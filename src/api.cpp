@@ -1,4 +1,5 @@
 #include <string>
+#include <cstring>
 
 #include "api.h"
 #include "cashflows.h"
@@ -6,7 +7,7 @@
 #include "loan.h"
 #include "scenario.h"
 
-CashFlowEngine* CreateEngine()
+CashFlowEngine *CreateEngine()
 {
     return new CashFlowEngine();
 }
@@ -27,18 +28,17 @@ void DeleteScenario(Scenario *scenario)
     delete scenario;
 }
 
-
-const char* PrettyDescriptionScenario(Scenario* scenario)
+const char *PrettyDescriptionScenario(Scenario *scenario)
 {
-    return scenario->prettyDescription().c_str();
+    return strdup(scenario->prettyDescription().c_str());
 }
 
-Loan* CreateLoan(const char* loanId, double originalBalance, double currentBalance) //, struct tm factorDate, int originalLoanTerm, int originalAmortTerm, int originalIOTerm, int currentLoanAge, double grossCoupon, double feeStrip, AccrualBasis accrualBasis, const char* originalPrepaymentString)
+Loan *CreateLoan(const char *loanId, double originalBalance, double currentBalance) //, struct tm factorDate, int originalLoanTerm, int originalAmortTerm, int originalIOTerm, int currentLoanAge, double grossCoupon, double feeStrip, AccrualBasis accrualBasis, const char* originalPrepaymentString)
 {
     // std::string loanID = "1717469130";
     // double originalBalance = 763000.00;
     // double currentBalance = 737056.10;
-    struct tm factorDate = Utilities::createTime(2019, 2, 1);
+    struct tm factorDate = Utilities::DateTime::createTime(2019, 2, 1);
     int originalLoanTerm = 60;
     int originalAmortTerm = 360;
     int originalIOTerm = 0;
@@ -55,14 +55,14 @@ void DeleteLoan(Loan *loan)
     delete loan;
 }
 
-const char* PrettyDescriptionLoan(Loan* loan)
+const char *PrettyDescriptionLoan(Loan *loan)
 {
-    return loan->prettyDescription().c_str();
+    return strdup(loan->prettyDescription().c_str());
 }
 
-CashFlows *RunCashFlows(CashFlowEngine* engine, Loan* loan, Scenario *scenario)
+CashFlows *RunCashFlows(CashFlowEngine *engine, Loan *loan, Scenario *scenario)
 {
-    CashFlows* cashflows = new CashFlows(engine->runCashFlows(*loan, *scenario));
+    CashFlows *cashflows = new CashFlows(engine->runCashFlows(*loan, *scenario));
     return cashflows;
 }
 
@@ -71,7 +71,15 @@ void DeleteCashFlows(CashFlows *cashflows)
     delete cashflows;
 }
 
-const char* PrettyDescriptionCashFlows(CashFlows* cashflows)
+const char *PrettyDescriptionCashFlows(CashFlows *cashflows)
 {
-    return cashflows->prettyDescription().c_str();
+    return strdup(cashflows->prettyDescription().c_str());
+}
+
+char *strdup(const char *cStr)
+{
+    // WARNING: This can create a memory leak as one still needs to free()
+    int cStrLen = strlen(cStr);
+    char *cStrCopy = (char*)malloc(sizeof(*cStr) * cStrLen);
+    return strcpy(cStrCopy, cStr);
 }
