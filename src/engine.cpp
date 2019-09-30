@@ -50,6 +50,7 @@ CashFlows CashFlowEngine::runCashFlows(const Loan &loan, const Scenario &scenari
     double performingFraction = 1.0;
     double prepaidFraction = 0.0;
     double defaultedFraction = 0.0;
+    double delinquentFraction = 0.0;
     double paysPrincipalFraction = 0.0;
     double paysInterestFraction = 0.0;
 
@@ -78,7 +79,7 @@ CashFlows CashFlowEngine::runCashFlows(const Loan &loan, const Scenario &scenari
             double smm = currentPrepaymentProvision.canVoluntarilyPrepay() ? Utilities::changeCompoundingBasis(scenario.vprVector[period], 1, 12) : 0.0;
             double mdr = Utilities::changeCompoundingBasis(scenario.cdrVector[period], 1, 12);
             double sev = scenario.sevVector[period];
-            //double dq = scenario.dqVector[period];
+            double dq = scenario.dqVector[period];
             double prinAdv = scenario.prinAdvVector[period];
             double intAdv = scenario.intAdvVector[period];
             int lag = scenario.lagVector[period];
@@ -92,9 +93,10 @@ CashFlows CashFlowEngine::runCashFlows(const Loan &loan, const Scenario &scenari
                 double newDefaults = performingFraction * mdr;
                 prepaidFraction += newPrepays;
                 defaultedFraction += newDefaults;
-                performingFraction -= (newPrepays + newDefaults);
-                paysPrincipalFraction = performingFraction + newDefaults * prinAdv;
-                paysInterestFraction = performingFraction + newDefaults * intAdv;  // TODO: Test this and handle DQ properly
+                delinquentFraction = dq * performingFraction;
+                performingFraction -= (newPrepays + newDefaults + delinquentFraction);
+                paysPrincipalFraction = performingFraction + (newDefaults + delinquentFraction) * prinAdv;
+                paysInterestFraction = performingFraction + (newDefaults + delinquentFraction) * intAdv;
 
                 grossCoupon = loan.grossCoupon;
                 netCoupon = loan.netCoupon;
