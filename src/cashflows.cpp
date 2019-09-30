@@ -57,6 +57,8 @@ std::string CashFlows::prettyDescription()
         << std::left << std::setw(WIDTH) << std::setfill(' ') << "Sched Payment"
         << std::left << std::setw(WIDTH) << std::setfill(' ') << "Gross Interest"
         << std::left << std::setw(WIDTH) << std::setfill(' ') << "Net Interest"
+        << std::left << std::setw(WIDTH) << std::setfill(' ') << "Optimal Gross"
+        << std::left << std::setw(WIDTH) << std::setfill(' ') << "Optimal Net"
         << std::left << std::setw(WIDTH) << std::setfill(' ') << "Prepay Penalty"
         << std::left << std::setw(WIDTH) << std::setfill(' ') << "Penalty Rate"
         << std::left << std::setw(WIDTH) << std::setfill(' ') << "Total Cash Flow"
@@ -82,6 +84,8 @@ std::string CashFlows::prettyDescription()
             << std::left << std::setw(WIDTH) << std::setprecision(2) << std::fixed << std::setfill(' ') << cashflow.scheduledPayment()
             << std::left << std::setw(WIDTH) << std::setprecision(2) << std::fixed << std::setfill(' ') << cashflow.grossInterest
             << std::left << std::setw(WIDTH) << std::setprecision(2) << std::fixed << std::setfill(' ') << cashflow.netInterest
+            << std::left << std::setw(WIDTH) << std::setprecision(2) << std::fixed << std::setfill(' ') << cashflow.grossInterestOptimal
+            << std::left << std::setw(WIDTH) << std::setprecision(2) << std::fixed << std::setfill(' ') << cashflow.netInterestOptimal
             << std::left << std::setw(WIDTH) << std::setprecision(2) << std::fixed << std::setfill(' ') << cashflow.prepayPenalty
             << std::left << std::setw(WIDTH) << std::setprecision(2) << std::fixed << std::setfill(' ') << cashflow.penaltyRate()
             << std::left << std::setw(WIDTH) << std::setprecision(2) << std::fixed << std::setfill(' ') << cashflow.totalCashflow()

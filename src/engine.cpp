@@ -39,7 +39,9 @@ CashFlows CashFlowEngine::runCashFlows(const Loan &loan, const Scenario &scenari
     double grossCoupon = NAN;
     double netCoupon = NAN;
     double grossInterest = NAN;
+    double grossInterestOptimal = NAN;
     double netInterest = NAN;
+    double netInterestOptimal = NAN;
     double scheduledPrincipal = NAN;
     double unscheduledPrincipal = NAN;
     double balloonPrincipal = NAN;
@@ -100,8 +102,10 @@ CashFlows CashFlowEngine::runCashFlows(const Loan &loan, const Scenario &scenari
 
                 grossCoupon = loan.grossCoupon;
                 netCoupon = loan.netCoupon;
-                grossInterest = loan.grossCoupon * accrualFraction * beginningBalance * paysInterestFraction;
-                netInterest = loan.netCoupon * accrualFraction * beginningBalance * paysInterestFraction;
+                grossInterestOptimal = loan.grossCoupon * accrualFraction * beginningBalance;
+                grossInterest = grossInterestOptimal * paysInterestFraction;
+                netInterestOptimal = loan.netCoupon * accrualFraction * beginningBalance;
+                netInterest = netInterestOptimal * paysInterestFraction;
                 bool isInInterestOnlyPeriod = (loan.currentLoanAge + period) <= loan.originalIOTerm;
                 scheduledPrincipal = isInInterestOnlyPeriod ? 0.0 : std::max(loan.periodicAmortizingDebtService * paysPrincipalFraction - grossInterest, 0.0);
                 unscheduledPrincipal = smm * (beginningBalance - scheduledPrincipal);
@@ -163,7 +167,9 @@ CashFlows CashFlowEngine::runCashFlows(const Loan &loan, const Scenario &scenari
             periodicCashflow.grossCoupon = grossCoupon;
             periodicCashflow.netCoupon = netCoupon;
             periodicCashflow.grossInterest = grossInterest;
+            periodicCashflow.grossInterestOptimal = grossInterestOptimal;
             periodicCashflow.netInterest = netInterest;
+            periodicCashflow.netInterestOptimal = grossInterestOptimal;
             periodicCashflow.scheduledPrincipal = scheduledPrincipal;
             periodicCashflow.unscheduledPrincipal = unscheduledPrincipal;
             periodicCashflow.balloonPrincipal = balloonPrincipal;

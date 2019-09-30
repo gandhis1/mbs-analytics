@@ -17,7 +17,9 @@ public:
   double grossCoupon;
   double netCoupon;
   double grossInterest;
+  double grossInterestOptimal;
   double netInterest;
+  double netInterestOptimal;
   double scheduledPrincipal;
   double unscheduledPrincipal;
   double balloonPrincipal;
