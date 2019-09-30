@@ -111,7 +111,18 @@ namespace frontend
         int tm_isdst;
         public static implicit operator StructDateTime(DateTime dt)
         {
-            return new DateTime(2019, 2, 1);  // TODO: Implement a real conversion instead of this hard-code
+            return new StructDateTime
+            {
+                tm_sec = dt.Second,
+                tm_min = dt.Minute,
+                tm_hour = dt.Hour,
+                tm_mday = dt.Day,
+                tm_mon = dt.Month,
+                tm_year = dt.Year,
+                tm_wday = (int)dt.DayOfWeek,
+                tm_yday = dt.DayOfYear,
+                tm_isdst = Convert.ToInt32(dt.IsDaylightSavingTime())
+            };
         }
     }
 
