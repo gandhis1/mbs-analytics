@@ -10,10 +10,11 @@ namespace frontend
         {
             Scenario scenario = new Scenario(0.05, 0.01, 0.25, 0, 0.0, 100.0, 100.0);
             CashFlowEngine engine = new CashFlowEngine();
-            Loan loan = new Loan(); // TODO: Update all interfaces to accept parameters
+            Loan loan = new Loan("1717469130", 763000.0, 763000.0, new DateTime(2019, 2, 1), 60, 360, 0, 28, 0.0496, 0.0248, AccrualBasis.ACTUAL_360, "YM (54) O(6)");
             CashFlows cashflows = engine.RunCashFlows(loan, scenario);
             scenario.PrettyPrint();
-            cashflows.PrettyPrint();
+            loan.PrettyPrint();
+            //cashflows.PrettyPrint();
         }
 
     }
@@ -96,20 +97,51 @@ namespace frontend
         }
     }
 
-    public sealed class Loan
+    [StructLayoutAttribute(LayoutKind.Sequential)]
+    public struct StructDateTime
     {
-        [DllImport("../../bin/mbs_analytics")]
-        public static extern IntPtr CreateLoan();  // TODO: Add parameters and stop using a canned loan
+        int tm_sec;
+        int tm_min;
+        int tm_hour;
+        int tm_mday;
+        int tm_mon;
+        int tm_year;
+        int tm_wday;
+        int tm_yday;
+        int tm_isdst;
+        public static implicit operator StructDateTime(DateTime dt)
+        {
+            return new DateTime(2019, 2, 1);  // TODO: Implement a real conversion instead of this hard-code
+        }
+    }
+
+    public enum AccrualBasis
+    {
+        THIRTY_360,
+        ACTUAL_360
+    }
+
+    public sealed class Loan : IPrettyPrintable
+    {
+        [DllImport("../../bin/mbs_analytics", CharSet = CharSet.Ansi)]
+        public static extern IntPtr CreateLoan([MarshalAs(UnmanagedType.LPStr)] string loanId, double originalBalance, double currentBalance); //, StructDateTime factorDate, int originalLoanTerm, int originalAmortTerm, int originalIOTerm, int currentLoanAge, double grossCoupon, double feeStrip, AccrualBasis accrualBasis, string originalPrepaymentString);
         [DllImport("../../bin/mbs_analytics.dll")]
         public static extern void DeleteLoan(IntPtr loan);
+        [DllImport("../../bin/mbs_analytics.dll")]
+        public static extern IntPtr PrettyDescriptionLoan(IntPtr loan);
         private IntPtr loan;
 
-        public Loan()  // TODO: Add parameters and stop using a canned loan
+        public Loan(string loanId, double originalBalance, double currentBalance, DateTime factorDate, int originalLoanTerm, int originalAmortTerm, int originalIOTerm, int currentLoanAge, double grossCoupon, double feeStrip, AccrualBasis accrualBasis, string originalPrepaymentString)
         {
-            loan = CreateLoan();  // TODO: Add parameters and stop using a canned loan
+            loan = CreateLoan(loanId, originalBalance, currentBalance);//, factorDate, originalLoanTerm, originalAmortTerm, originalIOTerm, currentLoanAge, grossCoupon, feeStrip, accrualBasis, originalPrepaymentString);
         }
 
         public static implicit operator IntPtr(Loan loan) => loan.loan;
+
+        public void PrettyPrint()
+        {
+            Console.WriteLine(Marshal.PtrToStringAnsi(PrettyDescriptionLoan(loan)));
+        }
 
         public void Dispose()
         {
