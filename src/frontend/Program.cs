@@ -10,7 +10,7 @@ namespace frontend
         {
             Scenario scenario = new Scenario(0.05, 0.01, 0.25, 0, 0.0, 100.0, 100.0);
             CashFlowEngine engine = new CashFlowEngine();
-            Loan loan = new Loan("1717469130", 763000.0, 763000.0, new DateTime(2019, 2, 1), 60, 360, 0, 28, 0.0496, 0.0248, AccrualBasis.ACTUAL_360, "YM (54) O(6)");
+            Loan loan = new Loan("1717469130", 763000.0, 763000.0, new DateTime(2019, 2, 1), 60, 360, 0, 28, 0.0496, 0.0248, AccrualBasis.ACTUAL_360, "YM(54) O(6)");
             CashFlows cashflows = engine.RunCashFlows(loan, scenario);
             scenario.PrettyPrint();
             loan.PrettyPrint();
@@ -117,8 +117,8 @@ namespace frontend
                 tm_min = dt.Minute,
                 tm_hour = dt.Hour,
                 tm_mday = dt.Day,
-                tm_mon = dt.Month,
-                tm_year = dt.Year,
+                tm_mon = dt.Month - 1,
+                tm_year = dt.Year - 1900,
                 tm_wday = (int)dt.DayOfWeek,
                 tm_yday = dt.DayOfYear,
                 tm_isdst = Convert.ToInt32(dt.IsDaylightSavingTime())
@@ -135,7 +135,7 @@ namespace frontend
     public sealed class Loan : IPrettyPrintable
     {
         [DllImport("../../bin/mbs_analytics", CharSet = CharSet.Ansi)]
-        public static extern IntPtr CreateLoan([MarshalAs(UnmanagedType.LPStr)] string loanId, double originalBalance, double currentBalance); //, StructDateTime factorDate, int originalLoanTerm, int originalAmortTerm, int originalIOTerm, int currentLoanAge, double grossCoupon, double feeStrip, AccrualBasis accrualBasis, string originalPrepaymentString);
+        public static extern IntPtr CreateLoan([MarshalAs(UnmanagedType.LPStr)] string loanId, double originalBalance, double currentBalance, StructDateTime factorDate, int originalLoanTerm, int originalAmortTerm, int originalIOTerm, int currentLoanAge, double grossCoupon, double feeStrip, AccrualBasis accrualBasis, string originalPrepaymentString);
         [DllImport("../../bin/mbs_analytics.dll")]
         public static extern void DeleteLoan(IntPtr loan);
         [DllImport("../../bin/mbs_analytics.dll")]
@@ -144,7 +144,7 @@ namespace frontend
 
         public Loan(string loanId, double originalBalance, double currentBalance, DateTime factorDate, int originalLoanTerm, int originalAmortTerm, int originalIOTerm, int currentLoanAge, double grossCoupon, double feeStrip, AccrualBasis accrualBasis, string originalPrepaymentString)
         {
-            loan = CreateLoan(loanId, originalBalance, currentBalance);//, factorDate, originalLoanTerm, originalAmortTerm, originalIOTerm, currentLoanAge, grossCoupon, feeStrip, accrualBasis, originalPrepaymentString);
+            loan = CreateLoan(loanId, originalBalance, currentBalance, factorDate, originalLoanTerm, originalAmortTerm, originalIOTerm, currentLoanAge, grossCoupon, feeStrip, accrualBasis, originalPrepaymentString);
         }
 
         public static implicit operator IntPtr(Loan loan) => loan.loan;

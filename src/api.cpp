@@ -33,20 +33,8 @@ const char *PrettyDescriptionScenario(Scenario *scenario)
     return strdup(scenario->prettyDescription().c_str());
 }
 
-Loan *CreateLoan(const char *loanId, double originalBalance, double currentBalance) //, struct tm factorDate, int originalLoanTerm, int originalAmortTerm, int originalIOTerm, int currentLoanAge, double grossCoupon, double feeStrip, AccrualBasis accrualBasis, const char* originalPrepaymentString)
+Loan *CreateLoan(const char *loanId, double originalBalance, double currentBalance, struct tm factorDate, int originalLoanTerm, int originalAmortTerm, int originalIOTerm, int currentLoanAge, double grossCoupon, double feeStrip, AccrualBasis accrualBasis, const char* originalPrepaymentString)
 {
-    // std::string loanID = "1717469130";
-    // double originalBalance = 763000.00;
-    // double currentBalance = 737056.10;
-    struct tm factorDate = Utilities::DateTime::createTime(2019, 2, 1);
-    int originalLoanTerm = 60;
-    int originalAmortTerm = 360;
-    int originalIOTerm = 0;
-    int currentLoanAge = 28;
-    double grossCoupon = 0.0496;
-    double feeStrip = 0.0496 - 0.0248;
-    AccrualBasis accrualBasis = ACTUAL_360;
-    std::string originalPrepaymentString = "YM(54) O(6)";
     return new Loan(loanId, originalBalance, currentBalance, factorDate, originalLoanTerm, originalAmortTerm, originalIOTerm, currentLoanAge, grossCoupon, feeStrip, accrualBasis, originalPrepaymentString);
 }
 
@@ -79,7 +67,8 @@ const char *PrettyDescriptionCashFlows(CashFlows *cashflows)
 char *strdup(const char *cStr)
 {
     // WARNING: This can create a memory leak as one still needs to free()
-    int cStrLen = strlen(cStr);
-    char *cStrCopy = (char*)malloc(sizeof(*cStr) * cStrLen);
+    // It is fairly harmless to leak this small amount, as the various pretty
+    // print functions are really only used for contextual debugging pruposes
+    char *cStrCopy = (char *)malloc(sizeof(*cStr) * (strlen(cStr) + 1));
     return strcpy(cStrCopy, cStr);
 }

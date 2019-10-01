@@ -6,6 +6,7 @@
 #include <iterator>
 #include <vector>
 
+#include "constants.h"
 #include "scenario.h"
 
 // Single-value scalar constructor

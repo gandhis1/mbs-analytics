@@ -5,12 +5,11 @@
 #include <ctime>
 #include <iostream>
 #include <iomanip>
-#include <limits>
+
+#include "constants.h"
 
 namespace Utilities
 {
-
-const double EPSILON = std::numeric_limits<double>::epsilon();
 
 inline double changeCompoundingBasis(
     double rate, int origCompoundsPerYear, int newCompoundsPerYear)
@@ -30,42 +29,43 @@ inline double calculatePayment(double balance, int amortTerm, double periodicRat
     }
 }
 
+
 namespace DateTime
 {
-    inline struct tm createTime(int year, int month, int day)
-    {
-        struct tm date;
-        date.tm_hour = 0;
-        date.tm_min = 0;
-        date.tm_sec = 0;
-        date.tm_year = year - 1900;
-        date.tm_mon = month - 1;
-        date.tm_mday = day;
-        return date;
-    }
-
-    inline struct tm addDateInterval(struct tm date, int years, int months, int days)
-    {
-        date.tm_year += years;
-        date.tm_mon += months;
-        date.tm_mday += days;
-        mktime(&date);
-        return date;
-    }
-
-    inline int toYYYYMMDD(struct tm date)
-    {
-        char date_YYYYMMDD[9];
-        strftime(date_YYYYMMDD, 9, "%Y%m%d", &date);
-        return std::stoi(date_YYYYMMDD);
-    }
-
-    inline int daysBetween(struct tm date1, struct tm date2, bool inclusiveEnd = true)
-    {
-        int secondsBetween = std::difftime(mktime(&date2), mktime(&date1));
-        return int(secondsBetween / 60.0 / 60.0 / 24.0) + (inclusiveEnd ? 1 : 0);
-    }
+inline struct tm createTime(int year, int month, int day)
+{
+    struct tm date;
+    date.tm_hour = 0;
+    date.tm_min = 0;
+    date.tm_sec = 0;
+    date.tm_year = year - 1900;
+    date.tm_mon = month - 1;
+    date.tm_mday = day;
+    return date;
 }
+
+inline struct tm addDateInterval(struct tm date, int years, int months, int days)
+{
+    date.tm_year += years;
+    date.tm_mon += months;
+    date.tm_mday += days;
+    mktime(&date);
+    return date;
+}
+
+inline int toYYYYMMDD(struct tm date)
+{
+    char date_YYYYMMDD[9];
+    strftime(date_YYYYMMDD, 9, "%Y%m%d", &date);
+    return std::stoi(date_YYYYMMDD);
+}
+
+inline int daysBetween(struct tm date1, struct tm date2, bool inclusiveEnd = true)
+{
+    int secondsBetween = std::difftime(mktime(&date2), mktime(&date1));
+    return int(secondsBetween / 60.0 / 60.0 / 24.0) + (inclusiveEnd ? 1 : 0);
+}
+} // namespace DateTime
 
 } // namespace Utilities
 

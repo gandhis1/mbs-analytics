@@ -4,21 +4,10 @@
 #include <experimental/optional>
 #include <memory>
 #include <vector>
+
+#include "constants.h"
 #include "prepayment_provision.h"
 
-enum PaymentFrequency
-{
-  MONTHLY = 1,
-  QUARTERLY = 3,
-  SEMIANNUALLY = 6,
-  ANNUALLY = 12
-};
-
-enum AccrualBasis
-{
-  THIRTY_360,
-  ACTUAL_360
-};
 
 class Loan
 {
@@ -57,7 +46,7 @@ public:
        AccrualBasis accrualBasis,
        std::string originalPrepaymentString,
        std::experimental::optional<double> periodicAmortizingDebtService = std::experimental::nullopt,
-       PaymentFrequency paymentFrequency = MONTHLY,
+       PaymentFrequency paymentFrequency = PaymentFrequency::MONTHLY,
        int accrualStartDay = 1);
   std::string prettyDescription();
   void prettyPrint();

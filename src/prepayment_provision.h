@@ -8,7 +8,7 @@
 
 class Loan;  // Forward declaration to avoid circular header imports
 
-enum PrepaymentProvisionType
+enum class PrepaymentProvisionType
 {
     LOCKOUT,
     DEFEASANCE,

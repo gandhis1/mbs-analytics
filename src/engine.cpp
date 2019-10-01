@@ -70,7 +70,7 @@ CashFlows CashFlowEngine::runCashFlows(const Loan &loan, const Scenario &scenari
             accrualEndDate.tm_mday = 1;
             accrualEndDate = Utilities::DateTime::addDateInterval(accrualEndDate, 0, 0, -1);
             accrualDays = 30; // Assume THIRTY_360 by default
-            if (loan.accrualBasis == ACTUAL_360)
+            if (loan.accrualBasis == AccrualBasis::ACTUAL_360)
             {
                 accrualDays = Utilities::DateTime::daysBetween(accrualStartDate, accrualEndDate, true);
             }
@@ -88,7 +88,7 @@ CashFlows CashFlowEngine::runCashFlows(const Loan &loan, const Scenario &scenari
 
             // Calculate all cash flows based on the current fractions
             beginningBalance = endingBalance;
-            if (beginningBalance > Utilities::EPSILON)
+            if (beginningBalance > Constants::EPSILON)
             {
                 // Adjust the ending balance fractions
                 double newPrepays = performingFraction * smm;
@@ -162,7 +162,7 @@ CashFlows CashFlowEngine::runCashFlows(const Loan &loan, const Scenario &scenari
         periodicCashflow.accrualEndDate = accrualEndDate;
         periodicCashflow.accrualDays = accrualDays;
         periodicCashflow.endingBalance = endingBalance;
-        if (beginningBalance > Utilities::EPSILON)
+        if (beginningBalance > Constants::EPSILON)
         {
             periodicCashflow.grossCoupon = grossCoupon;
             periodicCashflow.netCoupon = netCoupon;
@@ -181,7 +181,7 @@ CashFlows CashFlowEngine::runCashFlows(const Loan &loan, const Scenario &scenari
         singleLoanFlows.periodicCashflows.emplace_back(periodicCashflow);
         // Only break off the projection if the ending balance is zero or there are not any more recoveries due in the future
         int maxRecoveryPeriod = recoveryPrincipalByPeriod.size() > 0 ? (*--recoveryPrincipalByPeriod.end()).first : 0;
-        if (endingBalance < Utilities::EPSILON && (!scenario.extendLagsPastMaturity or period >= maxRecoveryPeriod))
+        if (endingBalance < Constants::EPSILON && (!scenario.extendLagsPastMaturity or period >= maxRecoveryPeriod))
         {
             break;
         }

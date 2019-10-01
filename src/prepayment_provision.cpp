@@ -22,17 +22,17 @@ PrepaymentProvisionType PrepaymentProvision::getType() { return type; }
 
 int PrepaymentProvision::getLength() { return length; }
 
-Lockout::Lockout(int length) : PrepaymentProvision(LOCKOUT, length) { type = LOCKOUT; }
+Lockout::Lockout(int length) : PrepaymentProvision(PrepaymentProvisionType::LOCKOUT, length) { type = PrepaymentProvisionType::LOCKOUT; }
 std::string Lockout::summarize() { return "L(" + std::to_string(length) + ")"; }
 bool Lockout::canVoluntarilyPrepay() { return false; }
 double Lockout::getVoluntaryPenaltyRate() { return 0.0; }
 
-Defeasance::Defeasance(int length) : PrepaymentProvision(DEFEASANCE, length) {}
+Defeasance::Defeasance(int length) : PrepaymentProvision(PrepaymentProvisionType::DEFEASANCE, length) {}
 std::string Defeasance::summarize() { return "D(" + std::to_string(length) + ")"; }
 bool Defeasance::canVoluntarilyPrepay() { return false; }
 double Defeasance::getVoluntaryPenaltyRate() { return 0.0; }
 
-FixedPenalty::FixedPenalty(int length, double rate) : PrepaymentProvision(FIXED_PENALTY, length), penaltyRate(rate) {}
+FixedPenalty::FixedPenalty(int length, double rate) : PrepaymentProvision(PrepaymentProvisionType::FIXED_PENALTY, length), penaltyRate(rate) {}
 std::string FixedPenalty::summarize()
 {
     std::ostringstream summary;
@@ -42,14 +42,14 @@ std::string FixedPenalty::summarize()
 bool FixedPenalty::canVoluntarilyPrepay() { return true; }
 double FixedPenalty::getVoluntaryPenaltyRate() { return penaltyRate; }
 
-YieldMaintenance::YieldMaintenance(int length) : PrepaymentProvision(YIELD_MAINTENANCE, length) {}
+YieldMaintenance::YieldMaintenance(int length) : PrepaymentProvision(PrepaymentProvisionType::YIELD_MAINTENANCE, length) {}
 std::string YieldMaintenance::summarize() { return "YM(" + std::to_string(length) + ")"; }
 bool YieldMaintenance::canVoluntarilyPrepay() { return true; }
 double YieldMaintenance::getVoluntaryPenaltyRate() {
     return 0.0;
 }
 
-Open::Open(int length) : PrepaymentProvision(OPEN, length) {}
+Open::Open(int length) : PrepaymentProvision(PrepaymentProvisionType::OPEN, length) {}
 std::string Open::summarize() { return "O(" + std::to_string(length) + ")"; }
 bool Open::canVoluntarilyPrepay() { return true; }
 double Open::getVoluntaryPenaltyRate() { return 0.0; }
@@ -129,7 +129,6 @@ std::vector<std::shared_ptr<PrepaymentProvision>> parsePrepaymentString(std::str
         }
         prepaymentProvisions.push_back(prepaymentProvision);
     }
-    // In the future this should be removed as multiple and/or imperfect input formats are allowed
-    assert(prepaymentString == summarizePrepaymentProvisions(prepaymentProvisions));
+
     return prepaymentProvisions;
 }

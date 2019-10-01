@@ -3,15 +3,8 @@
 #define SCENARIO_H
 
 #include <vector>
+#include "constants.h"
 #include "utilities.h"
-
-enum VPRType
-{
-  CPR,
-  CPY,
-  CPJ,
-  CPB
-};
 
 class Scenario
 {
@@ -23,7 +16,7 @@ public:
            double dq = 0.0,
            double prinAdv = 100.0,
            double intAdv = 100.0,
-           VPRType vprType = CPR,
+           VPRType vprType = VPRType::CPR,
            bool extendLagsPastMaturity = true);
   Scenario(std::vector<double> vprVector,
            std::vector<double> cdrVector,
@@ -32,7 +25,7 @@ public:
            std::vector<double> dqVector,
            std::vector<double> prinAdvVector,
            std::vector<double> intAdvVector,
-           VPRType vprType = CPR,
+           VPRType vprType = VPRType::CPR,
            bool extendLagsPastMaturity = true);
   std::string prettyDescription();
   void prettyPrint();
@@ -56,7 +49,7 @@ private:
     // floating-point integers to actual integers (avoid trailing zeroes)
     auto const &formatAssumption = [](T value) -> std::string {
       T retVal = value < 1.0 ? round(value * 10000.0) / 100.0 : value;
-      if (abs(float(int(retVal)) - float(retVal)) <= Utilities::EPSILON)
+      if (abs(float(int(retVal)) - float(retVal)) <= Constants::EPSILON)
       {
         return std::to_string(int(retVal));
       }

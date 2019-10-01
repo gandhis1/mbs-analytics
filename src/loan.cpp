@@ -1,6 +1,7 @@
 #include <iomanip>
 #include <iostream>
 #include <memory>
+#include "constants.h"
 #include "loan.h"
 #include "prepayment_provision.h"
 #include "utilities.h"
@@ -67,10 +68,10 @@ std::shared_ptr<PrepaymentProvision> Loan::getCurrentPrepaymentProvision(int per
 
 std::string Loan::prettyDescription()
 {
-    const int LABEL_WIDTH = 15; 
+    const int LABEL_WIDTH = 15;
     const int VALUE_WIDTH = 12;
     std::string border = std::string(LABEL_WIDTH + VALUE_WIDTH, '*');
-    std::ostringstream textstream; 
+    std::ostringstream textstream;
     textstream
         << std::endl
         << border << std::endl
@@ -85,7 +86,7 @@ std::string Loan::prettyDescription()
         << std::left << std::setw(LABEL_WIDTH) << "GROSS CPN: " << std::setw(VALUE_WIDTH) << grossCoupon << std::endl
         << std::left << std::setw(LABEL_WIDTH) << "FEE STRIP: " << std::setw(VALUE_WIDTH) << feeStrip << std::endl
         << std::left << std::setw(LABEL_WIDTH) << "NET CPN: " << std::setw(VALUE_WIDTH) << netCoupon << std::endl
-        << std::left << std::setw(LABEL_WIDTH) << "DAY COUNT: " << std::setw(VALUE_WIDTH) << accrualBasis << std::endl
+        << std::left << std::setw(LABEL_WIDTH) << "DAY COUNT: " << std::setw(VALUE_WIDTH) << enumToString(accrualBasis) << std::endl
         << std::left << std::setw(LABEL_WIDTH) << "PAY FREQ: " << std::setw(VALUE_WIDTH) << paymentFrequency << std::endl
         << std::left << std::setw(LABEL_WIDTH) << "ACCR START: " << std::setw(VALUE_WIDTH) << accrualStartDay << std::endl
         << std::left << std::setw(LABEL_WIDTH) << "PENALTY STR: " << std::setw(VALUE_WIDTH) << summarizePrepaymentProvisions(originalPrepaymentProvisions) << std::endl
