@@ -4,14 +4,24 @@ jobs:
       name: Compile C++
       language: C++
       compiler: gcc
-      before_install:
+      install:
         - sudo add-apt-repository -y ppa:ubuntu-toolchain-r/test
         - sudo apt-get update
         - sudo apt-get install -y gcc-snapshot
         - sudo apt-get install -y gcc-6 g++-6
-      install:
+      before_script:
         - CXX=g++-6
-      script: make
+      script:
+        - make
+        - bin/test_mbs_analytics
+      # deploy:
+      #   provider: releases
+      #   skip_cleanup: true
+      #   api_key: $GH_TOKEN
+      #   file_glob: true
+      #   file:
+      #     - bin/mbs_analytics.*
+      #     - bin/test_mbs_analytics.*
     - stage: Compilation
       name: Compile C#
       language: csharp

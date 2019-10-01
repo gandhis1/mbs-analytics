@@ -1,12 +1,3 @@
-ifndef CXX
-	CXX=g++
-endif
-CXXFLAGS+=-std=c++14 -pedantic -Wall -Wextra -Werror -fPIC
-LDFLAGS+=
-LDLIBS+=
-MKDIR_P=mkdir -p
-RM_RF=rm -rf
-
 SRC_DIR=.
 OBJ_DIR=../../obj
 BIN_DIR=../../bin
@@ -20,9 +11,7 @@ else
 	LIBRARY_NAME=mbs_analytics.so
 endif
 
-all: directories program
-directories: $(OBJ_DIR) $(BIN_DIR)
-program: $(BIN_DIR)/$(LIBRARY_NAME)
+all: $(OBJ_DIR) $(BIN_DIR) $(BIN_DIR)/$(LIBRARY_NAME)
 debug: CXXFLAGS += -DDEBUG -ggdb
 debug: all
 new: clean all

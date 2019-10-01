@@ -1,9 +1,21 @@
+ifndef CXX
+	export CXX=g++
+endif
+export CXXFLAGS+=-std=c++14 -pedantic -Wall -Wextra -Werror -fPIC
+export LDFLAGS+=
+export LDLIBS+=
+export MKDIR_P=mkdir -p
+export RM_RF=rm -rf
+
 all:
-	make all -C ./src/engine
-	#make all -C ./test/engine
+	make -C ./src/engine
+	make -C ./test/engine
 debug:
 	make debug -C ./src/engine
+	make -C ./test/engine
 new:
 	make new -C ./src/engine
+	make -C ./test/engine
 clean:
 	make clean -C ./src/engine
+	make -C ./test/engine
