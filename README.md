@@ -5,7 +5,7 @@ Generate scenario/assumption-dependent cash flows and calculate price, yield, WA
 
 #### Technology:
 
-Code is developed using standard C++ and STL libraries, with a Windows-focused Makefile. The front-end CLI is developed in C# on .NET Core 2.2. All code should be largely cross-platform; however, explicit references to Windows-specific attributes (e.g. use of DLL extension) still need to be factored out and eliminated.
+Code is developed using standard C++ and STL libraries. The front-end CLI is developed in C# on .NET Core 2.2. All code should be largely cross-platform, but non-Windows and non-Linux environments have not been tested.
 
 #### Quick Start:
 
