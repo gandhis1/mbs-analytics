@@ -21,7 +21,6 @@ jobs:
         file_glob: true
         file:
           - ./bin/mbs_analytics.*
-          - ./bin/test_mbs_analytics.*
         on:
           tags: true
     - stage: Build/Test
