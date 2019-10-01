@@ -1,8 +1,9 @@
-matrix:
+jobs:
   include:
-    - language: C++
+    - stage: Compilation
+    - name: Compile C++
+      language: C++
       compiler: gcc
-      addons:
       before_install:
         - sudo add-apt-repository -y ppa:ubuntu-toolchain-r/test
         - sudo apt-get update
@@ -11,7 +12,8 @@ matrix:
       install:
         - CXX=g++-6
       script: make
-    - language: csharp
+    - name: Compile C#
+      language: csharp
       dotnet: 2.2.401
       mono: none
       before_install:
