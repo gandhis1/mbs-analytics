@@ -1,7 +1,7 @@
 jobs:
   include:
     - stage: Compilation
-    - name: Compile C++
+      name: Compile C++
       language: C++
       compiler: gcc
       before_install:
@@ -12,7 +12,8 @@ jobs:
       install:
         - CXX=g++-6
       script: make
-    - name: Compile C#
+    - stage: Compilation
+      name: Compile C#
       language: csharp
       dotnet: 2.2.401
       mono: none
