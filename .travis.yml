@@ -13,15 +13,15 @@ jobs:
         - CXX=g++-6
       script:
         - make
-        # - bin/test_mbs_analytics
+        - ./bin/test_mbs_analytics
       deploy:
         provider: releases
         skip_cleanup: true
         api_key: $GITHUB_TOKEN
         file_glob: true
         file:
-          - bin/mbs_analytics.*
-          - bin/test_mbs_analytics.*
+          - ./bin/mbs_analytics.*
+          - ./bin/test_mbs_analytics.*
     - stage: Build/Test
       name: Compile C#
       language: csharp
