@@ -1,35 +1,38 @@
 using System;
 using System.Runtime.InteropServices;
 
-public sealed class CashFlows : IDisposable, IPrettyPrintable
+namespace frontend
 {
-    [DllImport("../../bin/mbs_analytics.dll")]
-    public static extern void DeleteCashFlows(IntPtr cashflows);
-    [DllImport("../../bin/mbs_analytics.dll")]
-    public static extern IntPtr PrettyDescriptionCashFlows(IntPtr cashflows);
-    private IntPtr cashflows;
-
-    public CashFlows(IntPtr cashflows)
+    public sealed class CashFlows : IDisposable, IPrettyPrintable
     {
-        this.cashflows = cashflows;
-    }
+        [DllImport("../../bin/mbs_analytics.dll")]
+        public static extern void DeleteCashFlows(IntPtr cashflows);
+        [DllImport("../../bin/mbs_analytics.dll")]
+        public static extern IntPtr PrettyDescriptionCashFlows(IntPtr cashflows);
+        private IntPtr cashflows;
 
-    public void PrettyPrint()
-    {
-        Console.WriteLine(Marshal.PtrToStringAnsi(PrettyDescriptionCashFlows(cashflows)));
-    }
-
-    public void Dispose()
-    {
-        if (cashflows != IntPtr.Zero)
+        public CashFlows(IntPtr cashflows)
         {
-            DeleteCashFlows(cashflows);
+            this.cashflows = cashflows;
         }
-        GC.SuppressFinalize(this);
-    }
 
-    ~CashFlows()
-    {
-        Dispose();
+        public void PrettyPrint()
+        {
+            Console.WriteLine(Marshal.PtrToStringAnsi(PrettyDescriptionCashFlows(cashflows)));
+        }
+
+        public void Dispose()
+        {
+            if (cashflows != IntPtr.Zero)
+            {
+                DeleteCashFlows(cashflows);
+            }
+            GC.SuppressFinalize(this);
+        }
+
+        ~CashFlows()
+        {
+            Dispose();
+        }
     }
 }

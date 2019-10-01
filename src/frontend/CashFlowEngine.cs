@@ -1,38 +1,41 @@
 using System;
 using System.Runtime.InteropServices;
 
-public sealed class CashFlowEngine : IDisposable
+namespace frontend
 {
-    [DllImport("../../bin/mbs_analytics.dll")]
-    private static extern IntPtr CreateEngine();
-    [DllImport("../../bin/mbs_analytics.dll")]
-    public static extern void DeleteEngine(IntPtr engine);
-    [DllImport("../../bin/mbs_analytics.dll")]
-    private static extern IntPtr RunCashFlows(IntPtr engine, IntPtr loan, IntPtr scenario);
-
-    private IntPtr engine;
-
-    public CashFlowEngine()
+    public sealed class CashFlowEngine : IDisposable
     {
-        engine = CreateEngine();
-    }
+        [DllImport("../../bin/mbs_analytics.dll")]
+        private static extern IntPtr CreateEngine();
+        [DllImport("../../bin/mbs_analytics.dll")]
+        public static extern void DeleteEngine(IntPtr engine);
+        [DllImport("../../bin/mbs_analytics.dll")]
+        private static extern IntPtr RunCashFlows(IntPtr engine, IntPtr loan, IntPtr scenario);
 
-    public CashFlows RunCashFlows(Loan loan, Scenario scenario)
-    {
-        return new CashFlows(RunCashFlows(engine, loan, scenario));
-    }
+        private IntPtr engine;
 
-    public void Dispose()
-    {
-        if (engine != IntPtr.Zero)
+        public CashFlowEngine()
         {
-            DeleteEngine(engine);
+            engine = CreateEngine();
         }
-        GC.SuppressFinalize(this);
-    }
 
-    ~CashFlowEngine()
-    {
-        Dispose();
+        public CashFlows RunCashFlows(Loan loan, Scenario scenario)
+        {
+            return new CashFlows(RunCashFlows(engine, loan, scenario));
+        }
+
+        public void Dispose()
+        {
+            if (engine != IntPtr.Zero)
+            {
+                DeleteEngine(engine);
+            }
+            GC.SuppressFinalize(this);
+        }
+
+        ~CashFlowEngine()
+        {
+            Dispose();
+        }
     }
 }
