@@ -1,7 +1,7 @@
 jobs:
   include:
     - stage: Build/Test
-      name: Compile C++
+      name: Compile C++ and Run Tests
       language: C++
       compiler: gcc
       install:
@@ -15,6 +15,7 @@ jobs:
         - make
         - ./bin/test_mbs_analytics
       before_deploy:
+        - echo "Running before_deploy"
         - git config --local user.name "Travis CI"
         - git config --local user.email "build@travis-ci.com"
         - export TRAVIS_TAG=${TRAVIS_TAG:-$(date +'%Y%m%d%H%M%S')-$(git log --format=%h -1)}
