@@ -14,6 +14,11 @@ jobs:
       script:
         - make
         - ./bin/test_mbs_analytics
+      before_deploy:
+        - git config --local user.name "Travis CI"
+        - git config --local user.email "build@travis-ci.com"
+        - export TRAVIS_TAG=${TRAVIS_TAG:-$(date +'%Y%m%d%H%M%S')-$(git log --format=%h -1)}
+        - git tag $TRAVIS_TAG
       deploy:
         provider: releases
         skip_cleanup: true
