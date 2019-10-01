@@ -20,7 +20,7 @@ This is a work-in-progress, and many things have yet to be implemented. Basic am
 
 
 - Create C# wrapper for DLL library + marshal a struct type storing cashflows returned from C++ layer
-- Add unit/regression tests triggered from TravisCI
+- Add regression test for cash flow generation
 - Calculate periodic + cumulative VPRs/CDRs during projection
 - Delinquency and advancing - confirm correct calculations and check behavior w/r/t lags
 - Distribute all recoveryPrincipal and realize all losses at maturity depending on extendLagsPastMaturity
