@@ -1,0 +1,6 @@
+
+
+interface IPrettyPrintable
+{
+    void PrettyPrint();
+}
