@@ -8,3 +8,22 @@ TEST_CASE("Prepayment provision object construction is reversible") {
     REQUIRE( summarizePrepaymentProvisions(parsePrepaymentString("10(24) 9(12) 8(12) 7(12) 6(12) 5(12) O(276)")) == "10(24) 9(12) 8(12) 7(12) 6(12) 5(12) O(276)");
     REQUIRE( summarizePrepaymentProvisions(parsePrepaymentString("5(36) 4(12) 3(12) 2(12) 1(12)")) == "5(36) 4(12) 3(12) 2(12) 1(12)");
 }
+
+TEST_CASE("Prepayment provision construction matches expected behavior") {
+    auto prepaymentProvisions = parsePrepaymentString("L(24) D(30) YM(42) 1(18) O(6)");
+
+    REQUIRE(prepaymentProvisions[0]->getType() == PrepaymentProvisionType::LOCKOUT);
+    REQUIRE( prepaymentProvisions[0]->getLength() == 24);
+
+    REQUIRE( prepaymentProvisions[0]->getType() == PrepaymentProvisionType::DEFEASANCE);
+    REQUIRE( prepaymentProvisions[0]->getLength() == 30);
+
+    REQUIRE( prepaymentProvisions[0]->getType() == PrepaymentProvisionType::YIELD_MAINTENANCE);
+    REQUIRE( prepaymentProvisions[0]->getLength() == 42);
+
+    REQUIRE( prepaymentProvisions[0]->getType() == PrepaymentProvisionType::FIXED_PENALTY);
+    REQUIRE( prepaymentProvisions[0]->getLength() == 18);
+
+    REQUIRE( prepaymentProvisions[0]->getType() == PrepaymentProvisionType::OPEN);
+    REQUIRE( prepaymentProvisions[0]->getLength() == 6);
+}
