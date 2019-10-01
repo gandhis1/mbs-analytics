@@ -5,7 +5,7 @@ OBJ_DIR=../../obj
 BIN_DIR=../../bin
 
 SRC_FILES := $(wildcard $(TEST_SRC_DIR)/*.cpp)
-OBJ_FILES := $(wildcard $(OBJ_DIR)/*.o)
+OBJ_FILES := $(patsubst $(TEST_SRC_DIR)/%.cpp,$(OBJ_DIR)/%.o,$(SRC_FILES)) $(wildcard $(OBJ_DIR)/*.o)
 
 ifeq ($(OS),Windows_NT)
 	BINARY_NAME=test_mbs_analytics.exe
