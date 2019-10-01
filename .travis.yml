@@ -1,6 +1,6 @@
 jobs:
   include:
-    - stage: Compilation
+    - stage: Build/Test
       name: Compile C++
       language: C++
       compiler: gcc
@@ -22,7 +22,7 @@ jobs:
       #   file:
       #     - bin/mbs_analytics.*
       #     - bin/test_mbs_analytics.*
-    - stage: Compilation
+    - stage: Build/Test
       name: Compile C#
       language: csharp
       dotnet: 2.2.401
