@@ -14,13 +14,13 @@ jobs:
       script:
         - make
         - ./bin/test_mbs_analytics
-      before_deploy:
-        - echo "Running before_deploy"
-        - git config --local user.name "Travis CI"
-        - git config --local user.email "build@travis-ci.com"
-        - export TRAVIS_TAG=${TRAVIS_TAG:-$(date +'%Y%m%d%H%M%S')-$(git log --format=%h -1)}
-        - git tag $TRAVIS_TAG
-        - git push https://$GITHUB_TOKEN@github.com/gandhis1/mbs-analytics --tags
+      # before_deploy:
+      #   - echo "Running before_deploy"
+      #   - git config --local user.name "Travis CI"
+      #   - git config --local user.email "build@travis-ci.com"
+      #   - export TRAVIS_TAG=${TRAVIS_TAG:-$(date +'%Y%m%d%H%M%S')-$(git log --format=%h -1)}
+      #   - git tag $TRAVIS_TAG
+      #   - git push https://$GITHUB_TOKEN@github.com/gandhis1/mbs-analytics --tags
       deploy:
         provider: releases
         skip_cleanup: true
@@ -28,8 +28,8 @@ jobs:
         file_glob: true
         file:
           - ./bin/mbs_analytics.*
-        on:
-          tags: true
+        # on:
+        #   tags: true
     - stage: Build/Test
       name: Compile C#
       language: csharp
