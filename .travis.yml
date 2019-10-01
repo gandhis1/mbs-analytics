@@ -2,7 +2,7 @@ jobs:
   include:
     - stage: Build/Test
       name: Compile C++
-      language: C++
+    language: C++
       compiler: gcc
       install:
         - sudo add-apt-repository -y ppa:ubuntu-toolchain-r/test
@@ -22,6 +22,8 @@ jobs:
         file:
           - ./bin/mbs_analytics.*
           - ./bin/test_mbs_analytics.*
+        on:
+          tags: true
     - stage: Build/Test
       name: Compile C#
       language: csharp
