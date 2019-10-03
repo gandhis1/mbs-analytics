@@ -14,6 +14,14 @@ Code is developed using standard C++ and STL libraries. The front-end CLI is dev
 - `cd ./src/frontend`
 - `dotnet run`
 
+#### Features:
+
+The cash flow engine is designed to support most of the common loan structural features and scenario specification parameters typically used in mortgage credit/prepayment analysis. While the API is extensible and allows customization of virtually any type of mortgage and/or deal structure, the ultimate constraint is data availability, as only a few asset classes have publicly available issuance and ongoing data that can underlie an accurate cash flow projection. This engine is of limited use to any potential market participant without the corresponding ETL layer that can acquire transaction information and loan-level input data. Of note, the agency RMBS/CMBS sectors (FHLMC, FNMA, GNMA) do have publicly available data sets on the web that can be used in this application. To date, these asset classes have been targeted for first-class integration:
+
+- Freddie Mac "STACR" Credit-Risk Transfer (CRT)
+- Fannie Mae "CAS" Credit-Risk Transfer (CRT)
+- Fannie Mae DUS Multifamily Pools
+
 #### To-Do List:
 
 This is a work-in-progress, and many things have yet to be implemented. Basic amortization functionality has been implemented, but major work remaining includes a proper interface for parameterizing scenarios and loans, and full support of all market-standard cash flow functionality. Additionally, interfacing with freely available data portals (such as GSE web sites) is planned for the future.
