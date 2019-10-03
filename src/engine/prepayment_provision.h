@@ -30,7 +30,7 @@ public:
 
     friend class Loan;
 
-    virtual bool canVoluntarilyPrepay() = 0;
+    virtual bool canVoluntarilyPrepay(VPRType vprType) = 0;
     virtual std::string summarize() = 0;
     double calculatePrepaymentPenalty(const Loan &loan, int period, double voluntaryPrepay);
     PrepaymentProvisionType getType();
@@ -45,7 +45,7 @@ protected:
 public:
     Lockout(int length);
     std::string summarize() override;
-    bool canVoluntarilyPrepay() override;
+    bool canVoluntarilyPrepay(VPRType vprType) override;
 };
 
 class Defeasance : public PrepaymentProvision
@@ -56,7 +56,7 @@ protected:
 public:
     Defeasance(int length);
     std::string summarize() override;
-    bool canVoluntarilyPrepay() override;
+    bool canVoluntarilyPrepay(VPRType vprType) override;
 };
 
 class FixedPenalty : public PrepaymentProvision
@@ -68,7 +68,7 @@ protected:
 public:
     FixedPenalty(int length, double rate);
     std::string summarize() override;
-    bool canVoluntarilyPrepay() override;
+    bool canVoluntarilyPrepay(VPRType vprType) override;
 };
 
 class YieldMaintenance : public PrepaymentProvision
@@ -79,7 +79,7 @@ protected:
 public:
     YieldMaintenance(int length);
     std::string summarize() override;
-    bool canVoluntarilyPrepay() override;
+    bool canVoluntarilyPrepay(VPRType vprType) override;
 };
 
 class Open : public PrepaymentProvision
@@ -90,7 +90,7 @@ protected:
 public:
     Open(int length);
     std::string summarize() override;
-    bool canVoluntarilyPrepay() override;
+    bool canVoluntarilyPrepay(VPRType vprType) override;
 };
 
 std::string summarizePrepaymentProvisions(std::vector<std::shared_ptr<PrepaymentProvision>>);

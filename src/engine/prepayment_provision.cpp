@@ -7,15 +7,16 @@
 #include <sstream>
 
 PrepaymentProvision::PrepaymentProvision(PrepaymentProvisionType type, int length) : type(type), length(length) {}
-double PrepaymentProvision::calculatePrepaymentPenalty(const Loan& loan, int period, double voluntaryPrepay)
+double PrepaymentProvision::calculatePrepaymentPenalty(const Loan &loan, int period, double voluntaryPrepay)
 {
     return getVoluntaryPenaltyRate(loan, period) * voluntaryPrepay;
 }
-double PrepaymentProvision::getVoluntaryPenaltyRate(const Loan& loan, int period) {
+double PrepaymentProvision::getVoluntaryPenaltyRate(const Loan &loan, int period)
+{
     // By default paramters unused, so silence compiler warning
     // However sub-classes for yield and spread maintenance will override this
     (void)loan;
-    (void)period; 
+    (void)period;
     return getVoluntaryPenaltyRate();
 }
 PrepaymentProvisionType PrepaymentProvision::getType() { return type; }
@@ -24,12 +25,12 @@ int PrepaymentProvision::getLength() { return length; }
 
 Lockout::Lockout(int length) : PrepaymentProvision(PrepaymentProvisionType::LOCKOUT, length) { type = PrepaymentProvisionType::LOCKOUT; }
 std::string Lockout::summarize() { return "L(" + std::to_string(length) + ")"; }
-bool Lockout::canVoluntarilyPrepay() { return false; }
+bool Lockout::canVoluntarilyPrepay(VPRType) { return false; }
 double Lockout::getVoluntaryPenaltyRate() { return 0.0; }
 
 Defeasance::Defeasance(int length) : PrepaymentProvision(PrepaymentProvisionType::DEFEASANCE, length) {}
 std::string Defeasance::summarize() { return "D(" + std::to_string(length) + ")"; }
-bool Defeasance::canVoluntarilyPrepay() { return false; }
+bool Defeasance::canVoluntarilyPrepay(VPRType) { return false; }
 double Defeasance::getVoluntaryPenaltyRate() { return 0.0; }
 
 FixedPenalty::FixedPenalty(int length, double rate) : PrepaymentProvision(PrepaymentProvisionType::FIXED_PENALTY, length), penaltyRate(rate) {}
@@ -39,19 +40,20 @@ std::string FixedPenalty::summarize()
     summary << penaltyRate * 100.0 << "(" << length << ")";
     return summary.str();
 }
-bool FixedPenalty::canVoluntarilyPrepay() { return true; }
+bool FixedPenalty::canVoluntarilyPrepay(VPRType vprType = VPRType::CPR) { return vprType != VPRType::CPP; }
 double FixedPenalty::getVoluntaryPenaltyRate() { return penaltyRate; }
 
 YieldMaintenance::YieldMaintenance(int length) : PrepaymentProvision(PrepaymentProvisionType::YIELD_MAINTENANCE, length) {}
 std::string YieldMaintenance::summarize() { return "YM(" + std::to_string(length) + ")"; }
-bool YieldMaintenance::canVoluntarilyPrepay() { return true; }
-double YieldMaintenance::getVoluntaryPenaltyRate() {
+bool YieldMaintenance::canVoluntarilyPrepay(VPRType vprType = VPRType::CPR) { return vprType != VPRType::CPY && vprType != VPRType::CPP; }
+double YieldMaintenance::getVoluntaryPenaltyRate()
+{
     return 0.0;
 }
 
 Open::Open(int length) : PrepaymentProvision(PrepaymentProvisionType::OPEN, length) {}
 std::string Open::summarize() { return "O(" + std::to_string(length) + ")"; }
-bool Open::canVoluntarilyPrepay() { return true; }
+bool Open::canVoluntarilyPrepay(VPRType) { return true; }
 double Open::getVoluntaryPenaltyRate() { return 0.0; }
 
 std::string summarizePrepaymentProvisions(std::vector<std::shared_ptr<PrepaymentProvision>> prepaymentProvisions)

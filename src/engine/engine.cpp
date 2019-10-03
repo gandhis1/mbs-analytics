@@ -78,7 +78,7 @@ CashFlows CashFlowEngine::runCashFlows(const Loan &loan, const Scenario &scenari
 
             // Handle the speeds calculations
             PrepaymentProvision &currentPrepaymentProvision = *loan.getCurrentPrepaymentProvision(period);
-            double smm = currentPrepaymentProvision.canVoluntarilyPrepay() ? Utilities::changeCompoundingBasis(scenario.vprVector[period], 1, 12) : 0.0;
+            double smm = currentPrepaymentProvision.canVoluntarilyPrepay(scenario.vprType) ? Utilities::changeCompoundingBasis(scenario.vprVector[period], 1, 12) : 0.0;
             double mdr = Utilities::changeCompoundingBasis(scenario.cdrVector[period], 1, 12);
             double sev = scenario.sevVector[period];
             double dq = scenario.dqVector[period];

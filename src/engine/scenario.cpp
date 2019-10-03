@@ -64,13 +64,13 @@ std::string Scenario::prettyDescription()
         intAdvVectorSummary.size()
     };
     size_t longestDescriptionSize = *std::max_element(summaryLengths.begin(), summaryLengths.end());
-    std::string border = std::string(longestDescriptionSize + 12, '*');
+    std::string border = std::string(longestDescriptionSize + 16, '*');
     std::ostringstream textstream; 
     textstream
         << std::endl
         << border << std::endl
-        << std::left << std::setw(10) << "VPR: " << std::setw(longestDescriptionSize) << vprVectorSummary << std::endl
-        << std::left << std::setw(10) << "CDR: " << std::setw(longestDescriptionSize) << cdrVectorSummary << std::endl
+        << std::left << std::setw(10) << "VPR: " << std::setw(longestDescriptionSize) << vprVectorSummary + enumToString(vprType) << std::endl
+        << std::left << std::setw(10) << "CDR: " << std::setw(longestDescriptionSize) << cdrVectorSummary + enumToString(cdrType) << std::endl
         << std::left << std::setw(10) << "SEV: " << std::setw(longestDescriptionSize) << sevVectorSummary << std::endl
         << std::left << std::setw(10) << "LAG: " << std::setw(longestDescriptionSize) << lagVectorSummary << std::endl
         << std::left << std::setw(10) << "DQ: " << std::setw(longestDescriptionSize) << dqVectorSummary << std::endl
