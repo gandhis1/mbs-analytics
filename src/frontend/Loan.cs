@@ -13,9 +13,9 @@ namespace frontend
     {
         [DllImport("../../bin/mbs_analytics", CharSet = CharSet.Ansi)]
         public static extern IntPtr CreateLoan([MarshalAs(UnmanagedType.LPStr)] string loanId, double originalBalance, double currentBalance, StructDateTime factorDate, int originalLoanTerm, int originalAmortTerm, int originalIOTerm, int currentLoanAge, double grossCoupon, double feeStrip, AccrualBasis accrualBasis, string originalPrepaymentString);
-        [DllImport("../../bin/mbs_analytics.dll")]
+        [DllImport("../../bin/mbs_analytics")]
         public static extern void DeleteLoan(IntPtr loan);
-        [DllImport("../../bin/mbs_analytics.dll")]
+        [DllImport("../../bin/mbs_analytics")]
         public static extern IntPtr PrettyDescriptionLoan(IntPtr loan);
         private IntPtr loan;
 

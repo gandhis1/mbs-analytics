@@ -5,9 +5,9 @@ namespace frontend
 {
     public sealed class CashFlows : IDisposable, IPrettyPrintable
     {
-        [DllImport("../../bin/mbs_analytics.dll")]
+        [DllImport("../../bin/mbs_analytics")]
         public static extern void DeleteCashFlows(IntPtr cashflows);
-        [DllImport("../../bin/mbs_analytics.dll")]
+        [DllImport("../../bin/mbs_analytics")]
         public static extern IntPtr PrettyDescriptionCashFlows(IntPtr cashflows);
         private IntPtr cashflows;
 
