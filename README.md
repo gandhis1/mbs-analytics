@@ -39,7 +39,9 @@ This is a work-in-progress, and many things have yet to be implemented. Basic am
 - Use real first payment and maturity dates and derive loan age instead of an input
 - Proper payment date calculation logic
 - CSV output options
-- Other speeds (CPJ, CPB, CPY, CPP)
+- Other prepayment speeds (SMM, CPJ, CPB, CPY, CPP)
+- Other default speeds (MDR, PLD)
+- Separate term and balloon default assumptions (speed, lag, and severity)
 - Support forward rates, resets and recasts, and other features of ARM loans
 - Support true user inputs and scenario specification
 - Proper WAL calc which supports each accrual basis, settlement dates
