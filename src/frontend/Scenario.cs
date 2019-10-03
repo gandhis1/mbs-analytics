@@ -3,19 +3,37 @@ using System.Runtime.InteropServices;
 
 namespace frontend
 {
+    public enum VPRType
+    {
+        SMM,
+        CPR,
+        CPY,
+        CPP,
+        CPJ,
+        CPB,
+        PSA
+    }
+
+    public enum CDRType
+    {
+        MDR,
+        CDR,
+        PLD
+    }
+
     public sealed class Scenario : IDisposable, IPrettyPrintable
     {
         [DllImport("../../bin/mbs_analytics")]
-        private static extern IntPtr CreateScenario(double vpr, double cdr, double sev, int lag, double dq, double prinAdv, double intAdv);
+        private static extern IntPtr CreateScenario(double vpr, double cdr, double sev, int lag, double dq, double prinAdv, double intAdv, VPRType vprType, CDRType cdrType);
         [DllImport("../../bin/mbs_analytics")]
         public static extern void DeleteScenario(IntPtr scenario);
         [DllImport("../../bin/mbs_analytics")]
         public static extern IntPtr PrettyDescriptionScenario(IntPtr scenario);
         private IntPtr scenario;
 
-        public Scenario(double vpr, double cdr, double sev, int lag, double dq, double prinAdv, double intAdv)
+        public Scenario(double vpr, double cdr, double sev, int lag, double dq, double prinAdv, double intAdv, VPRType vprType = VPRType.CPR, CDRType cdrType = CDRType.CDR)
         {
-            scenario = CreateScenario(vpr, cdr, sev, lag, dq, prinAdv, intAdv);
+            scenario = CreateScenario(vpr, cdr, sev, lag, dq, prinAdv, intAdv, vprType, cdrType);
         }
 
         public static implicit operator IntPtr(Scenario scenario) => scenario.scenario;

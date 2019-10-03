@@ -7,15 +7,7 @@ namespace frontend
     {
         static void Main(string[] args)
         {
-            Scenario scenario = new Scenario(
-                vpr: 0.05,
-                cdr: 0.01,
-                sev: 0.25,
-                lag: 0,
-                dq: 0.0,
-                prinAdv: 100.0,
-                intAdv: 100.0
-            );
+            var (dealType, dealName, scenario) = CommandLineInterface.GetUserInputs();
             CashFlowEngine engine = new CashFlowEngine();
             Loan loan = new Loan(
                 loanId: "1717469130",

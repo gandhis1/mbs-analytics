@@ -17,6 +17,7 @@ public:
            double prinAdv = 100.0,
            double intAdv = 100.0,
            VPRType vprType = VPRType::CPR,
+           CDRType cdrType = CDRType::CDR,
            bool extendLagsPastMaturity = true);
   Scenario(std::vector<double> vprVector,
            std::vector<double> cdrVector,
@@ -26,6 +27,7 @@ public:
            std::vector<double> prinAdvVector,
            std::vector<double> intAdvVector,
            VPRType vprType = VPRType::CPR,
+           CDRType cdrType = CDRType::CDR,
            bool extendLagsPastMaturity = true);
   std::string prettyDescription();
   void prettyPrint();
@@ -41,6 +43,7 @@ private:
   std::vector<double> prinAdvVector;
   std::vector<double> intAdvVector;
   VPRType vprType;
+  CDRType cdrType;
   bool extendLagsPastMaturity;
   template <typename T>
   std::string summarizeAssumptionVector(std::vector<T> &assumptions)
@@ -48,7 +51,7 @@ private:
     // Adjust decimals to whole numbers (assume percentage) and
     // floating-point integers to actual integers (avoid trailing zeroes)
     auto const &formatAssumption = [](T value) -> std::string {
-      T retVal = value < 1.0 ? round(value * 10000.0) / 100.0 : value;
+      T retVal = value <= 1.0 ? round(value * 10000.0) / 100.0 : value;
       if (abs(float(int(retVal)) - float(retVal)) <= Constants::EPSILON)
       {
         return std::to_string(int(retVal));

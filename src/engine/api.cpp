@@ -17,9 +17,9 @@ void DeleteEngine(CashFlowEngine *engine)
     delete engine;
 }
 
-Scenario *CreateScenario(double vpr, double cdr, double sev, int lag, double dq, double prinAdv, double intAdv)
+Scenario *CreateScenario(double vpr, double cdr, double sev, int lag, double dq, double prinAdv, double intAdv, VPRType vprType, CDRType cdrType)
 {
-    Scenario *scenario = new Scenario(vpr, cdr, sev, lag, dq, prinAdv, intAdv);
+    Scenario *scenario = new Scenario(vpr, cdr, sev, lag, dq, prinAdv, intAdv, vprType, cdrType);
     return scenario;
 }
 

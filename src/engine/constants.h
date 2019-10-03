@@ -29,8 +29,18 @@ enum class VPRType
 {
     CPR,
     CPY,
+    CPP,
     CPJ,
-    CPB
+    CPB,
+    SMM,
+    PSA
+};
+
+enum class CDRType
+{
+    MDR,
+    CDR,
+    PLD
 };
 
 // TODO: Add function overloads for other enumerations in this module

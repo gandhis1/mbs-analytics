@@ -18,8 +18,9 @@ Scenario::Scenario(double vpr,
                    double prinAdv,
                    double intAdv,
                    VPRType vprType,
+                   CDRType cdrType,
                    bool extendLagsPastMaturity)
-    : vprType(vprType), extendLagsPastMaturity(extendLagsPastMaturity)
+    : vprType(vprType), cdrType(cdrType), extendLagsPastMaturity(extendLagsPastMaturity)
 {
     std::fill_n(std::back_inserter(vprVector), MAX_PERIODS, vpr);
     std::fill_n(std::back_inserter(cdrVector), MAX_PERIODS, cdr);
@@ -39,10 +40,11 @@ Scenario::Scenario(std::vector<double> vprVector,
                    std::vector<double> prinAdvVector,
                    std::vector<double> intAdvVector,
                    VPRType vprType,
+                   CDRType cdrType,
                    bool extendLagsPastMaturity)
     : vprVector(vprVector), cdrVector(cdrVector), sevVector(sevVector),
       lagVector(lagVector), dqVector(dqVector), prinAdvVector(prinAdvVector),
-      intAdvVector(intAdvVector), vprType(vprType),
+      intAdvVector(intAdvVector), vprType(vprType), cdrType(cdrType),
       extendLagsPastMaturity(extendLagsPastMaturity)
 {
 }
