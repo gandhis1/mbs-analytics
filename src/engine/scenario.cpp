@@ -69,8 +69,8 @@ std::string Scenario::prettyDescription()
     textstream
         << std::endl
         << border << std::endl
-        << std::left << std::setw(10) << "VPR: " << std::setw(longestDescriptionSize) << vprVectorSummary + enumToString(vprType) << std::endl
-        << std::left << std::setw(10) << "CDR: " << std::setw(longestDescriptionSize) << cdrVectorSummary + enumToString(cdrType) << std::endl
+        << std::left << std::setw(10) << "VPR: " << std::setw(longestDescriptionSize) << vprVectorSummary + " " + enumToString(vprType) << std::endl
+        << std::left << std::setw(10) << "CDR: " << std::setw(longestDescriptionSize) << cdrVectorSummary + " " + enumToString(cdrType) << std::endl
         << std::left << std::setw(10) << "SEV: " << std::setw(longestDescriptionSize) << sevVectorSummary << std::endl
         << std::left << std::setw(10) << "LAG: " << std::setw(longestDescriptionSize) << lagVectorSummary << std::endl
         << std::left << std::setw(10) << "DQ: " << std::setw(longestDescriptionSize) << dqVectorSummary << std::endl
