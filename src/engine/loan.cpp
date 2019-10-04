@@ -70,11 +70,10 @@ std::string Loan::prettyDescription()
 {
     std::string prepaymentString = summarizePrepaymentProvisions(originalPrepaymentProvisions);
     const int LABEL_WIDTH = 15;
-    const int VALUE_WIDTH = std::max(12ULL, prepaymentString.length() + 1);
+    const int VALUE_WIDTH = std::max(12, static_cast<int>(prepaymentString.length() + 1));
     std::string border = std::string(LABEL_WIDTH + VALUE_WIDTH, '*');
     std::ostringstream textstream;
     textstream
-        << std::endl
         << border << std::endl
         << std::left << std::setw(LABEL_WIDTH) << "LOAN ID: " << std::setw(VALUE_WIDTH) << id << std::endl
         << std::left << std::setw(LABEL_WIDTH) << "ORIG BAL: " << std::setw(VALUE_WIDTH) << originalBalance << std::endl
@@ -91,8 +90,7 @@ std::string Loan::prettyDescription()
         << std::left << std::setw(LABEL_WIDTH) << "PAY FREQ: " << std::setw(VALUE_WIDTH) << paymentFrequency << std::endl
         << std::left << std::setw(LABEL_WIDTH) << "ACCR START: " << std::setw(VALUE_WIDTH) << accrualStartDay << std::endl
         << std::left << std::setw(LABEL_WIDTH) << "PENALTY STR: " << std::setw(VALUE_WIDTH) << prepaymentString << std::endl
-        << border << std::endl
-        << std::endl;
+        << border << std::endl;
     return textstream.str();
 }
 

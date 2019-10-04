@@ -65,9 +65,8 @@ std::string Scenario::prettyDescription()
     };
     size_t longestDescriptionSize = *std::max_element(summaryLengths.begin(), summaryLengths.end());
     std::string border = std::string(longestDescriptionSize + 15, '*');
-    std::ostringstream textstream; 
+    std::ostringstream textstream;
     textstream
-        << std::endl
         << border << std::endl
         << std::left << std::setw(10) << "VPR: " << std::setw(longestDescriptionSize) << vprVectorSummary + " " + enumToString(vprType) << std::endl
         << std::left << std::setw(10) << "CDR: " << std::setw(longestDescriptionSize) << cdrVectorSummary + " " + enumToString(cdrType) << std::endl
@@ -77,8 +76,7 @@ std::string Scenario::prettyDescription()
         << std::left << std::setw(10) << "ADV PRIN: " << std::setw(longestDescriptionSize) << intAdvVectorSummary << std::endl
         << std::left << std::setw(10) << "ADV INT: " << std::setw(longestDescriptionSize) << prinAdvVectorSummary << std::endl
         << std::left << std::setw(10) << "EXTEND: " << std::setw(longestDescriptionSize) << (extendLagsPastMaturity ? "TRUE" : "FALSE") << std::endl
-        << border << std::endl
-        << std::endl;
+        << border << std::endl;
     return textstream.str();
 }
 
