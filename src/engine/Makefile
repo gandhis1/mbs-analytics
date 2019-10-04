@@ -1,3 +1,4 @@
+include ../../Makefile.config
 SRC_DIR=.
 OBJ_DIR=../../obj
 BIN_DIR=../../bin

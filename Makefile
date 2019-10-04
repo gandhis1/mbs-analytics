@@ -1,11 +1,4 @@
-ifndef CXX
-	export CXX=g++
-endif
-export CXXFLAGS+=-std=c++14 -pedantic -Wall -Wextra -Werror -fPIC
-export LDFLAGS+=
-export LDLIBS+=
-export MKDIR_P=mkdir -p
-export RM_RF=rm -rf
+include Makefile.config
 
 all:
 	make -C ./src/engine
