@@ -64,7 +64,7 @@ std::string Scenario::prettyDescription()
         intAdvVectorSummary.size()
     };
     size_t longestDescriptionSize = *std::max_element(summaryLengths.begin(), summaryLengths.end());
-    std::string border = std::string(longestDescriptionSize + 16, '*');
+    std::string border = std::string(longestDescriptionSize + 15, '*');
     std::ostringstream textstream; 
     textstream
         << std::endl

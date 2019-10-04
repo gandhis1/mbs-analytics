@@ -6,7 +6,9 @@
 #include <memory>
 #include <vector>
 
-class Loan;  // Forward declaration to avoid circular header imports
+#include "constants.h"
+
+class Loan; // Forward declaration to avoid circular header imports
 
 enum class PrepaymentProvisionType
 {
@@ -22,7 +24,7 @@ class PrepaymentProvision
 protected:
     PrepaymentProvisionType type;
     int length;
-    virtual double getVoluntaryPenaltyRate(const Loan& loan, int period);
+    virtual double getVoluntaryPenaltyRate(const Loan &loan, int period);
     virtual double getVoluntaryPenaltyRate() = 0;
 
 public:

@@ -33,7 +33,7 @@ namespace frontend
 
         public static string GetDealName()
         {
-            Console.Write("\nEnter deal name: ");
+            Console.Write("\nEnter deal name:\n>> ");
             string dealName = Console.ReadLine();
             return dealName;
         }
@@ -49,7 +49,7 @@ namespace frontend
                 {
                     Console.WriteLine("  " + i + ": " + dealTypes[i - 1]);
                 }
-                Console.WriteLine();
+                Console.Write(">> ");
                 selection = Console.ReadLine();
             }
             return dealTypes[selectionInt - 1];
@@ -66,7 +66,7 @@ namespace frontend
                 {
                     Console.WriteLine("  " + i + ": " + cannedScenarios[i - 1].Key);
                 }
-                Console.WriteLine();
+                Console.Write(">> ");
                 selection = Console.ReadLine();
             }
             return cannedScenarios[selectionInt - 1].Value;

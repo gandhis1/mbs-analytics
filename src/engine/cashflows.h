@@ -40,7 +40,7 @@ class CashFlows
 private:
   std::vector<CashFlow> periodicCashflows;
 public:
-  std::string prettyDescription();
+  std::string prettyDescription(bool extended = false);
   void prettyPrint();
   double yieldToMaturity(struct tm settleDate, double price);
   double weightedAverageLife(struct tm settleDate);

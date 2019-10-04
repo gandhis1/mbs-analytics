@@ -68,8 +68,9 @@ std::shared_ptr<PrepaymentProvision> Loan::getCurrentPrepaymentProvision(int per
 
 std::string Loan::prettyDescription()
 {
+    std::string prepaymentString = summarizePrepaymentProvisions(originalPrepaymentProvisions);
     const int LABEL_WIDTH = 15;
-    const int VALUE_WIDTH = 12;
+    const int VALUE_WIDTH = std::max(12ULL, prepaymentString.length() + 1);
     std::string border = std::string(LABEL_WIDTH + VALUE_WIDTH, '*');
     std::ostringstream textstream;
     textstream
@@ -89,7 +90,7 @@ std::string Loan::prettyDescription()
         << std::left << std::setw(LABEL_WIDTH) << "DAY COUNT: " << std::setw(VALUE_WIDTH) << enumToString(accrualBasis) << std::endl
         << std::left << std::setw(LABEL_WIDTH) << "PAY FREQ: " << std::setw(VALUE_WIDTH) << paymentFrequency << std::endl
         << std::left << std::setw(LABEL_WIDTH) << "ACCR START: " << std::setw(VALUE_WIDTH) << accrualStartDay << std::endl
-        << std::left << std::setw(LABEL_WIDTH) << "PENALTY STR: " << std::setw(VALUE_WIDTH) << summarizePrepaymentProvisions(originalPrepaymentProvisions) << std::endl
+        << std::left << std::setw(LABEL_WIDTH) << "PENALTY STR: " << std::setw(VALUE_WIDTH) << prepaymentString << std::endl
         << border << std::endl
         << std::endl;
     return textstream.str();

@@ -77,8 +77,12 @@ CashFlows CashFlowEngine::runCashFlows(const Loan &loan, const Scenario &scenari
             double accrualFraction = accrualDays / 360.0;
 
             // Handle the speeds calculations
-            PrepaymentProvision &currentPrepaymentProvision = *loan.getCurrentPrepaymentProvision(period);
-            double smm = currentPrepaymentProvision.canVoluntarilyPrepay(scenario.vprType) ? Utilities::changeCompoundingBasis(scenario.vprVector[period], 1, 12) : 0.0;
+            PrepaymentProvision& currentPrepaymentProvision = *loan.getCurrentPrepaymentProvision(period);
+            double smm = 0.0;
+            if (currentPrepaymentProvision.canVoluntarilyPrepay(scenario.vprType))
+            {
+                smm = Utilities::changeCompoundingBasis(scenario.vprVector[period], 1, 12);
+            }
             double mdr = Utilities::changeCompoundingBasis(scenario.cdrVector[period], 1, 12);
             double sev = scenario.sevVector[period];
             double dq = scenario.dqVector[period];
