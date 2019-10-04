@@ -2,6 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
+using ExtensionMethods;
+
 namespace frontend
 {
     static class CommandLineInterface
@@ -47,7 +49,7 @@ namespace frontend
                 Console.WriteLine("\nSelect a deal type:");
                 for (int i = 1; i <= dealTypes.Length; i++)
                 {
-                    Console.WriteLine("  " + i + ": " + dealTypes[i - 1]);
+                    Console.WriteLine(" {0}: {1}", i, dealTypes[i - 1].GetDisplayName());
                 }
                 Console.Write(">> ");
                 selection = Console.ReadLine();
@@ -64,7 +66,7 @@ namespace frontend
                 Console.WriteLine("\nSelect a scenario:");
                 for (int i = 1; i <= cannedScenarios.Count; i++)
                 {
-                    Console.WriteLine("  " + i + ": " + cannedScenarios[i - 1].Key);
+                    Console.WriteLine(" {0}: {1}", i, cannedScenarios[i - 1].Key);
                 }
                 Console.Write(">> ");
                 selection = Console.ReadLine();
