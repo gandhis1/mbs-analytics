@@ -27,6 +27,7 @@ namespace frontend
             var dealType = ChooseDealType();
             var dealName = GetDealName();
             var scenario = ChooseScenario();
+            Console.WriteLine(); // For spacing
             return (dealType, dealName, scenario);
         }
 
@@ -40,8 +41,8 @@ namespace frontend
         public static DealType ChooseDealType()
         {
             var selection = "";
-            int enumIndex;
-            while (!int.TryParse(selection, out enumIndex) || !Enumerable.Range(1, dealTypes.Length).Contains(enumIndex))
+            int selectionInt;
+            while (!int.TryParse(selection, out selectionInt) || !Enumerable.Range(1, dealTypes.Length).Contains(selectionInt))
             {
                 Console.WriteLine("\nSelect a deal type:");
                 for (int i = 1; i <= dealTypes.Length; i++)
@@ -51,16 +52,16 @@ namespace frontend
                 Console.WriteLine();
                 selection = Console.ReadLine();
             }
-            return dealTypes[enumIndex - 1];
+            return dealTypes[selectionInt - 1];
         }
 
         public static Scenario ChooseScenario()
         {
             var selection = "";
-            int enumIndex;
-            while (!int.TryParse(selection, out enumIndex) || !Enumerable.Range(1, cannedScenarios.Count).Contains(enumIndex))
+            int selectionInt;
+            while (!int.TryParse(selection, out selectionInt) || !Enumerable.Range(1, cannedScenarios.Count).Contains(selectionInt))
             {
-                Console.WriteLine("\n Select a scenario:");
+                Console.WriteLine("\nSelect a scenario:");
                 for (int i = 1; i <= cannedScenarios.Count; i++)
                 {
                     Console.WriteLine("  " + i + ": " + cannedScenarios[i - 1].Key);
@@ -68,7 +69,7 @@ namespace frontend
                 Console.WriteLine();
                 selection = Console.ReadLine();
             }
-            return cannedScenarios[enumIndex - 1].Value;
+            return cannedScenarios[selectionInt - 1].Value;
         }
 
     }
