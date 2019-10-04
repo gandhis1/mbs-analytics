@@ -24,7 +24,11 @@ extern "C"
     EXPORT void DeleteLoan(Loan *loan);
     EXPORT const char *PrettyDescriptionLoan(Loan *loan);
 
-    EXPORT CashFlows *RunCashFlows(CashFlowEngine *engine, Loan *loan, Scenario *scenario);
+    EXPORT Deal *CreateDeal(const char *name);
+    EXPORT void AddLoanToDeal(Deal *deal, Loan *loan, const char *group);
+    EXPORT void DeleteDeal(Deal *deal);
+
+    EXPORT CashFlows *RunCashFlows(CashFlowEngine *engine, Deal *deal, Scenario *scenario);
     EXPORT void DeleteCashFlows(CashFlows *cashflows);
     EXPORT const char *PrettyDescriptionCashFlows(CashFlows *cashflows);
 }

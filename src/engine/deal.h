@@ -21,6 +21,8 @@ public:
     collateral[groupId].addLoans(begin, end);
   }
 
+  unsigned int numberOfLoans() const;
+
   friend class CashFlowEngine;
 };
 

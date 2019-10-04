@@ -19,6 +19,7 @@ public:
   }
 
   friend class CashFlowEngine;
+  friend class Deal;
 };
 
 #endif

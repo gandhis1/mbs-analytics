@@ -8,9 +8,9 @@ namespace frontend
         [DllImport("../../bin/mbs_analytics")]
         private static extern IntPtr CreateEngine();
         [DllImport("../../bin/mbs_analytics")]
-        public static extern void DeleteEngine(IntPtr engine);
+        private static extern void DeleteEngine(IntPtr engine);
         [DllImport("../../bin/mbs_analytics")]
-        private static extern IntPtr RunCashFlows(IntPtr engine, IntPtr loan, IntPtr scenario);
+        private static extern IntPtr RunCashFlows(IntPtr engine, IntPtr deal, IntPtr scenario);
 
         private IntPtr engine;
 
@@ -19,9 +19,9 @@ namespace frontend
             engine = CreateEngine();
         }
 
-        public CashFlows RunCashFlows(Loan loan, Scenario scenario)
+        public CashFlows RunCashFlows(Deal deal, Scenario scenario)
         {
-            return new CashFlows(RunCashFlows(engine, loan, scenario));
+            return new CashFlows(RunCashFlows(engine, deal, scenario));
         }
 
         public void Dispose()

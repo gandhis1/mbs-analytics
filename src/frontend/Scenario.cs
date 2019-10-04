@@ -26,9 +26,9 @@ namespace frontend
         [DllImport("../../bin/mbs_analytics")]
         private static extern IntPtr CreateScenario(double vpr, double cdr, double sev, int lag, double dq, double prinAdv, double intAdv, VPRType vprType, CDRType cdrType);
         [DllImport("../../bin/mbs_analytics")]
-        public static extern void DeleteScenario(IntPtr scenario);
+        private static extern void DeleteScenario(IntPtr scenario);
         [DllImport("../../bin/mbs_analytics")]
-        public static extern IntPtr PrettyDescriptionScenario(IntPtr scenario);
+        private static extern IntPtr PrettyDescriptionScenario(IntPtr scenario);
         private IntPtr scenario;
 
         public Scenario(double vpr, double cdr, double sev, int lag, double dq, double prinAdv, double intAdv, VPRType vprType = VPRType.CPR, CDRType cdrType = CDRType.CDR)

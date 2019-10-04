@@ -1,4 +1,5 @@
 #include <algorithm>
+#include <chrono>
 #include <iostream>
 #include <map>
 
@@ -12,6 +13,8 @@ CashFlows CashFlowEngine::runCashFlows(const Deal &deal, const Scenario &scenari
     // First - run the loan-level using the scenario assumptions
     // Second - aggregate to the group-level
     // Third - if any bond structure is available, run through the waterfall (TODO)
+    std::chrono::high_resolution_clock timer;
+    auto startTime = timer.now();
     std::map<std::string, CashFlows> groupFlows;
     for (auto &groupIdtoGroup : deal.collateral)
     {
@@ -24,6 +27,9 @@ CashFlows CashFlowEngine::runCashFlows(const Deal &deal, const Scenario &scenari
         }
         groupFlows[groupId] = CashFlows::aggregateCashFlows(loanFlows);
     }
+    auto endTime = timer.now();
+    auto duration = std::chrono::duration_cast<std::chrono::microseconds>(endTime - startTime);
+    std::cout << "Cash Flows: " << duration.count() << " us total, average " << duration.count() / deal.numberOfLoans() << " us per loan" << std::endl;
     return groupFlows["all"]; // Temporary until a more well-structured object is available for each level of cash flows
 }
 
