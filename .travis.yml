@@ -33,7 +33,7 @@ jobs:
     - stage: Build/Test
       name: Compile C#
       language: csharp
-      dotnet: 2.2.401
+      dotnet: 3.0.100
       mono: none
       before_install:
         - cd ./src/frontend
