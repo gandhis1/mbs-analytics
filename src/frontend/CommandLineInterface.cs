@@ -8,8 +8,8 @@ namespace frontend
 {
     static class CommandLineInterface
     {
-        private static DealType[] dealTypes = Enum.GetValues(typeof(DealType)).Cast<DealType>().ToArray();
-        private static List<KeyValuePair<String, Scenario>> cannedScenarios = new List<KeyValuePair<String, Scenario>>{
+        private readonly static DealType[] dealTypes = Enum.GetValues(typeof(DealType)).Cast<DealType>().ToArray();
+        private readonly static List<KeyValuePair<String, Scenario>> cannedScenarios = new List<KeyValuePair<String, Scenario>>{
             KeyValuePair.Create("0 CPR", new Scenario(vpr: 0.0, cdr: 0.0, sev: 0.0, lag: 0, dq: 0.0, prinAdv: 1.0, intAdv: 1.0)),
             KeyValuePair.Create("5 CPR", new Scenario(vpr: 0.05, cdr: 0.0, sev: 0.0, lag: 0, dq: 0.0, prinAdv: 1.0, intAdv: 1.0)),
             KeyValuePair.Create("10 CPR", new Scenario(vpr: 0.10, cdr: 0.0, sev: 0.0, lag: 0, dq: 0.0, prinAdv: 1.0, intAdv: 1.0)),
@@ -24,13 +24,13 @@ namespace frontend
             KeyValuePair.Create("5 CPR | 1 DQ | 2 CDR | 50 SEV | 6 LAG", new Scenario(vpr: 0.05, cdr: 0.02, sev: 0.50, lag: 6, dq: 0.01, prinAdv: 1.0, intAdv: 1.0))
         };
 
-        public static (DealType, string, Scenario) GetUserInputs()
+        public static (string, DealType, Scenario) GetUserInputs()
         {
             var dealType = ChooseDealType();
             var dealName = GetDealName();
             var scenario = ChooseScenario();
             Console.WriteLine(); // For spacing
-            return (dealType, dealName, scenario);
+            return (dealName, dealType, scenario);
         }
 
         public static string GetDealName()
