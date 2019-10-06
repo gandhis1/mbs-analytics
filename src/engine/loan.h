@@ -15,6 +15,7 @@ private:
   std::string id;
   double originalBalance;
   double currentBalance;
+  struct tm firstPaymentDate;
   struct tm factorDate;
   int originalLoanTerm;
   int originalAmortTerm;
@@ -36,11 +37,11 @@ public:
   Loan(std::string id,
        double originalBalance,
        double currentBalance,
+       struct tm firstPaymentDate,
        struct tm factorDate,
        int originalLoanTerm,
        int originalAmortTerm,
        int originalIOTerm,
-       int currentLoanAge,
        double grossCoupon,
        double feeStrip,
        AccrualBasis accrualBasis,

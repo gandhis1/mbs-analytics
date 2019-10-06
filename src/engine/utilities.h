@@ -11,61 +11,24 @@
 namespace Utilities
 {
 
-inline double changeCompoundingBasis(
-    double rate, int origCompoundsPerYear, int newCompoundsPerYear)
-{
-    return 1.0 - pow(1.0 - rate, float(origCompoundsPerYear) / float(newCompoundsPerYear));
-}
+    double changeCompoundingBasis(double rate, int origCompoundsPerYear, int newCompoundsPerYear);
 
-inline double calculatePayment(double balance, int amortTerm, double periodicRate)
-{
-    if (amortTerm == 0)
+    double calculatePayment(double balance, int amortTerm, double periodicRate);
+
+    namespace DateTime
     {
-        return periodicRate * balance;
-    }
-    else
-    {
-        return balance * periodicRate / (1 - pow(1 + periodicRate, -amortTerm));
-    }
-}
 
+        struct tm createTime(int year, int month, int day);
 
-namespace DateTime
-{
-inline struct tm createTime(int year, int month, int day)
-{
-    struct tm date;
-    date.tm_hour = 0;
-    date.tm_min = 0;
-    date.tm_sec = 0;
-    date.tm_year = year - 1900;
-    date.tm_mon = month - 1;
-    date.tm_mday = day;
-    return date;
-}
+        struct tm addDateInterval(struct tm date, int years, int months, int days);
 
-inline struct tm addDateInterval(struct tm date, int years, int months, int days)
-{
-    date.tm_year += years;
-    date.tm_mon += months;
-    date.tm_mday += days;
-    mktime(&date);
-    return date;
-}
+        int toYYYYMMDD(struct tm date);
 
-inline int toYYYYMMDD(struct tm date)
-{
-    char date_YYYYMMDD[9];
-    strftime(date_YYYYMMDD, 9, "%Y%m%d", &date);
-    return std::stoi(date_YYYYMMDD);
-}
+        int daysBetween(struct tm date1, struct tm date2, bool inclusiveEnd = true);
 
-inline int daysBetween(struct tm date1, struct tm date2, bool inclusiveEnd = true)
-{
-    int secondsBetween = std::difftime(mktime(&date2), mktime(&date1));
-    return int(secondsBetween / 60.0 / 60.0 / 24.0) + (inclusiveEnd ? 1 : 0);
-}
-} // namespace DateTime
+        int monthsBetween(struct tm date1, struct tm date2);
+
+    } // namespace DateTime
 
 } // namespace Utilities
 

@@ -9,11 +9,11 @@
 Loan::Loan(std::string id,
            double originalBalance,
            double currentBalance,
+           struct tm firstPaymentDate,
            struct tm factorDate,
            int originalLoanTerm,
            int originalAmortTerm,
            int originalIOTerm,
-           int currentLoanAge,
            double grossCoupon,
            double feeStrip,
            AccrualBasis accrualBasis,
@@ -23,17 +23,18 @@ Loan::Loan(std::string id,
            int accrualStartDay) : id(id),
                                   originalBalance(originalBalance),
                                   currentBalance(currentBalance),
+                                  firstPaymentDate(firstPaymentDate),
                                   factorDate(factorDate),
                                   originalLoanTerm(originalLoanTerm),
                                   originalAmortTerm(originalAmortTerm),
                                   originalIOTerm(originalIOTerm),
-                                  currentLoanAge(currentLoanAge),
                                   grossCoupon(grossCoupon),
                                   feeStrip(feeStrip),
                                   accrualBasis(accrualBasis),
                                   paymentFrequency(paymentFrequency),
                                   accrualStartDay(accrualStartDay)
 {
+    currentLoanAge = Utilities::DateTime::monthsBetween(firstPaymentDate, factorDate);
     netCoupon = grossCoupon - feeStrip;
     if (periodicAmortizingDebtService)
     {
