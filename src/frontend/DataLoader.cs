@@ -22,7 +22,7 @@ namespace frontend
     {
         private static Dictionary<DealType, DataLoader> singletonCache = new Dictionary<DealType, DataLoader>();
         private static readonly string cookiePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "MBS Analytics", "cookies.dat");
-        private static readonly CookieContainer cookies;
+        private static readonly CookieContainer cookies = new CookieContainer();
         private static readonly Finalizer finalizer = new Finalizer();
         private static readonly HttpClientHandler httpClientHandler = new HttpClientHandler() { CookieContainer = cookies };
         public static readonly HttpClient HttpClient = new HttpClient(httpClientHandler);
