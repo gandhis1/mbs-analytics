@@ -79,6 +79,7 @@ std::vector<std::shared_ptr<PrepaymentProvision>> parsePrepaymentString(std::str
         case 'O':
         case 'M': // Second letter of YM
             currentToken += *it;
+            [[fallthrough]];
         case '(':
         case ')':
         case ' ':
