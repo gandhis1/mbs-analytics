@@ -58,7 +58,7 @@ int toYYYYMMDD(struct tm date)
 
 int daysBetween(struct tm date1, struct tm date2, bool inclusiveEnd = true)
 {
-    int secondsBetween = std::difftime(mktime(&date2), mktime(&date1));
+    double secondsBetween = std::difftime(mktime(&date2), mktime(&date1));
     return int(secondsBetween / 60.0 / 60.0 / 24.0) + (inclusiveEnd ? 1 : 0);
 }
 
