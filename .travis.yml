@@ -2,15 +2,15 @@ jobs:
   include:
     - stage: Build/Test
       name: Compile C++ and Run Tests
-      language: C++
+      language: c++
       compiler: gcc
       install:
         - sudo add-apt-repository -y ppa:ubuntu-toolchain-r/test
         - sudo apt-get update
         - sudo apt-get install -y gcc-snapshot
-        - sudo apt-get install -y gcc-6 g++-6
+        - sudo apt-get install -y gcc-8 g++-8
       before_script:
-        - CXX=g++-6
+        - CXX=g++-8
       script:
         - make
         - ./bin/test_mbs_analytics
