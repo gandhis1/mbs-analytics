@@ -15,7 +15,7 @@ public:
   template <class Iterator>
   void addLoans(Iterator begin, Iterator end)
   {
-    std::for_each(begin, end, loans.push_back);
+    std::for_each(begin, end, [&](auto loan) { loans.push_back(loan); });
   }
 
   friend class CashFlowEngine;

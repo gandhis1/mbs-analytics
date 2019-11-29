@@ -37,6 +37,7 @@ public:
     double calculatePrepaymentPenalty(const Loan &loan, int period, double voluntaryPrepay);
     PrepaymentProvisionType getType();
     int getLength();
+    virtual ~PrepaymentProvision() = default;
 };
 
 class Lockout : public PrepaymentProvision
