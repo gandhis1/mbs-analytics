@@ -31,12 +31,12 @@ namespace DateTime
 struct tm createTime(int year, int month, int day)
 {
     struct tm date;
-    date.tm_hour = 0;
-    date.tm_min = 0;
-    date.tm_sec = 0;
     date.tm_year = year - 1900;
     date.tm_mon = month - 1;
     date.tm_mday = day;
+    date.tm_hour = 0;
+    date.tm_min = 0;
+    date.tm_sec = 0;
     return date;
 }
 
@@ -45,8 +45,17 @@ struct tm addDateInterval(struct tm date, int years, int months, int days)
     date.tm_year += years;
     date.tm_mon += months;
     date.tm_mday += days;
-    mktime(&date);
+    mktime(&date);  // Automatically adjusts any out-of-bounds values
     return date;
+}
+
+struct tm fromYYYYMMDD(int date_YYYYMMDD)
+{
+    auto dateStr_YYYYYMMDD = std::to_string(date_YYYYMMDD);
+    int year = std::stoi(dateStr_YYYYYMMDD.substr(0, 4));
+    int month = std::stoi(dateStr_YYYYYMMDD.substr(4, 2));
+    int day = std::stoi(dateStr_YYYYYMMDD.substr(6, 2));
+    return createTime(year, month, day);
 }
 
 int toYYYYMMDD(struct tm date)

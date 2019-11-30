@@ -20,7 +20,7 @@ extern "C"
     EXPORT void DeleteScenario(Scenario *scenario);
     EXPORT const char *PrettyDescriptionScenario(Scenario *scenario);
 
-    EXPORT Loan *CreateLoan(const char *loanId, double originalBalance, double currentBalance, struct tm firstPaymentDate, struct tm factorDate, int originalLoanTerm, int originalAmortTerm, int originalIOTerm, double grossCoupon, double feeStrip, AccrualBasis accrualBasis, const char *originalPrepaymentString);
+    EXPORT Loan *CreateLoan(const char *loanId, double originalBalance, double currentBalance, int firstPaymentDateYYYYMMDD, int factorDateYYYYMMDD, int originalLoanTerm, int originalAmortTerm, int originalIOTerm, double grossCoupon, double feeStrip, AccrualBasis accrualBasis, const char *originalPrepaymentString);
     EXPORT void DeleteLoan(Loan *loan);
     EXPORT const char *PrettyDescriptionLoan(Loan *loan);
 

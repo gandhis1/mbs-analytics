@@ -22,6 +22,8 @@ namespace Utilities
 
         struct tm addDateInterval(struct tm date, int years, int months, int days);
 
+        struct tm fromYYYYMMDD (int date_YYYYMMDD);
+
         int toYYYYMMDD(struct tm date);
 
         int daysBetween(struct tm date1, struct tm date2, bool inclusiveEnd = true);

@@ -30,8 +30,10 @@ const char *PrettyDescriptionScenario(Scenario *scenario)
     return strdup(scenario->prettyDescription().c_str());
 }
 
-Loan *CreateLoan(const char *loanId, double originalBalance, double currentBalance, struct tm firstPaymentDate, struct tm factorDate, int originalLoanTerm, int originalAmortTerm, int originalIOTerm, double grossCoupon, double feeStrip, AccrualBasis accrualBasis, const char *originalPrepaymentString)
+Loan *CreateLoan(const char *loanId, double originalBalance, double currentBalance, int firstPaymentDateYYYYMMDD, int factorDateYYYYMMDD, int originalLoanTerm, int originalAmortTerm, int originalIOTerm, double grossCoupon, double feeStrip, AccrualBasis accrualBasis, const char *originalPrepaymentString)
 {
+    auto firstPaymentDate = Utilities::DateTime::fromYYYYMMDD(firstPaymentDateYYYYMMDD);
+    auto factorDate = Utilities::DateTime::fromYYYYMMDD(factorDateYYYYMMDD);
     return new Loan(loanId, originalBalance, currentBalance, firstPaymentDate, factorDate, originalLoanTerm, originalAmortTerm, originalIOTerm, grossCoupon, feeStrip, accrualBasis, originalPrepaymentString);
 }
 void DeleteLoan(Loan *loan)
