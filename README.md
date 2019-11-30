@@ -33,6 +33,7 @@ This is a work-in-progress, and many things have yet to be implemented. Basic am
 - Add regression test for cash flow generation
 - Proper deal structure and cashflow aggregation within a group (multiple loans)
 - Calculate periodic + cumulative VPRs/CDRs during projection
+- Toggle for whether delinquency affects cash flows
 - Delinquency and advancing - confirm correct calculations and check behavior w/r/t lags
 - Distribute all recoveryPrincipal and realize all losses at maturity depending on extendLagsPastMaturity
 - Yield curve (CMT tenors + spot/par rates) for YM calculations
