@@ -5,14 +5,20 @@ Generate scenario/assumption-dependent cash flows and calculate price, yield, WA
 
 #### Technology:
 
-Code is developed using standard C++ and STL libraries. The front-end CLI is developed in C# on .NET Core 2.2. All code should be largely cross-platform, but non-Windows and non-Linux environments have not been tested.
+Code is developed using standard C++ and STL libraries. The front-end CLI is developed in C# on .NET Core 3.0. All code should be largely cross-platform, but non-Windows and non-Linux environments have not been tested.
 
 #### Quick Start:
 
-- Clone and/or fork the repository, `cd` to the project root
+- Clone and/or fork the repository, `cd` to `./src/engine`
 - `make` to build the C++ library
 - `cd ./src/frontend`
 - `dotnet run`
+
+#### Testing:
+
+- `cd` to `./test/engine`
+- `make` to build the test application
+- `../../bin/test_mbs_analytics` to run the unit tests
 
 #### Features:
 
