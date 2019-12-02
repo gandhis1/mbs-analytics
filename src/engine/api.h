@@ -17,6 +17,7 @@ extern "C"
     EXPORT void DeleteEngine(CashFlowEngine *engine);
 
     EXPORT Scenario *CreateScenario(double vpr, double cdr, double sev, int lag, double dq, double prinAdv, double intAdv, VPRType vprType, CDRType cdrType);
+    EXPORT Scenario *CreateVectorScenario(double* vpr, double* cdr, double* sev, int* lag, double* dq, double* prinAdv, double* intAdv, VPRType vprType, CDRType cdrType, int vectorSize);
     EXPORT void DeleteScenario(Scenario *scenario);
     EXPORT const char *PrettyDescriptionScenario(Scenario *scenario);
 

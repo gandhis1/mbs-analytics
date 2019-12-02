@@ -21,6 +21,21 @@ Scenario *CreateScenario(double vpr, double cdr, double sev, int lag, double dq,
     Scenario *scenario = new Scenario(vpr, cdr, sev, lag, dq, prinAdv, intAdv, vprType, cdrType);
     return scenario;
 }
+Scenario *CreateVectorScenario(double* vpr, double* cdr, double* sev, int* lag, double* dq, double* prinAdv, double* intAdv, VPRType vprType, CDRType cdrType, int vectorSize)
+{
+    Scenario *scenario = new Scenario(
+        std::vector(vpr, vpr + vectorSize),
+        std::vector(cdr, cdr + vectorSize),
+        std::vector(sev, sev + vectorSize),
+        std::vector(lag, lag + vectorSize),
+        std::vector(dq, dq + vectorSize),
+        std::vector(prinAdv, prinAdv + vectorSize),
+        std::vector(intAdv, intAdv + vectorSize),
+        vprType,
+        cdrType
+    );
+    return scenario;
+}
 void DeleteScenario(Scenario *scenario)
 {
     delete scenario;
