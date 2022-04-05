@@ -31,7 +31,7 @@ extern "C"
 
     EXPORT CashFlows *RunCashFlows(CashFlowEngine *engine, Deal *deal, Scenario *scenario);
     EXPORT void DeleteCashFlows(CashFlows *cashflows);
-    EXPORT const char *PrettyDescriptionCashFlows(CashFlows *cashflows);
+    EXPORT const char *PrettyDescriptionCashFlows(CashFlows *cashflows, bool detailed);
 }
 
 #endif

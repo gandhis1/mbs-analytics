@@ -11,11 +11,11 @@ namespace frontend
 
     public sealed class Loan : IPrettyPrintable
     {
-        [DllImport("../../bin/mbs_analytics", CharSet = CharSet.Ansi)]
+        [DllImport("mbs_analytics", CharSet = CharSet.Ansi)]
         private static extern IntPtr CreateLoan([MarshalAs(UnmanagedType.LPStr)] string loanId, double originalBalance, double currentBalance, int firstPaymentDateYYYYMMDD, int factorDateYYYYMMDD, int originalLoanTerm, int originalAmortTerm, int originalIOTerm, double grossCoupon, double feeStrip, AccrualBasis accrualBasis, string originalPrepaymentString);
-        [DllImport("../../bin/mbs_analytics")]
+        [DllImport("mbs_analytics")]
         private static extern void DeleteLoan(IntPtr loan);
-        [DllImport("../../bin/mbs_analytics")]
+        [DllImport("mbs_analytics")]
         private static extern IntPtr PrettyDescriptionLoan(IntPtr loan);
         private IntPtr loan;
         public static implicit operator IntPtr(Loan loan) => loan.loan;

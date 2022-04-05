@@ -5,11 +5,11 @@ namespace frontend
 {
     public sealed class CashFlowEngine : IDisposable
     {
-        [DllImport("../../bin/mbs_analytics")]
+        [DllImport("mbs_analytics")]
         private static extern IntPtr CreateEngine();
-        [DllImport("../../bin/mbs_analytics")]
+        [DllImport("mbs_analytics")]
         private static extern void DeleteEngine(IntPtr engine);
-        [DllImport("../../bin/mbs_analytics")]
+        [DllImport("mbs_analytics")]
         private static extern IntPtr RunCashFlows(IntPtr engine, IntPtr deal, IntPtr scenario);
 
         private IntPtr engine;

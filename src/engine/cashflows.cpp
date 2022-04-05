@@ -34,7 +34,7 @@ double CashFlow::penaltyRate()
     return prepayPenalty / unscheduledPrincipal;
 }
 
-std::string CashFlows::prettyDescription(bool extended)
+std::string CashFlows::prettyDescription(bool detailed)
 {
     // TODO: Refactor this whole section to something less ugly
     std::ostringstream textstream;
@@ -42,7 +42,7 @@ std::string CashFlows::prettyDescription(bool extended)
     textstream
         << std::left << std::setw(10) << std::setfill(' ') << "Period"
         << std::left << std::setw(WIDTH) << std::setfill(' ') << "Payment Date";
-    if (extended)
+    if (detailed)
     {
         textstream
             << std::left << std::setw(WIDTH) << std::setfill(' ') << "Accrual Start"
@@ -50,7 +50,7 @@ std::string CashFlows::prettyDescription(bool extended)
             << std::left << std::setw(WIDTH) << std::setfill(' ') << "Accrual Days";
     }
     textstream << std::left << std::setw(WIDTH) << std::setfill(' ') << "Ending Balance";
-    if (extended)
+    if (detailed)
     {
         textstream
             << std::left << std::setw(WIDTH) << std::setfill(' ') << "Sched Prin"
@@ -59,7 +59,7 @@ std::string CashFlows::prettyDescription(bool extended)
             << std::left << std::setw(WIDTH) << std::setfill(' ') << "Recovery Prin";
     }
     textstream << std::left << std::setw(WIDTH) << std::setfill(' ') << "Total Prin";
-    if (extended)
+    if (detailed)
     {
         textstream
             << std::left << std::setw(WIDTH) << std::setfill(' ') << "Default Amount"
@@ -67,21 +67,21 @@ std::string CashFlows::prettyDescription(bool extended)
             << std::left << std::setw(WIDTH) << std::setfill(' ') << "Gross Coupon";
     }
     textstream << std::left << std::setw(WIDTH) << std::setfill(' ') << "Net Coupon";
-    if (extended)
+    if (detailed)
     {
         textstream
             << std::left << std::setw(WIDTH) << std::setfill(' ') << "Sched Payment"
             << std::left << std::setw(WIDTH) << std::setfill(' ') << "Gross Interest";
     }
     textstream << std::left << std::setw(WIDTH) << std::setfill(' ') << "Net Interest";
-    if (extended)
+    if (detailed)
     {
         textstream
             << std::left << std::setw(WIDTH) << std::setfill(' ') << "Optimal Gross"
             << std::left << std::setw(WIDTH) << std::setfill(' ') << "Optimal Net";
     }
     textstream << std::left << std::setw(WIDTH) << std::setfill(' ') << "Prepay Penalty";
-    if (extended)
+    if (detailed)
     {
         textstream << std::left << std::setw(WIDTH) << std::setfill(' ') << "Penalty Rate";
     }
@@ -91,7 +91,7 @@ std::string CashFlows::prettyDescription(bool extended)
         textstream
             << std::left << std::setw(10) << std::setprecision(2) << std::fixed << std::setfill(' ') << cashflow.period
             << std::left << std::setw(WIDTH) << std::setprecision(2) << std::fixed << std::setfill(' ') << Utilities::DateTime::toYYYYMMDD(cashflow.paymentDate);
-        if (extended)
+        if (detailed)
         {
             textstream
                 << std::left << std::setw(WIDTH) << std::setprecision(2) << std::fixed << std::setfill(' ') << Utilities::DateTime::toYYYYMMDD(cashflow.accrualStartDate)
@@ -99,7 +99,7 @@ std::string CashFlows::prettyDescription(bool extended)
                 << std::left << std::setw(WIDTH) << std::setprecision(2) << std::fixed << std::setfill(' ') << cashflow.accrualDays;
         }
         textstream << std::left << std::setw(WIDTH) << std::setprecision(2) << std::fixed << std::setfill(' ') << cashflow.endingBalance;
-        if (extended)
+        if (detailed)
         {
             textstream
                 << std::left << std::setw(WIDTH) << std::setprecision(2) << std::fixed << std::setfill(' ') << cashflow.scheduledPrincipal
@@ -108,7 +108,7 @@ std::string CashFlows::prettyDescription(bool extended)
                 << std::left << std::setw(WIDTH) << std::setprecision(2) << std::fixed << std::setfill(' ') << cashflow.recoveryPrincipal;
         }
         textstream << std::left << std::setw(WIDTH) << std::setprecision(2) << std::fixed << std::setfill(' ') << cashflow.totalPrincipal();
-        if (extended)
+        if (detailed)
         {
             textstream
                 << std::left << std::setw(WIDTH) << std::setprecision(2) << std::fixed << std::setfill(' ') << cashflow.defaultAmount
@@ -116,21 +116,21 @@ std::string CashFlows::prettyDescription(bool extended)
                 << std::left << std::setw(WIDTH) << std::setprecision(4) << std::fixed << std::setfill(' ') << cashflow.grossCoupon;
         }
         textstream << std::left << std::setw(WIDTH) << std::setprecision(4) << std::fixed << std::setfill(' ') << cashflow.netCoupon;
-        if (extended)
+        if (detailed)
         {
             textstream
                 << std::left << std::setw(WIDTH) << std::setprecision(2) << std::fixed << std::setfill(' ') << cashflow.scheduledPayment()
                 << std::left << std::setw(WIDTH) << std::setprecision(2) << std::fixed << std::setfill(' ') << cashflow.grossInterest;
         }
         textstream << std::left << std::setw(WIDTH) << std::setprecision(2) << std::fixed << std::setfill(' ') << cashflow.netInterest;
-        if (extended)
+        if (detailed)
         {
             textstream
                 << std::left << std::setw(WIDTH) << std::setprecision(2) << std::fixed << std::setfill(' ') << cashflow.grossInterestOptimal
                 << std::left << std::setw(WIDTH) << std::setprecision(2) << std::fixed << std::setfill(' ') << cashflow.netInterestOptimal;
         }
         textstream << std::left << std::setw(WIDTH) << std::setprecision(2) << std::fixed << std::setfill(' ') << cashflow.prepayPenalty;
-        if (extended)
+        if (detailed)
         {
             textstream << std::left << std::setw(WIDTH) << std::setprecision(2) << std::fixed << std::setfill(' ') << cashflow.penaltyRate();
         }

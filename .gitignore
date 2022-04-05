@@ -35,5 +35,5 @@
 .vscode
 
 # .NET Core build
-bin/
-obj/
+**/bin/
+**/obj/

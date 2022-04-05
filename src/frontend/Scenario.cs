@@ -25,13 +25,13 @@ namespace frontend
 
     public sealed class Scenario : IDisposable, IPrettyPrintable
     {
-        [DllImport("../../bin/mbs_analytics")]
+        [DllImport("mbs_analytics")]
         private static extern IntPtr CreateScenario(double vpr, double cdr, double sev, int lag, double dq, double prinAdv, double intAdv, VPRType vprType, CDRType cdrType);
-        [DllImport("../../bin/mbs_analytics")]
+        [DllImport("mbs_analytics")]
         private static extern IntPtr CreateVectorScenario([In, Out] double[] vpr, [In, Out] double[] cdr, [In, Out] double[] sev, [In, Out] int[] lag, [In, Out] double[] dq, [In, Out] double[] prinAdv, [In, Out] double[] intAdv, VPRType vprType, CDRType cdrType, int vectorSize);
-        [DllImport("../../bin/mbs_analytics")]
+        [DllImport("mbs_analytics")]
         private static extern void DeleteScenario(IntPtr scenario);
-        [DllImport("../../bin/mbs_analytics")]
+        [DllImport("mbs_analytics")]
         private static extern IntPtr PrettyDescriptionScenario(IntPtr scenario);
         private IntPtr scenario;
 

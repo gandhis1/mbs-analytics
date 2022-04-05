@@ -82,9 +82,9 @@ void DeleteCashFlows(CashFlows *cashflows)
 {
     delete cashflows;
 }
-const char *PrettyDescriptionCashFlows(CashFlows *cashflows)
+const char *PrettyDescriptionCashFlows(CashFlows *cashflows, bool detailed)
 {
-    return strdup(cashflows->prettyDescription().c_str());
+    return strdup(cashflows->prettyDescription(detailed).c_str());
 }
 
 char *strdup(const char *cStr)

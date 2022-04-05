@@ -9,13 +9,13 @@ namespace frontend
         {
             var deal = new Deal("Example Deal");
             var scenario = new Scenario(
-                vpr: new [] {0.0},
-                cdr: new [] {0.12682503013, 0},
-                sev: new [] {0.5},
-                lag: new [] {6},
-                dq: new [] {0.0},
-                prinAdv: new [] {1.0},
-                intAdv: new [] {1.0}
+                vpr: new[] { 0.0 },
+                cdr: new[] { 0.05, 0 },
+                sev: new[] { 0.5, 0 },
+                lag: new[] { 6, 0 },
+                dq: new[] { 0.0 },
+                prinAdv: new[] { 1.0 },
+                intAdv: new[] { 1.0 }
             );
             Loan loan = new Loan(
                 loanId: "Example Loan",

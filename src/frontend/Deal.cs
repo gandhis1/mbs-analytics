@@ -6,11 +6,11 @@ namespace frontend
 {
     public sealed class Deal : IDisposable
     {
-        [DllImport("../../bin/mbs_analytics")]
+        [DllImport("mbs_analytics")]
         private static extern IntPtr CreateDeal(string name);
-        [DllImport("../../bin/mbs_analytics")]
+        [DllImport("mbs_analytics")]
         private static extern void AddLoanToDeal(IntPtr deal, IntPtr loan, string group);
-        [DllImport("../../bin/mbs_analytics")]
+        [DllImport("mbs_analytics")]
         private static extern void DeleteDeal(IntPtr deal);
 
         private IntPtr deal;

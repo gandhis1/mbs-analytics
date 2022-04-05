@@ -5,10 +5,10 @@ namespace frontend
 {
     public sealed class CashFlows : IDisposable, IPrettyPrintable
     {
-        [DllImport("../../bin/mbs_analytics")]
+        [DllImport("mbs_analytics")]
         private static extern void DeleteCashFlows(IntPtr cashflows);
-        [DllImport("../../bin/mbs_analytics")]
-        private static extern IntPtr PrettyDescriptionCashFlows(IntPtr cashflows);
+        [DllImport("mbs_analytics")]
+        private static extern IntPtr PrettyDescriptionCashFlows(IntPtr cashflows, bool detailed);
         private IntPtr cashflows;
 
         public CashFlows(IntPtr cashflows)
@@ -18,7 +18,7 @@ namespace frontend
 
         public void PrettyPrint()
         {
-            Console.WriteLine(Marshal.PtrToStringAnsi(PrettyDescriptionCashFlows(cashflows)));
+            Console.WriteLine(Marshal.PtrToStringAnsi(PrettyDescriptionCashFlows(cashflows, true)));
         }
 
         public void Dispose()
